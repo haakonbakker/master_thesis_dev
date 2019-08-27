@@ -25,3 +25,5 @@ struct ContentView_Previews: PreviewProvider {
 // - Create quick outline for application
 // - Start working on getting mic on phone to work
 // - Make the git repo for this project
+
+
