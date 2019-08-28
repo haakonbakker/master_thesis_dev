@@ -11,29 +11,47 @@ import SwiftUI
 struct SessionView : View {
     let sessionController:SessionController
     @State private var sessionStarted: Bool = false
+    @State private var sessionEnded:Bool = false
     
     @State var session:Session?
     
     var body: some View {
         
         VStack{
-            
-            if sessionStarted{
-//                Text(self.session!.duration)
-                Text("Session has started")
-                Text("Duration")
-                TimerView(nowDate:Date() , referenceDate:self.session!.start_time)
-//                SessionViewActive(session: $session)
+            if !sessionEnded{
+                
+                if sessionStarted{
+        //                Text(self.session!.duration)
+                        Text("Session has started")
+        //                Text("SessionID: " + String(self.session?.id))
+                        Text("Duration")
+                        TimerView(nowDate:Date() , referenceDate:self.session!.start_time)
+        //                SessionViewActive(session: $session)
+                        Button(action: {self.sessionEnded = true; self.sessionController.endSession()}) {
+                            Text("End session")
+                        }
+                    }
+                else{
+                    Text("New Session").font(.largeTitle)
+                    Text("")
+                    Spacer()
+                    Button(action: {self.sessionStarted=true;
+                        self.session = self.sessionController.startSession()}) {
+                        Text("Start session")
+                    }
+                }
+        
             }else{
-                Text("New Session").font(.largeTitle)
-                Text("")
+                // Session has ended
+                Text("Session has ended")
+                Button(action: {self.sessionController.playRecordedAudio()}) {
+                    Text("Play audio recorded")
+                }
                 Spacer()
-                Button(action: {self.sessionStarted=true;
-                    self.session = self.sessionController.startSession()}) {
-                    Text("Start session")
+                Button(action: {self.sessionController.saveRecordedAudio()}) {
+                    Text("Save the recorded audio")
                 }
             }
-            
         }
         
     }
