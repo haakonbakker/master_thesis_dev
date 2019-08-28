@@ -12,6 +12,7 @@ struct SessionView : View {
     let sessionController:SessionController
     @State private var sessionStarted: Bool = false
     @State private var sessionEnded:Bool = false
+    var onDismiss: () -> ()
     
     @State var session:Session?
     
@@ -44,12 +45,16 @@ struct SessionView : View {
             }else{
                 // Session has ended
                 Text("Session has ended")
-                Button(action: {self.sessionController.playRecordedAudio()}) {
+                Button(action: {self.sessionController.microphoneSensor.playRecordedAudio()}) {
                     Text("Play audio recorded")
                 }
-                Spacer()
-                Button(action: {self.sessionController.saveRecordedAudio()}) {
+                Divider()
+                Button(action: {self.sessionController.microphoneSensor.saveRecordedAudio()}) {
                     Text("Save the recorded audio")
+                }
+                Spacer()
+                Button(action: {self.onDismiss()}) {
+                    Text("Close session")
                 }
             }
         }
@@ -57,11 +62,12 @@ struct SessionView : View {
     }
 }
 
-#if DEBUG
-struct SessionView_Previews : PreviewProvider {
-    static var previews: some View {
-        SessionView(sessionController: SessionController())
-    }
-}
-#endif
-
+//#if DEBUG
+//struct SessionView_Previews : PreviewProvider {
+//    let showPop = true
+//    static var previews: some View {
+//        SessionView(sessionController: SessionController(), showPopover: showPop)
+//    }
+//}
+//#endif
+//

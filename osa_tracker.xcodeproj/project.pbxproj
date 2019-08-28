@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6BEB61342316CCB3006E43FB /* SensorInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BEB61332316CCB3006E43FB /* SensorInterface.swift */; };
+		6BEB61362316CD0A006E43FB /* AudioSensorInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BEB61352316CD0A006E43FB /* AudioSensorInterface.swift */; };
 		6BF3191E2316786D00E0FBC0 /* TimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF3191D2316786D00E0FBC0 /* TimerView.swift */; };
 		6BF319212316835200E0FBC0 /* MicrophoneSensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF319202316835200E0FBC0 /* MicrophoneSensor.swift */; };
 		6BF319252316875600E0FBC0 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BF319242316875600E0FBC0 /* AudioToolbox.framework */; };
@@ -44,6 +46,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6BEB61332316CCB3006E43FB /* SensorInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorInterface.swift; sourceTree = "<group>"; };
+		6BEB61352316CD0A006E43FB /* AudioSensorInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioSensorInterface.swift; sourceTree = "<group>"; };
 		6BF3191D2316786D00E0FBC0 /* TimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerView.swift; sourceTree = "<group>"; };
 		6BF319202316835200E0FBC0 /* MicrophoneSensor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MicrophoneSensor.swift; sourceTree = "<group>"; };
 		6BF319222316875600E0FBC0 /* osa_tracker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = osa_tracker.entitlements; sourceTree = "<group>"; };
@@ -96,6 +100,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6BEB61372316CDF0006E43FB /* Interfaces */ = {
+			isa = PBXGroup;
+			children = (
+				6BEB61332316CCB3006E43FB /* SensorInterface.swift */,
+				6BEB61352316CD0A006E43FB /* AudioSensorInterface.swift */,
+			);
+			name = Interfaces;
+			sourceTree = "<group>";
+		};
 		6BF3191C2316785100E0FBC0 /* Active */ = {
 			isa = PBXGroup;
 			children = (
@@ -107,6 +120,7 @@
 		6BF3191F2316832B00E0FBC0 /* Sensors */ = {
 			isa = PBXGroup;
 			children = (
+				6BEB61372316CDF0006E43FB /* Interfaces */,
 				6BF319202316835200E0FBC0 /* MicrophoneSensor.swift */,
 			);
 			path = Sensors;
@@ -353,6 +367,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6BEB61362316CD0A006E43FB /* AudioSensorInterface.swift in Sources */,
 				6BF3191E2316786D00E0FBC0 /* TimerView.swift in Sources */,
 				6BFBFA0E23165FDE00373913 /* SessionAnalysis.swift in Sources */,
 				6BFBFA0C23165FB400373913 /* SessionInfo.swift in Sources */,
@@ -364,6 +379,7 @@
 				6BFBFA0A23165F7D00373913 /* SessionDetailView.swift in Sources */,
 				6BFBF9D62315BD0400373913 /* ContentView.swift in Sources */,
 				6BF319212316835200E0FBC0 /* MicrophoneSensor.swift in Sources */,
+				6BEB61342316CCB3006E43FB /* SensorInterface.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

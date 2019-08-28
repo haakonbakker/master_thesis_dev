@@ -30,10 +30,15 @@ struct ContentView : View {
                     }) {
                         Text("+ Session")
                     }
-                ).popover(
-                    isPresented: self.$showPopover,
-                    arrowEdge: .bottom
-                    ) { SessionView(sessionController: SessionController()) }
+                ).sheet(isPresented: self.$showPopover) {
+                    SessionView(sessionController: SessionController(), onDismiss: {
+                        self.showPopover = false
+                    })
+                }
+//                    .popover(
+//                    isPresented: self.$showPopover,
+//                    arrowEdge: .bottom
+//                    ) { SessionView(sessionController: SessionController()) }
 
             }
             
