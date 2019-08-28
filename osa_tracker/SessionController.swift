@@ -34,6 +34,36 @@ class SessionController {
     func initSession(session:Session){
         
     }
+    
+    func startAudioRecording(){
+//        Will start to record audio
+    }
+    
+    
+    func getSessionDurationString(session:Session) -> String {
+        if(session.hasEnded){
+            let calendar = Calendar(identifier: .gregorian)
+            let components = calendar
+                .dateComponents([.day, .hour, .minute, .second],
+                                from: session.start_time,
+                                to: session.end_time)
+            return String(format: "%02dh:%02dm:%02ds",
+                          components.hour ?? 00,
+                          components.minute ?? 00,
+                          components.second ?? 00)
+        }else{
+            let calendar = Calendar(identifier: .gregorian)
+            let components = calendar
+                .dateComponents([.day, .hour, .minute, .second],
+                                from: session.start_time,
+                                to: Date())
+            return String(format: "%02dh:%02dm:%02ds",
+                          components.hour ?? 00,
+                          components.minute ?? 00,
+                          components.second ?? 00)
+        }
+        
+    }
 
 }
 
@@ -41,14 +71,18 @@ class Session:Identifiable{
     var id:Int
     var timestamp:String
     var duration:String
-    var start_time:Date?
-    var end_time:Date?
+    var start_time:Date
+    var end_time:Date
+    var hasEnded:Bool
     
     init(id:Int){
         self.id = id
         self.duration = "6h23m"
         self.timestamp = "June 9th to June 10th"
         self.start_time = Date()
-        self.end_time = nil
+        self.end_time = Date()
+        self.hasEnded = false
     }
+    
+    
 }

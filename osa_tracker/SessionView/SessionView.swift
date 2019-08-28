@@ -19,8 +19,10 @@ struct SessionView : View {
         VStack{
             
             if sessionStarted{
-                Text(self.session!.duration)
+//                Text(self.session!.duration)
                 Text("Session has started")
+                Text("Duration")
+                TimerView(nowDate:Date() , referenceDate:self.session!.start_time)
 //                SessionViewActive(session: $session)
             }else{
                 Text("New Session").font(.largeTitle)
