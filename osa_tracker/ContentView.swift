@@ -8,17 +8,61 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct ContentView : View {
+
+    let sessionController = SessionController()
+    let sessionData = SessionController().getSessions()
+    @State private var showPopover: Bool = false
     var body: some View {
-        Text("Hello World")
+        VStack{
+            NavigationView{
+                List(sessionData) { ses in
+                    NavigationLink(destination: SessionDetailView()) {
+                        SessionRow(session: ses)
+                    }
+                    
+                }.onAppear(perform: {print("Will get some data")})
+                .navigationBarTitle(Text("Sleep Sessions"))
+                .navigationBarItems(trailing:
+                    Button(action: {
+                        print("New session starting")
+                        self.showPopover = true
+                    }) {
+                        Text("+ Session")
+                    }
+                ).popover(
+                    isPresented: self.$showPopover,
+                    arrowEdge: .bottom
+                    ) { SessionView(sessionController: SessionController()) }
+
+            }
+            
+        }
+        
+    
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct SessionRow : View {
+    var session:Session
+    
+    var body: some View {
+        HStack {
+            Text(verbatim: session.timestamp)
+            Spacer()
+            Text(session.duration)
+        }
+    }
+}
+
+#if DEBUG
+struct ContentView_Previews : PreviewProvider {
     static var previews: some View {
         ContentView()
     }
 }
+#endif
+
 
 
 // Plan for the day:
