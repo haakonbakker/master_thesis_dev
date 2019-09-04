@@ -49,7 +49,7 @@ struct SessionView : View {
                     Text("Play audio recorded")
                 }
                 Divider()
-                Button(action: {self.sessionController.microphoneSensor.saveRecordedAudio()}) {
+                Button(action: {self.sessionController.microphoneSensor.saveRecording()}) {
                     Text("Save the recorded audio")
                 }
                 Spacer()

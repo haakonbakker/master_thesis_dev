@@ -16,9 +16,11 @@ class SessionController{
 
     var currentSession:Session?
     var microphoneSensor:MicrophoneSensor!
+    var gyroscopeSensor:GyroscopeSenosor
     
     init() {
         self.microphoneSensor = MicrophoneSensor()
+        self.gyroscopeSensor = GyroscopeSenosor()
     }
     
     func getSessions() -> [Session]{
@@ -29,17 +31,14 @@ class SessionController{
     
     
     func endSession(){
-        self.microphoneSensor.finishRecording(success: true)
+        self.microphoneSensor.endRecording(success: true)
+        self.gyroscopeSensor.stopGyros()
     }
     
     func startSession() -> Session{
         print("Will start the session")
         currentSession = Session(id:3)
         
-//        guard let name = nameField.text else {
-//            show("No name to submit")
-//            return
-//        }
         guard currentSession != nil else {
             print("No active session")
             return Session(id:-1)
@@ -50,8 +49,11 @@ class SessionController{
     }
     
     func initSession(session:Session){
-        let ableToStart = microphoneSensor.startAudioRecording(sessionID:session.id)
+        let ableToStart = microphoneSensor.startRecording(sessionID: session.id)
         print("Phone is able to start recording: \(ableToStart)")
+        
+        gyroscopeSensor.startGyros()
+        print("Started Gyroscope sensor")
     }
     
     func getSessionDurationString(session:Session) -> String {

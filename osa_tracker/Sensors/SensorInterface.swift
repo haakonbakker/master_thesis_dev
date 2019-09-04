@@ -11,6 +11,6 @@ import Foundation
 
 protocol SensorInterface {
     // Information about the sensor
-    var sensorName:String { get }
+    var sensorName:SensorEnumeration { get }
     
 }

@@ -9,16 +9,23 @@
 import Foundation
 import AVFoundation
 
-class MicrophoneSensor: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate {
+class MicrophoneSensor: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate, SensorInterface, AudioSensorInterface {
+    var sampleRate: Int
+    var numberOfChannels: Int
+    var sensorName: SensorEnumeration
+    
     var recordingSession: AVAudioSession!
     var audioRecorder: AVAudioRecorder!
     var audioPlayer : AVAudioPlayer!
     
     override init() {
+        sensorName = .MicrophoneSensor
+        self.sampleRate = 0
+        self.numberOfChannels = 0
         super.init()
     }
     
-    func startAudioRecording(sessionID:Int) -> Bool{
+    func startRecording(sessionID:Int) -> Bool{
 //        Will start to record audio
         recordingSession = AVAudioSession.sharedInstance()
         var allowedToRecord = false // Until proven true
@@ -55,7 +62,7 @@ class MicrophoneSensor: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate
             print("Recording audio")
 //            recordButton.setTitle("Tap to Stop", for: .normal)
         } catch {
-            finishRecording(success: false)
+            endRecording(success: false)
         }
         return true
     }
@@ -107,7 +114,13 @@ class MicrophoneSensor: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate
     }
     
     
-    func finishRecording(success: Bool) {
+    
+    
+    func pauseRecording() {
+        print("Not implemented")
+    }
+    
+    func endRecording(success: Bool) {
             audioRecorder.stop()
     //        audioRecorder = nil
 
@@ -123,7 +136,7 @@ class MicrophoneSensor: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate
         }
     
     
-    func saveRecordedAudio(){
+    func saveRecording(){
         print("Will save the audio")
     }
     
@@ -137,7 +150,7 @@ class MicrophoneSensor: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate
     
     func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
         if !flag {
-            finishRecording(success: false)
+            endRecording(success: false)
         }
     }
     
