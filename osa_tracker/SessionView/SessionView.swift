@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct SessionView : View {
-    let sessionController:SessionController
+    var sessionController:SessionController
     @State private var sessionStarted: Bool = false
     @State private var sessionEnded:Bool = false
     var onDismiss: () -> ()
@@ -27,6 +27,7 @@ struct SessionView : View {
         //                Text("SessionID: " + String(self.session?.id))
                         Text("Duration")
                         TimerView(nowDate:Date() , referenceDate:self.session!.start_time)
+                    GyroscopeDataView(gyroSensor: self.sessionController.gyroscopeSensor)
         //                SessionViewActive(session: $session)
                         Button(action: {self.sessionEnded = true; self.sessionController.endSession()}) {
                             Text("End session")
@@ -45,11 +46,11 @@ struct SessionView : View {
             }else{
                 // Session has ended
                 Text("Session has ended")
-                Button(action: {self.sessionController.microphoneSensor.playRecordedAudio()}) {
+                Button(action: {self.sessionController.microphoneSensor!.playRecordedAudio()}) {
                     Text("Play audio recorded")
                 }
                 Divider()
-                Button(action: {self.sessionController.microphoneSensor.saveRecording()}) {
+                Button(action: {self.sessionController.microphoneSensor!.saveRecording()}) {
                     Text("Save the recorded audio")
                 }
                 Spacer()

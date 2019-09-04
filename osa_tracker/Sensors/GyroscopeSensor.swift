@@ -8,21 +8,44 @@
 
 import Foundation
 import CoreMotion
+import Combine
 
-class GyroscopeSenosor: SensorInterface {
+
+struct GyroDataPoint{
+    var timestamp:Date
+    var x: Double
+    var y: Double
+    var z: Double
+    
+    init(){
+        self.x = 0
+        self.y = 0
+        self.z = 0
+        self.timestamp = Date()
+    }
+}
+
+class GyroscopeSensor: SensorInterface, GyroscopeInterface, ObservableObject {
     var motion:CMMotionManager
     var timer:Timer?
     var sensorName: SensorEnumeration
+    
+    @Published var gyroRotation:[Double]
+    
+    @Published var gyroData:GyroDataPoint // Should add it as some form of array
+    
     init() {
         motion = CMMotionManager()
         timer = Timer()
         sensorName = .GyroscopeSensor
+        gyroRotation = [0.0, 0.0, 0.0]
+        gyroData = GyroDataPoint()
     }
     
     func startGyros() {
         
        if motion.isGyroAvailable {
-          self.motion.gyroUpdateInterval = 1.0 / 60.0
+          self.motion.gyroUpdateInterval = 1.0 / 60.0 // Sets the update interval for the sensor data
           self.motion.startGyroUpdates()
 
           // Configure a timer to fetch the accelerometer data.
@@ -37,6 +60,8 @@ class GyroscopeSenosor: SensorInterface {
                 print("x: \(x)")
                 print("y: \(y)")
                 print("z: \(z)")
+                self.gyroRotation = [x, y, z]
+                
                 // Use the gyroscope data in your app.
              }
           })

@@ -12,15 +12,18 @@ import SwiftUI
 
 // This class will handle the most that has to controlling getting the session data
 
+/// Control every session
 class SessionController{
 
     var currentSession:Session?
     var microphoneSensor:MicrophoneSensor!
-    var gyroscopeSensor:GyroscopeSenosor
+    var gyroscopeSensor:GyroscopeSensor!
     
     init() {
         self.microphoneSensor = MicrophoneSensor()
-        self.gyroscopeSensor = GyroscopeSenosor()
+        self.gyroscopeSensor = GyroscopeSensor()
+        let spl_hec = SplunkHEC()
+        
     }
     
     func getSessions() -> [Session]{
@@ -28,7 +31,6 @@ class SessionController{
         
         return sessions
     }
-    
     
     func endSession(){
         self.microphoneSensor.endRecording(success: true)
@@ -81,6 +83,7 @@ class SessionController{
         
     }
 
+    
 }
 
 class Session:Identifiable{

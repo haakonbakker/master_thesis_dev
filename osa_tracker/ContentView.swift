@@ -10,7 +10,7 @@ import SwiftUI
 
 struct ContentView : View {
 
-    let sessionController = SessionController()
+    var sessionController = SessionController()
     let sessionData = SessionController().getSessions()
     @State private var showPopover: Bool = false
     var body: some View {

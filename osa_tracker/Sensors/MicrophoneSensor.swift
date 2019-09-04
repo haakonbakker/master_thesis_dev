@@ -67,7 +67,6 @@ class MicrophoneSensor: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate
         return true
     }
     
-    
     func playRecordedAudio(){
         print("Will play the audio")
         //        Trying to play the audio
@@ -106,15 +105,11 @@ class MicrophoneSensor: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate
         return paths[0]
     }
     
-    func getFileUrl() -> URL
-    {
+    func getFileUrl() -> URL {
         let filename = "myRecording.m4a"
         let filePath = getDocumentsDirectory().appendingPathComponent(filename)
         return filePath
     }
-    
-    
-    
     
     func pauseRecording() {
         print("Not implemented")
@@ -134,7 +129,6 @@ class MicrophoneSensor: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate
             
 
         }
-    
     
     func saveRecording(){
         print("Will save the audio")
