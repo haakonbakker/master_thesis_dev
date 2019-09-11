@@ -22,7 +22,7 @@ class SessionController{
     init() {
         self.microphoneSensor = MicrophoneSensor()
         self.gyroscopeSensor = GyroscopeSensor()
-        let spl_hec = SplunkHEC()
+        let spl_hec = SplunkHEC(splunkInstance: SplunkInstance(theProtocol: "http", port: "8088", ip: "127.0.0.1"))
         
     }
     

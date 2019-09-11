@@ -13,6 +13,7 @@
 		6BAD28F0231FB75000ECEEA8 /* GyroscopeInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BAD28EF231FB75000ECEEA8 /* GyroscopeInterface.swift */; };
 		6BAD28F3231FC55900ECEEA8 /* ext_Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BAD28F2231FC55900ECEEA8 /* ext_Double.swift */; };
 		6BAD28F6231FC83100ECEEA8 /* Splunk_HEC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BAD28F5231FC83100ECEEA8 /* Splunk_HEC.swift */; };
+		6BAD28F8231FF2A500ECEEA8 /* ext_String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BAD28F7231FF2A500ECEEA8 /* ext_String.swift */; };
 		6BEB61342316CCB3006E43FB /* SensorInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BEB61332316CCB3006E43FB /* SensorInterface.swift */; };
 		6BEB61362316CD0A006E43FB /* AudioSensorInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BEB61352316CD0A006E43FB /* AudioSensorInterface.swift */; };
 		6BF3191E2316786D00E0FBC0 /* TimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF3191D2316786D00E0FBC0 /* TimerView.swift */; };
@@ -58,6 +59,7 @@
 		6BAD28EF231FB75000ECEEA8 /* GyroscopeInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GyroscopeInterface.swift; sourceTree = "<group>"; };
 		6BAD28F2231FC55900ECEEA8 /* ext_Double.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ext_Double.swift; sourceTree = "<group>"; };
 		6BAD28F5231FC83100ECEEA8 /* Splunk_HEC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Splunk_HEC.swift; sourceTree = "<group>"; };
+		6BAD28F7231FF2A500ECEEA8 /* ext_String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ext_String.swift; sourceTree = "<group>"; };
 		6BEB61332316CCB3006E43FB /* SensorInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorInterface.swift; sourceTree = "<group>"; };
 		6BEB61352316CD0A006E43FB /* AudioSensorInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioSensorInterface.swift; sourceTree = "<group>"; };
 		6BF3191D2316786D00E0FBC0 /* TimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerView.swift; sourceTree = "<group>"; };
@@ -116,6 +118,7 @@
 			isa = PBXGroup;
 			children = (
 				6BAD28F2231FC55900ECEEA8 /* ext_Double.swift */,
+				6BAD28F7231FF2A500ECEEA8 /* ext_String.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -419,6 +422,7 @@
 				6BFBF9D62315BD0400373913 /* ContentView.swift in Sources */,
 				6BAD28F6231FC83100ECEEA8 /* Splunk_HEC.swift in Sources */,
 				6BF319212316835200E0FBC0 /* MicrophoneSensor.swift in Sources */,
+				6BAD28F8231FF2A500ECEEA8 /* ext_String.swift in Sources */,
 				6BEB61342316CCB3006E43FB /* SensorInterface.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
