@@ -9,20 +9,21 @@
 import Foundation
 import AVFoundation
 
-class MicrophoneSensor: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate, SensorInterface, AudioSensorInterface {
+class MicrophoneSensor: Sensor, AVAudioRecorderDelegate, AVAudioPlayerDelegate, AudioSensorInterface {
+//    var sensorName: SensorEnumeration
+    
     var sampleRate: Int
     var numberOfChannels: Int
-    var sensorName: SensorEnumeration
     
     var recordingSession: AVAudioSession!
     var audioRecorder: AVAudioRecorder!
     var audioPlayer : AVAudioPlayer!
     
-    override init() {
-        sensorName = .MicrophoneSensor
+    init() {
+//        self.sensorName = .MicrophoneSensor
         self.sampleRate = 0
         self.numberOfChannels = 0
-        super.init()
+        super.init(sensorEnum: .MicrophoneSensor)
     }
     
     func startRecording(sessionID:Int) -> Bool{

@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6B35A619233215060095D911 /* ReadyToStartSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B35A618233215060095D911 /* ReadyToStartSessionView.swift */; };
+		6B35A61B233223CA0095D911 /* ActiveGraphDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B35A61A233223CA0095D911 /* ActiveGraphDataView.swift */; };
+		6B35A61D2332253C0095D911 /* EventInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B35A61C2332253C0095D911 /* EventInterface.swift */; };
+		6B35A6202332257C0095D911 /* GyroscopeEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B35A61F2332257C0095D911 /* GyroscopeEvent.swift */; };
+		6B35A622233227FD0095D911 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B35A621233227FD0095D911 /* Event.swift */; };
+		6B35A624233234720095D911 /* ext_Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B35A623233234720095D911 /* ext_Date.swift */; };
 		6BAD28EA231FA18900ECEEA8 /* SensorEnumeration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BAD28E9231FA18900ECEEA8 /* SensorEnumeration.swift */; };
 		6BAD28EC231FACCF00ECEEA8 /* GyroscopeSensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BAD28EB231FACCF00ECEEA8 /* GyroscopeSensor.swift */; };
 		6BAD28EE231FB65000ECEEA8 /* GyroscopeDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BAD28ED231FB65000ECEEA8 /* GyroscopeDataView.swift */; };
@@ -14,6 +20,7 @@
 		6BAD28F3231FC55900ECEEA8 /* ext_Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BAD28F2231FC55900ECEEA8 /* ext_Double.swift */; };
 		6BAD28F6231FC83100ECEEA8 /* Splunk_HEC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BAD28F5231FC83100ECEEA8 /* Splunk_HEC.swift */; };
 		6BAD28F8231FF2A500ECEEA8 /* ext_String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BAD28F7231FF2A500ECEEA8 /* ext_String.swift */; };
+		6BD00DF523320E8200223ABC /* Sensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BD00DF423320E8200223ABC /* Sensor.swift */; };
 		6BEB61342316CCB3006E43FB /* SensorInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BEB61332316CCB3006E43FB /* SensorInterface.swift */; };
 		6BEB61362316CD0A006E43FB /* AudioSensorInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BEB61352316CD0A006E43FB /* AudioSensorInterface.swift */; };
 		6BF3191E2316786D00E0FBC0 /* TimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF3191D2316786D00E0FBC0 /* TimerView.swift */; };
@@ -53,6 +60,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6B35A618233215060095D911 /* ReadyToStartSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadyToStartSessionView.swift; sourceTree = "<group>"; };
+		6B35A61A233223CA0095D911 /* ActiveGraphDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveGraphDataView.swift; sourceTree = "<group>"; };
+		6B35A61C2332253C0095D911 /* EventInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventInterface.swift; sourceTree = "<group>"; };
+		6B35A61F2332257C0095D911 /* GyroscopeEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GyroscopeEvent.swift; sourceTree = "<group>"; };
+		6B35A621233227FD0095D911 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		6B35A623233234720095D911 /* ext_Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ext_Date.swift; sourceTree = "<group>"; };
 		6BAD28E9231FA18900ECEEA8 /* SensorEnumeration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorEnumeration.swift; sourceTree = "<group>"; };
 		6BAD28EB231FACCF00ECEEA8 /* GyroscopeSensor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GyroscopeSensor.swift; sourceTree = "<group>"; };
 		6BAD28ED231FB65000ECEEA8 /* GyroscopeDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GyroscopeDataView.swift; sourceTree = "<group>"; };
@@ -60,6 +73,7 @@
 		6BAD28F2231FC55900ECEEA8 /* ext_Double.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ext_Double.swift; sourceTree = "<group>"; };
 		6BAD28F5231FC83100ECEEA8 /* Splunk_HEC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Splunk_HEC.swift; sourceTree = "<group>"; };
 		6BAD28F7231FF2A500ECEEA8 /* ext_String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ext_String.swift; sourceTree = "<group>"; };
+		6BD00DF423320E8200223ABC /* Sensor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sensor.swift; sourceTree = "<group>"; };
 		6BEB61332316CCB3006E43FB /* SensorInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorInterface.swift; sourceTree = "<group>"; };
 		6BEB61352316CD0A006E43FB /* AudioSensorInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioSensorInterface.swift; sourceTree = "<group>"; };
 		6BF3191D2316786D00E0FBC0 /* TimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerView.swift; sourceTree = "<group>"; };
@@ -114,11 +128,29 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6B35A617233214E00095D911 /* ReadyToStart */ = {
+			isa = PBXGroup;
+			children = (
+				6B35A618233215060095D911 /* ReadyToStartSessionView.swift */,
+			);
+			name = ReadyToStart;
+			sourceTree = "<group>";
+		};
+		6B35A61E233225580095D911 /* EventTypes */ = {
+			isa = PBXGroup;
+			children = (
+				6B35A61F2332257C0095D911 /* GyroscopeEvent.swift */,
+				6B35A621233227FD0095D911 /* Event.swift */,
+			);
+			name = EventTypes;
+			sourceTree = "<group>";
+		};
 		6BAD28F1231FC54300ECEEA8 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
 				6BAD28F2231FC55900ECEEA8 /* ext_Double.swift */,
 				6BAD28F7231FF2A500ECEEA8 /* ext_String.swift */,
+				6B35A623233234720095D911 /* ext_Date.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -138,6 +170,7 @@
 				6BEB61352316CD0A006E43FB /* AudioSensorInterface.swift */,
 				6BAD28E9231FA18900ECEEA8 /* SensorEnumeration.swift */,
 				6BAD28EF231FB75000ECEEA8 /* GyroscopeInterface.swift */,
+				6B35A61C2332253C0095D911 /* EventInterface.swift */,
 			);
 			name = Interfaces;
 			sourceTree = "<group>";
@@ -147,6 +180,7 @@
 			children = (
 				6BF3191D2316786D00E0FBC0 /* TimerView.swift */,
 				6BAD28ED231FB65000ECEEA8 /* GyroscopeDataView.swift */,
+				6B35A61A233223CA0095D911 /* ActiveGraphDataView.swift */,
 			);
 			name = Active;
 			sourceTree = "<group>";
@@ -154,9 +188,11 @@
 		6BF3191F2316832B00E0FBC0 /* Sensors */ = {
 			isa = PBXGroup;
 			children = (
+				6B35A61E233225580095D911 /* EventTypes */,
 				6BEB61372316CDF0006E43FB /* Interfaces */,
 				6BF319202316835200E0FBC0 /* MicrophoneSensor.swift */,
 				6BAD28EB231FACCF00ECEEA8 /* GyroscopeSensor.swift */,
+				6BD00DF423320E8200223ABC /* Sensor.swift */,
 			);
 			path = Sensors;
 			sourceTree = "<group>";
@@ -256,6 +292,7 @@
 		6BFBFA0323165F0200373913 /* SessionView */ = {
 			isa = PBXGroup;
 			children = (
+				6B35A617233214E00095D911 /* ReadyToStart */,
 				6BF3191C2316785100E0FBC0 /* Active */,
 				6BFBFA0723165F5000373913 /* SessionView.swift */,
 				6BFBFA0F23166D5300373913 /* SessionViewActive.swift */,
@@ -413,14 +450,21 @@
 				6BFBFA1023166D5300373913 /* SessionViewActive.swift in Sources */,
 				6BAD28EA231FA18900ECEEA8 /* SensorEnumeration.swift in Sources */,
 				6BFBF9D22315BD0400373913 /* AppDelegate.swift in Sources */,
+				6B35A619233215060095D911 /* ReadyToStartSessionView.swift in Sources */,
+				6B35A61D2332253C0095D911 /* EventInterface.swift in Sources */,
 				6BFBFA0823165F5000373913 /* SessionView.swift in Sources */,
+				6B35A622233227FD0095D911 /* Event.swift in Sources */,
 				6BAD28F3231FC55900ECEEA8 /* ext_Double.swift in Sources */,
+				6B35A61B233223CA0095D911 /* ActiveGraphDataView.swift in Sources */,
 				6BFBF9D42315BD0400373913 /* SceneDelegate.swift in Sources */,
 				6BAD28F0231FB75000ECEEA8 /* GyroscopeInterface.swift in Sources */,
+				6BD00DF523320E8200223ABC /* Sensor.swift in Sources */,
 				6BFBFA0623165F1F00373913 /* SessionController.swift in Sources */,
 				6BFBFA0A23165F7D00373913 /* SessionDetailView.swift in Sources */,
 				6BFBF9D62315BD0400373913 /* ContentView.swift in Sources */,
+				6B35A6202332257C0095D911 /* GyroscopeEvent.swift in Sources */,
 				6BAD28F6231FC83100ECEEA8 /* Splunk_HEC.swift in Sources */,
+				6B35A624233234720095D911 /* ext_Date.swift in Sources */,
 				6BF319212316835200E0FBC0 /* MicrophoneSensor.swift in Sources */,
 				6BAD28F8231FF2A500ECEEA8 /* ext_String.swift in Sources */,
 				6BEB61342316CCB3006E43FB /* SensorInterface.swift in Sources */,

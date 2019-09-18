@@ -25,21 +25,23 @@ struct GyroDataPoint{
     }
 }
 
-class GyroscopeSensor: SensorInterface, GyroscopeInterface, ObservableObject {
+class GyroscopeSensor: Sensor, GyroscopeInterface, ObservableObject {
     var motion:CMMotionManager
     var timer:Timer?
-    var sensorName: SensorEnumeration
     
     @Published var gyroRotation:[Double]
     
     @Published var gyroData:GyroDataPoint // Should add it as some form of array
     
+    @Published var gyroEvents:[GyroscopeEvent]
+    
     init() {
         motion = CMMotionManager()
         timer = Timer()
-        sensorName = .GyroscopeSensor
         gyroRotation = [0.0, 0.0, 0.0]
         gyroData = GyroDataPoint()
+        self.gyroEvents = []
+        super.init(sensorEnum: .GyroscopeSensor)
     }
     
     func startGyros() {
@@ -53,6 +55,7 @@ class GyroscopeSensor: SensorInterface, GyroscopeInterface, ObservableObject {
                  repeats: true, block: { (timer) in
              // Get the gyro data.
              if let data = self.motion.gyroData {
+                let timestamp = Date()
                 let x = data.rotationRate.x
                 let y = data.rotationRate.y
                 let z = data.rotationRate.z
@@ -62,6 +65,9 @@ class GyroscopeSensor: SensorInterface, GyroscopeInterface, ObservableObject {
                 print("z: \(z)")
                 self.gyroRotation = [x, y, z]
                 
+                // Add the event to the dataset
+                let event = GyroscopeEvent(x: x, y: y, z: z, timestamp: timestamp)
+                self.gyroEvents.append(event)
                 // Use the gyroscope data in your app.
              }
           })
@@ -79,5 +85,9 @@ class GyroscopeSensor: SensorInterface, GyroscopeInterface, ObservableObject {
 
           self.motion.stopGyroUpdates()
        }
+    }
+    
+    override func getNumberOfEvents() -> Int{
+        return self.gyroEvents.count
     }
 }

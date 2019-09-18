@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol AudioSensorInterface : SensorInterface {
+protocol AudioSensorInterface  {
     // Data about the sensor
     var sampleRate:Int {get set}
     var numberOfChannels:Int {get set}

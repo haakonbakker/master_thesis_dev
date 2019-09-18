@@ -20,7 +20,7 @@ struct TimerView: View {
     
     var body: some View {
         Text(countDownString(from: referenceDate))
-            .font(.largeTitle)
+            .font(.footnote)
             .onAppear(perform: {
                 _ = self.timer
             })

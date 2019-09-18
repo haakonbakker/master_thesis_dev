@@ -88,17 +88,17 @@ class SplunkHEC{
 
 var inst = SplunkInstance(theProtocol: "http", port: "8088", ip: "127.0.0.1")
 var spl = SplunkHEC(splunkInstance: inst)
-spl.post_datapoint()
-spl.post_datapoint()
-spl.post_datapoint()
-spl.post_datapoint()
-spl.post_datapoint()
-spl.post_datapoint()
-spl.post_datapoint()
-spl.post_datapoint()
-//spl.printDate(string: "")
-//
-//
-//
-sleep(3)
-print(Date().timeIntervalSince1970)
+//spl.post_datapoint()
+//spl.post_datapoint()
+//spl.post_datapoint()
+//spl.post_datapoint()
+//spl.post_datapoint()
+//spl.post_datapoint()
+//spl.post_datapoint()
+//spl.post_datapoint()
+////spl.printDate(string: "")
+////
+////
+////
+//sleep(3)
+//print(Date().timeIntervalSince1970)

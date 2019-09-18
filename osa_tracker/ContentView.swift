@@ -9,39 +9,34 @@
 import SwiftUI
 
 struct ContentView : View {
-
+    
+    var dateFormatter: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "hh:mma"
+        return formatter
+    }
+    
+    
     var sessionController = SessionController()
     let sessionData = SessionController().getSessions()
     @State private var showPopover: Bool = false
+    @State private var wakeUpTime = Date(timeIntervalSinceNow: 300)  // Set time to 7am next morning
     var body: some View {
         VStack{
-            NavigationView{
-                List(sessionData) { ses in
-                    NavigationLink(destination: SessionDetailView()) {
-                        SessionRow(session: ses)
-                    }
-                    
-                }.onAppear(perform: {print("Will get some data")})
-                .navigationBarTitle(Text("Sleep Sessions"))
-                .navigationBarItems(trailing:
-                    Button(action: {
-                        print("New session starting")
-                        self.showPopover = true
-                    }) {
-                        Text("+ Session")
-                    }
-                ).sheet(isPresented: self.$showPopover) {
-                    SessionView(sessionController: SessionController(), onDismiss: {
-                        self.showPopover = false
-                    })
-                }
-//                    .popover(
-//                    isPresented: self.$showPopover,
-//                    arrowEdge: .bottom
-//                    ) { SessionView(sessionController: SessionController()) }
-
+            Text("Wake up time").font(.largeTitle)
+            DatePicker(selection: $wakeUpTime, in: Date()..., displayedComponents: .hourAndMinute) {
+                Text("")
             }
-            
+            Text("Will wake you up at \(wakeUpTime, formatter: dateFormatter)")
+            Button(action: {
+                print("New session starting")
+                self.showPopover = true
+            }) {
+                Text("Start")
+            }.sheet(isPresented: self.$showPopover) {
+                SessionView(sessionController: self.sessionController, onDismiss: {self.showPopover = false
+                }, session: self.sessionController.startSession(wakeUpTime: self.wakeUpTime))
+            }
         }
         
     

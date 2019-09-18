@@ -8,7 +8,7 @@
 
 import Foundation
 
-
+// OLD CAN BE DELETED
 protocol SensorInterface {
     // Information about the sensor
     var sensorName:SensorEnumeration { get }
