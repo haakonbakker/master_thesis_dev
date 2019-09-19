@@ -14,4 +14,9 @@ extension Date{
         formatter.dateFormat = "hh:mma"
         return formatter.string(from: date)
     }
+
+    var tomorrow: Date? {
+        return Calendar.current.date(byAdding: .day, value: 1, to: self)
+    }
+
 }

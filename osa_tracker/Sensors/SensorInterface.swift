@@ -8,9 +8,11 @@
 
 import Foundation
 
-// OLD CAN BE DELETED
 protocol SensorInterface {
     // Information about the sensor
     var sensorName:SensorEnumeration { get }
+    func startSensor() -> Bool
+    func stopSensor() -> Bool
+    
     
 }

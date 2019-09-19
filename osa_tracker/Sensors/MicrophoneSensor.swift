@@ -9,7 +9,7 @@
 import Foundation
 import AVFoundation
 
-class MicrophoneSensor: Sensor, AVAudioRecorderDelegate, AVAudioPlayerDelegate, AudioSensorInterface {
+class MicrophoneSensor: Sensor, AVAudioRecorderDelegate, AVAudioPlayerDelegate, AudioSensorInterface, SensorInterface {
 //    var sensorName: SensorEnumeration
     
     var sampleRate: Int
@@ -26,7 +26,23 @@ class MicrophoneSensor: Sensor, AVAudioRecorderDelegate, AVAudioPlayerDelegate, 
         super.init(sensorEnum: .MicrophoneSensor)
     }
     
-    func startRecording(sessionID:Int) -> Bool{
+    override func startSensor() -> Bool {
+        print("Will start Microphone")
+        self.startRecording()
+        return true
+    }
+    
+    override func stopSensor() -> Bool {
+        print("Will stop Microphone")
+        self.endRecording(success: true)
+        return true
+    }
+    
+    override func getNumberOfEvents() -> Int{
+        return 0
+    }
+    
+    func startRecording() -> Bool{
 //        Will start to record audio
         recordingSession = AVAudioSession.sharedInstance()
         var allowedToRecord = false // Until proven true

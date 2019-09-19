@@ -15,24 +15,33 @@ struct ContentView : View {
         formatter.dateFormat = "hh:mma"
         return formatter
     }
-    
+    init() {
+        
+        // Want to set the default wakeup time to 6:30am the next day
+        let date: Date = Date().tomorrow!
+        let cal: Calendar = Calendar(identifier: .gregorian)
+        let newDate: Date = cal.date(bySettingHour: 6, minute: 30, second: 0, of: date)!
+        _wakeUpTime = State(initialValue: newDate)
+        
+    }
     
     var sessionController = SessionController()
     let sessionData = SessionController().getSessions()
     @State private var showPopover: Bool = false
-    @State private var wakeUpTime = Date(timeIntervalSinceNow: 300)  // Set time to 7am next morning
+    @State private var wakeUpTime:Date
     var body: some View {
         VStack{
             Text("Wake up time").font(.largeTitle)
-            DatePicker(selection: $wakeUpTime, in: Date()..., displayedComponents: .hourAndMinute) {
-                Text("")
+            VStack{
+                DatePicker("Select wake up time", selection: $wakeUpTime, displayedComponents: .hourAndMinute).labelsHidden()
             }
+            
             Text("Will wake you up at \(wakeUpTime, formatter: dateFormatter)")
             Button(action: {
                 print("New session starting")
                 self.showPopover = true
             }) {
-                Text("Start")
+                Text("Start").padding(30)
             }.sheet(isPresented: self.$showPopover) {
                 SessionView(sessionController: self.sessionController, onDismiss: {self.showPopover = false
                 }, session: self.sessionController.startSession(wakeUpTime: self.wakeUpTime))

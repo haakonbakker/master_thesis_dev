@@ -14,7 +14,7 @@ protocol AudioSensorInterface  {
     var numberOfChannels:Int {get set}
     
     // Functions we need for the interface
-    func startRecording(sessionID: Int) -> Bool
+    func startRecording() -> Bool
     func endRecording(success: Bool)
     func pauseRecording()
     func saveRecording()

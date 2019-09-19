@@ -11,5 +11,7 @@ import Foundation
 enum SensorEnumeration{
     case MicrophoneSensor
     case GyroscopeSensor
+    case HeartRateSensor
+    case BatterySensor
     case Sensor
 }

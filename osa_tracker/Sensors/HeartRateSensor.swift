@@ -1,5 +1,5 @@
 //
-//  Event.swift
+//  HeartRateSensor.swift
 //  osa_tracker
 //
 //  Created by Haakon W Hoel Bakker on 18/09/2019.
@@ -8,6 +8,8 @@
 
 import Foundation
 
-protocol Event:Codable {
-    var timestamp:Date { get set } 
+class HeartRateSensor:Sensor{
+    override init(sensorEnum: SensorEnumeration = .HeartRateSensor) {
+        
+    }
 }

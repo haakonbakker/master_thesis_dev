@@ -33,7 +33,7 @@ struct SessionView : View {
                 SessionViewActive(session: self.session!)
                 
                 Spacer()
-                Text("Realtime data")
+                Text("Realtime data:")
                 HStack{
                     Text("Duration:")
                     TimerView(nowDate:Date() , referenceDate:self.session!.start_time)

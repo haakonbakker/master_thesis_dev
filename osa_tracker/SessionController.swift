@@ -18,11 +18,7 @@ class SessionController: ObservableObject{
     @Published var currentSession:Session?
     var microphoneSensor:MicrophoneSensor!
     var gyroscopeSensor:GyroscopeSensor!
-    var sensorList:[Sensor]
     init() {
-        self.microphoneSensor = MicrophoneSensor()
-        self.gyroscopeSensor = GyroscopeSensor()
-        self.sensorList = [self.gyroscopeSensor, self.microphoneSensor]
         
         
         // Splunk setup
@@ -30,15 +26,19 @@ class SessionController: ObservableObject{
     }
     
     func getSessions() -> [Session]{
-        let sessions = [Session(id:0), Session(id:1), Session(id:2)]
+        let sessions:[Session] = []
         return sessions
     }
     
     func endSession(){
         if(self.currentSession?.hasEnded == false){
-            self.microphoneSensor.endRecording(success: true)
-            self.gyroscopeSensor.stopGyros()
+            for sensor in (self.currentSession?.sensorList)! {
+                sensor.stopSensor()
+            }
+            
             self.currentSession?.end_time = Date()
+            self.currentSession?.hasEnded = true
+            self.exportEvents()
             print("Session has ended")
         }else{
             print("Session already ended")
@@ -53,15 +53,13 @@ class SessionController: ObservableObject{
     - Returns: A new Session instance.
     */
     func startSession(wakeUpTime:Date) -> Session{
-        self.microphoneSensor = MicrophoneSensor()
-        self.gyroscopeSensor = GyroscopeSensor()
-        self.sensorList = [self.gyroscopeSensor, self.microphoneSensor]
+        let sensorList = [GyroscopeSensor(), MicrophoneSensor(), BatterySensor(samplingRate: 5)]
         print("Will start the session")
-        currentSession = Session(id:3, wakeUpTime: wakeUpTime)
+        currentSession = Session(id:3, wakeUpTime: wakeUpTime, sensorList: sensorList)
         
         guard currentSession != nil else {
             print("No active session")
-            return Session(id:-1)
+            fatalError("currentSession is nil - cannot handle")
         }
         
         initSession(session:currentSession!)
@@ -73,12 +71,11 @@ class SessionController: ObservableObject{
 
     - Parameter session: The session being initiated
     */
-    func initSession(session:Session){
-        let ableToStart = microphoneSensor.startRecording(sessionID: session.id)
-        print("Phone is able to start recording: \(ableToStart)")
-        
-        gyroscopeSensor.startGyros()
-        print("Started Gyroscope sensor")
+    func initSession(session:Session){        
+        print("Will init the sensors")
+        for sensor in self.currentSession!.sensorList {
+            sensor.startSensor()
+        }
     }
     
     /**
@@ -94,7 +91,7 @@ class SessionController: ObservableObject{
             let components = calendar
                 .dateComponents([.day, .hour, .minute, .second],
                                 from: session.start_time,
-                                to: session.end_time)
+                                to: session.end_time!)
             return String(format: "%02dh:%02dm:%02ds",
                           components.hour ?? 00,
                           components.minute ?? 00,
@@ -113,66 +110,49 @@ class SessionController: ObservableObject{
         
     }
 
+    /**
+     Will return the number of events gathered by all the sensors combined
+     */
     func getNumberOfEvents() -> Int{
         // Should do:
         // For every sensor; return count
         var numberOfEvents = 0
         
-        for sensor in self.sensorList {
+        for sensor in self.currentSession!.sensorList {
             numberOfEvents += sensor.getNumberOfEvents()
         }
         
         return numberOfEvents
     }
     
-}
+    func exportEvents(){
+        // We do not want to export events before the session has ended
+        if(currentSession?.hasEnded == false){
+            return
+        }
+        
+        print("Will export events to file")
+        
+        let file = "file.txt" //this is the file. we will write to and read from it
 
-class Session:Identifiable{
-    var id:Int
-    var timestamp:String
-    var duration:String
-    var start_time:Date
-    var end_time:Date
-    var hasEnded:Bool
-    var wakeUpTime:Date
-    var sensorList:[Sensor]
-    
-    
-    init(id:Int){
-        self.id = id
-        self.duration = "6h23m"
-        self.timestamp = "June 9th to June 10th"
-        self.start_time = Date()
-        self.end_time = Date()
-        self.hasEnded = false
-        self.sensorList = []
-        self.wakeUpTime = Date()
-    }
-    
-    init(id:Int, wakeUpTime:Date){
-        self.id = id
-        self.duration = "6h23m"
-        self.timestamp = "June 9th to June 10th"
-        self.start_time = Date()
-        self.end_time = Date()
-        self.hasEnded = false
-        self.sensorList = []
-        self.wakeUpTime = wakeUpTime
-    }
+        let text = "some text" //just a text
 
-    // Start the session here
-    func startSession() -> Session{
-        return Session(id:5)
+        if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
+
+            let fileURL = dir.appendingPathComponent(file)
+            print(fileURL)
+            //writing
+            do {
+                try text.write(to: fileURL, atomically: false, encoding: .utf8)
+            }
+            catch {/* error handling here */}
+
+            //reading
+            do {
+                let text2 = try String(contentsOf: fileURL, encoding: .utf8)
+            }
+            catch {/* error handling here */}
+        }
     }
-    
-    // End the session here
-    func endSession() -> Bool{
-        return true
-    }
-    
-    func getWakeUpTime() -> Date {
-        return self.wakeUpTime
-    }
-    
     
 }
