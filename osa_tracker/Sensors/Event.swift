@@ -2,12 +2,15 @@
 //  Event.swift
 //  osa_tracker
 //
-//  Created by Haakon W Hoel Bakker on 18/09/2019.
+//  Created by Haakon W Hoel Bakker on 19/09/2019.
 //  Copyright © 2019 Haakon W Hoel Bakker. All rights reserved.
 //
 
 import Foundation
 
-protocol Event:Codable {
-    var timestamp:Date { get set } 
+// OLD CLASS - PLEASE DELETE
+class Event:Codable{
+    init(){
+        
+    }
 }

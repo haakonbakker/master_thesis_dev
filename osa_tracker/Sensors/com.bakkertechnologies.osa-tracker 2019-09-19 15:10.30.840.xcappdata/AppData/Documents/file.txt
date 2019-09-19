@@ -1,0 +1,10 @@
+Must be overridenMust be overriden{
+  "timestamp" : 590591420.81781697,
+  "device" : "iPhone",
+  "sensorName" : "Battery",
+  "event" : {
+    "batteryPercent" : 100,
+    "batteryState" : 3,
+    "batteryLevel" : 1
+  }
+}

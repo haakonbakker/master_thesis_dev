@@ -8,8 +8,12 @@
 
 import Foundation
 
-struct HeartRateEvent:Event {
+struct HeartRateEvent:EventProtocol {
+    var sensorName: String
     var timestamp: Date
     
-    
+    init() {
+        self.timestamp = Date()
+        self.sensorName = "Heart Rate"
+    }
 }

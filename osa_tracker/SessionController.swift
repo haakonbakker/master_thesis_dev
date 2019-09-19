@@ -30,10 +30,37 @@ class SessionController: ObservableObject{
         return sessions
     }
     
+    /**
+    This function starts a new session.
+
+    - Returns: A new Session instance.
+    */
+    func startSession(wakeUpTime:Date) -> Session{
+        let sensorList = [GyroscopeSensor(), MicrophoneSensor(), BatterySensor(samplingRate: 5)]
+//        let sensorList = [BatterySensor(samplingRate: 5)]
+        print("Will start the session")
+        currentSession = Session(id:3, wakeUpTime: wakeUpTime, sensorList: sensorList)
+        
+        guard currentSession != nil else {
+            print("No active session")
+            fatalError("currentSession is nil - cannot handle")
+        }
+        
+        for sensor in self.currentSession!.sensorList {
+            sensor.startSensor()
+        }
+        
+        return currentSession!
+    }
+    
     func endSession(){
         if(self.currentSession?.hasEnded == false){
             for sensor in (self.currentSession?.sensorList)! {
                 sensor.stopSensor()
+                if sensor.events.count > 0 {
+                    sensor.exportEvent()
+                }
+                
             }
             
             self.currentSession?.end_time = Date()
@@ -45,37 +72,6 @@ class SessionController: ObservableObject{
         }
         
         
-    }
-    
-    /**
-    This function starts a new session.
-
-    - Returns: A new Session instance.
-    */
-    func startSession(wakeUpTime:Date) -> Session{
-        let sensorList = [GyroscopeSensor(), MicrophoneSensor(), BatterySensor(samplingRate: 5)]
-        print("Will start the session")
-        currentSession = Session(id:3, wakeUpTime: wakeUpTime, sensorList: sensorList)
-        
-        guard currentSession != nil else {
-            print("No active session")
-            fatalError("currentSession is nil - cannot handle")
-        }
-        
-        initSession(session:currentSession!)
-        return currentSession!
-    }
-    
-    /**
-    Initializes the session.
-
-    - Parameter session: The session being initiated
-    */
-    func initSession(session:Session){        
-        print("Will init the sensors")
-        for sensor in self.currentSession!.sensorList {
-            sensor.startSensor()
-        }
     }
     
     /**
@@ -135,7 +131,12 @@ class SessionController: ObservableObject{
         
         let file = "file.txt" //this is the file. we will write to and read from it
 
-        let text = "some text" //just a text
+        var text = ""
+        for sensor in currentSession!.sensorList{
+            text += sensor.exportEvents()
+        }
+//        let text = "Hello world" //just a text
+        print(text)
 
         if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
 

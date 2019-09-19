@@ -12,10 +12,10 @@ import UIKit
 class BatterySensor: Sensor {
     var timer:Timer?
     var samplingRate:Double
-    var events:[BatteryEvent]
     
     init(sensorEnum: SensorEnumeration = .BatterySensor, samplingRate:Double) {
         self.samplingRate = samplingRate
+        super.init()
         self.events = []
     }
     
@@ -54,42 +54,57 @@ class BatterySensor: Sensor {
     func gatherEvent(){
         let event = BatteryEvent(device: UIDevice.current.model, batteryLevel: UIDevice.current.batteryLevel, batteryState: UIDevice.current.batteryState.rawValue)
         self.events.append(event)
-        self.exportEvent(event: event)
+        self.exportEvent()
     }
     
-    func exportEvent(event:BatteryEvent){
-        do {
-           // data we are getting from network request
-            let encoder = JSONEncoder()
-            let res = try encoder.encode(event)
-            print(res)
-            if let json = String(data: res, encoding: .utf8) {
-              print("json", json)
-            }
 
-        } catch { print(error) }
-    }
     
-    static func stringify(json: Any, prettyPrinted: Bool = false) -> String {
-        var options: JSONSerialization.WritingOptions = []
-        if prettyPrinted {
-          options = JSONSerialization.WritingOptions.prettyPrinted
-        }
 
-        do {
-          let data = try JSONSerialization.data(withJSONObject: json, options: options)
-          if let string = String(data: data, encoding: String.Encoding.utf8) {
-            return string
-          }
-        } catch {
-          print(error)
-        }
-
-        return ""
-    }
     
     override func getNumberOfEvents() -> Int{
         return self.events.count
     }
     
+    override func exportEvent(){
+        let event = self.events[0] as! BatteryEvent
+        print("Type of event:")
+        print("\(type(of: event))")
+        do {
+           // data we are getting from network request
+            let encoder = JSONEncoder()
+            encoder.outputFormatting = .prettyPrinted
+            let res = try encoder.encode(event)
+            print(res)
+            if let json = String(data: res, encoding: .utf8) {
+              print("json", json)
+            }
+            
+
+        } catch { print(error) }
+    }
+    
+    func getEventAsString(event:BatteryEvent) -> String{
+        do {
+           // data we are getting from network request
+            let encoder = JSONEncoder()
+            encoder.outputFormatting = .sortedKeys
+            let res = try encoder.encode(event)
+            print(res)
+            if let json = String(data: res, encoding: .utf8) {
+              print("json", json)
+                return json
+            }
+            
+            
+        } catch { print(error) }
+        return "Not able to return as string"
+    }
+    
+    override func exportEvents() -> String{
+        var jsonString = ""
+        for event in self.events{
+            jsonString += self.getEventAsString(event: event as! BatteryEvent) + "\n" // Adding newline here - can we move this to the sessionController?
+        }
+        return jsonString
+    }
 }

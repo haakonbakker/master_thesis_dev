@@ -33,15 +33,16 @@ class GyroscopeSensor: Sensor, GyroscopeInterface, ObservableObject {
     
     @Published var gyroData:GyroDataPoint // Should add it as some form of array
     
-    @Published var gyroEvents:[GyroscopeEvent]
+//    @Published var events:[GyroscopeEvent]
     
     init() {
         motion = CMMotionManager()
         timer = Timer()
         gyroRotation = [0.0, 0.0, 0.0]
         gyroData = GyroDataPoint()
-        self.gyroEvents = []
         super.init(sensorEnum: .GyroscopeSensor)
+        self.events = []
+        
     }
     
     func startGyros() {
@@ -67,7 +68,8 @@ class GyroscopeSensor: Sensor, GyroscopeInterface, ObservableObject {
                 
                 // Add the event to the dataset
                 let event = GyroscopeEvent(x: x, y: y, z: z, timestamp: timestamp)
-                self.gyroEvents.append(event)
+                self.events.append(event)
+                self.exportEvent()
                 // Use the gyroscope data in your app.
              }
           })
@@ -100,6 +102,22 @@ class GyroscopeSensor: Sensor, GyroscopeInterface, ObservableObject {
     }
     
     override func getNumberOfEvents() -> Int{
-        return self.gyroEvents.count
+        return self.events.count
+    }
+    
+    override func exportEvent(){
+        let event = self.events[0] as! GyroscopeEvent
+        print("Type of event:")
+        print("\(type(of: event))")
+        do {
+           // data we are getting from network request
+            let encoder = JSONEncoder()
+            let res = try encoder.encode(event)
+            print(res)
+            if let json = String(data: res, encoding: .utf8) {
+              print("json", json)
+            }
+
+        } catch { print(error) }
     }
 }

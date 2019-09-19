@@ -8,16 +8,21 @@
 
 import Foundation
 
-struct GyroscopeEvent: Event{
+struct GyroscopeEvent: EventProtocol{
+    var sensorName: String
+    
     var timestamp:Date
-    var x: Double
-    var y: Double
-    var z: Double
+    private var event:EventData
+    
+    private struct EventData:Codable{
+        var x:Double
+        var y:Double
+        var z:Double
+    }
     
     init(x:Double, y:Double, z:Double, timestamp:Date){
-        self.x = x
-        self.y = y
-        self.z = z
+        self.event = EventData(x: x, y: y, z: z)
         self.timestamp = timestamp
+        self.sensorName = "Gyroscope"
     }
 }

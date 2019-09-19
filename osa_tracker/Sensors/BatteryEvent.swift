@@ -9,18 +9,23 @@
 import Foundation
 import UIKit
 
-struct BatteryEvent:Event {
+class BatteryEvent:EventProtocol, Codable {
+    
+    private struct EventData:Codable{
+        var batteryLevel:Float
+        var batteryPercent:Float
+        var batteryState:Int
+    }
+    
+    var sensorName: String
     var timestamp: Date
     var device:String
-    var batteryLevel:Float
-    var batteryPercent:Float
-    var batteryState:Int
+    private var event:EventData
     
     init(device:String, batteryLevel:Float, batteryState:UIDevice.BatteryState.RawValue) {
         self.device = device
-        self.batteryLevel = batteryLevel
-        self.batteryPercent = batteryLevel*100
-        self.batteryState = batteryState
         self.timestamp = Date()
+        self.sensorName = "Battery"
+        self.event = EventData(batteryLevel: batteryLevel, batteryPercent: batteryLevel*100, batteryState: batteryState)
     }
 }

@@ -10,9 +10,11 @@ import Foundation
 
 class Sensor: NSObject {
     var sensorName: SensorEnumeration
-    
+    var events:[Any]
     init(sensorEnum:SensorEnumeration = .Sensor) {
         self.sensorName = sensorEnum
+        self.events = []
+        
     }
     
     func getNumberOfEvents() -> Int{
@@ -33,4 +35,23 @@ class Sensor: NSObject {
         fatalError("Must Override")
     }
     
+    func exportEvent(){
+        return
+//        print("Type of event:")
+//        print("\(type(of: event))")
+//        do {
+//           // data we are getting from network request
+//            let encoder = JSONEncoder()
+//            let res = try encoder.encode(event)
+//            print(res)
+//            if let json = String(data: res, encoding: .utf8) {
+//              print("json", json)
+//            }
+//
+//        } catch { print(error) }
+    }
+    
+    func exportEvents() -> String{
+        return "{\"info\":\"Must be overriden\"}\n"
+    }
 }
