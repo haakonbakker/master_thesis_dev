@@ -52,6 +52,6 @@ class Sensor: NSObject {
     }
     
     func exportEvents() -> String{
-        return "{\"info\":\"Must be overriden\"}\n"
+        return "{\"info\":\"Must be overriden\", \"sensor\":\"\(self.sensorName)\"}\n"
     }
 }

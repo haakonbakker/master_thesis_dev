@@ -12,6 +12,9 @@ struct SessionWatchView: View {
     var sessionController = SessionController()
     @State var numberOfEvents = 0
     
+    @State private var sessionStarted: Bool = false
+    @State private var sessionEnded:Bool = false
+    
     // Timer to update the view
     var timer: Timer {
         Timer.scheduledTimer(withTimeInterval: 1, repeats: true) {_ in
@@ -21,21 +24,44 @@ struct SessionWatchView: View {
     
     var body: some View {
         VStack{
-            Text("This is the session")
-            HStack{
-                Text("# Events:")
-                Text("\(self.numberOfEvents)").font(.footnote)
-                .onAppear(perform: {
-                    _ = self.timer
-                })
-            }
-            Button(action: {
-                print("Test button pressed");
-                self.sessionController.startSession(wakeUpTime: Date());
-            }) {
-                Text("Test button")
+            if(sessionStarted){
+                if(sessionEnded){
+                    VStack{
+                        Text("Session ended").font(.caption)
+                    }
+                }else{
+                    VStack{
+                        Text("Active session").font(.caption)
+                        HStack{
+                            Text("# Events:")
+                            Text("\(self.numberOfEvents)").font(.footnote)
+                            .onAppear(perform: {
+                                _ = self.timer
+                            })
+                        }
+                        Button(action: {
+                            print("End button pressed");
+                            self.sessionEnded = true;
+                            self.sessionController.endSession()
+                        }) {
+                            Text("End session")
+                        }
+                    }
+                }
+                
+            }else{
+                Text("Watch ready").font(.caption)
+                Button(action: {
+                    print("Start button pressed");
+                    self.sessionStarted = true;
+                    self.sessionController.startSession(wakeUpTime: Date());
+                }) {
+                    Text("Start session")
+                }
             }
         }
+        
+        
         
     }
 }

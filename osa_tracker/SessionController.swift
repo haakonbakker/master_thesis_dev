@@ -45,7 +45,7 @@ class SessionController: ObservableObject{
         #if os(iOS)
         let sensorList = [GyroscopeSensor(), MicrophoneSensor(), BatterySensor(samplingRate: 5)]
         #else
-        let sensorList = [GyroscopeSensor(), AccelerometerSensor(), BatterySensorWatch(samplingRate: 5)]
+        let sensorList = [GyroscopeSensor(), AccelerometerSensor(), BatterySensorWatch(samplingRate: 5), HeartRateSensor()]
         #endif
         
 //        let sensorList = [BatterySensor(samplingRate: 5)]
@@ -131,7 +131,7 @@ class SessionController: ObservableObject{
         for sensor in self.currentSession!.sensorList {
             numberOfEvents += sensor.getNumberOfEvents()
         }
-        
+
         return numberOfEvents
     }
     

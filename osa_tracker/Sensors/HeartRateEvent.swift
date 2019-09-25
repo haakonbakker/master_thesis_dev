@@ -12,8 +12,17 @@ struct HeartRateEvent:EventProtocol {
     var sensorName: String
     var timestamp: Date
     
-    init() {
+    private var event:EventData
+    
+    private struct EventData:Codable{
+        var unit:String
+        var heartRate:Double
+    }
+    
+    
+    init(unit:String, heartRate:Double) {
         self.timestamp = Date()
         self.sensorName = "Heart Rate"
+        self.event = EventData(unit: unit, heartRate: heartRate)
     }
 }
