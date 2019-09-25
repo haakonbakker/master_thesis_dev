@@ -61,9 +61,7 @@ class GyroscopeSensor: Sensor, GyroscopeInterface, ObservableObject {
                 let y = data.rotationRate.y
                 let z = data.rotationRate.z
 
-//                print("x: \(x)")
-//                print("y: \(y)")
-//                print("z: \(z)")
+                
                 self.gyroRotation = [x, y, z]
                 
                 // Add the event to the dataset
@@ -77,7 +75,7 @@ class GyroscopeSensor: Sensor, GyroscopeInterface, ObservableObject {
           // Add the timer to the current run loop.
         RunLoop.current.add(self.timer!, forMode: .default)
         
-       }
+        }
     }
     
     override func startSensor() -> Bool {

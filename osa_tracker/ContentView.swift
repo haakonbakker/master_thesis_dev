@@ -43,8 +43,11 @@ struct ContentView : View {
             }) {
                 Text("Start").padding(30)
             }.sheet(isPresented: self.$showPopover) {
-                SessionView(sessionController: self.sessionController, onDismiss: {self.showPopover = false
-                }, session: self.sessionController.startSession(wakeUpTime: self.wakeUpTime))
+                SessionView(
+                    sessionController: self.sessionController,
+                    onDismiss: {self.showPopover = false},
+                    session: self.sessionController.startSession(wakeUpTime: self.wakeUpTime)
+                )
             }
         }
         

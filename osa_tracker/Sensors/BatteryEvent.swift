@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 
+
 class BatteryEvent:EventProtocol, Codable {
     
     private struct EventData:Codable{
@@ -22,7 +23,8 @@ class BatteryEvent:EventProtocol, Codable {
     var device:String
     private var event:EventData
     
-    init(device:String, batteryLevel:Float, batteryState:UIDevice.BatteryState.RawValue) {
+    
+    init(device:String, batteryLevel:Float, batteryState:Int) {
         self.device = device
         self.timestamp = Date()
         self.sensorName = "Battery"

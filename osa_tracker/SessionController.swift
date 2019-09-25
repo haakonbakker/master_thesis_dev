@@ -16,7 +16,13 @@ import SwiftUI
 class SessionController: ObservableObject{
 
     @Published var currentSession:Session?
+    #if os(iOS)
     var microphoneSensor:MicrophoneSensor!
+    #else
+    
+    #endif
+    
+    
     var gyroscopeSensor:GyroscopeSensor!
     init() {
         
@@ -36,7 +42,12 @@ class SessionController: ObservableObject{
     - Returns: A new Session instance.
     */
     func startSession(wakeUpTime:Date) -> Session{
+        #if os(iOS)
         let sensorList = [GyroscopeSensor(), MicrophoneSensor(), BatterySensor(samplingRate: 5)]
+        #else
+        let sensorList = [GyroscopeSensor(), AccelerometerSensor(), BatterySensorWatch(samplingRate: 5)]
+        #endif
+        
 //        let sensorList = [BatterySensor(samplingRate: 5)]
         print("Will start the session")
         currentSession = Session(id:3, wakeUpTime: wakeUpTime, sensorList: sensorList)
@@ -110,6 +121,9 @@ class SessionController: ObservableObject{
      Will return the number of events gathered by all the sensors combined
      */
     func getNumberOfEvents() -> Int{
+        
+        guard self.currentSession != nil else { /* Handle nil case */ return 0 }
+        
         // Should do:
         // For every sensor; return count
         var numberOfEvents = 0

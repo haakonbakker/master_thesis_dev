@@ -13,5 +13,6 @@ enum SensorEnumeration{
     case GyroscopeSensor
     case HeartRateSensor
     case BatterySensor
+    case Accelerometer
     case Sensor
 }
