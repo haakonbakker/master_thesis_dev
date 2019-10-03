@@ -7,26 +7,30 @@
 //
 
 import Foundation
+#if os(iOS)
+#else
 import WatchKit
+#endif
+
 
 class BatterySensorWatch: Sensor {
     var timer:Timer?
     var samplingRate:Double
     
-    init(sensorEnum: SensorEnumeration = .BatterySensor, samplingRate:Double) {
+    init(sensorEnum: SensorEnumeration = .BatterySensorWatch, samplingRate:Double) {
         self.samplingRate = samplingRate
-        super.init()
+        super.init(sensorEnum: sensorEnum)
         self.events = []
     }
     
+    #if os(iOS)
+    #else
     override func startSensor() -> Bool {
         // Need to say to the system we want to monitor the battery.
         WKInterfaceDevice.current().isBatteryMonitoringEnabled = true
-        
         // Configure a timer to fetch the accelerometer data.
         self.timer = Timer(fire: Date(), interval: (self.samplingRate), repeats: true, block: { (timer) in
             // Get the battery data on an interval.
-            
             self.gatherEvent()
         })
 
@@ -35,6 +39,7 @@ class BatterySensorWatch: Sensor {
         
         return true
     }
+    
     
     override func stopSensor() -> Bool{
         if self.timer != nil {
@@ -106,5 +111,10 @@ class BatterySensorWatch: Sensor {
             jsonString += self.getEventAsString(event: event as! BatteryEvent) + "\n" // Adding newline here - can we move this to the sessionController?
         }
         return jsonString
+    }
+    
+    #endif
+    func getLastEvent() -> BatteryEvent{
+        return self.events.last as! BatteryEvent
     }
 }

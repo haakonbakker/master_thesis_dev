@@ -8,11 +8,12 @@
 
 import Foundation
 
-enum SensorEnumeration{
-    case MicrophoneSensor
-    case GyroscopeSensor
-    case HeartRateSensor
-    case BatterySensor
-    case Accelerometer
-    case Sensor
+enum SensorEnumeration:String{
+    case MicrophoneSensor = "MicrophoneSensor"
+    case GyroscopeSensor = "GyroscopeSensor"
+    case HeartRateSensor = "HeartRateSensor"
+    case BatterySensor = "BatterySensor"
+    case BatterySensorWatch = "BatterySensorWatch"
+    case Accelerometer = "Accelerometer"
+    case Sensor = "Sensor"
 }

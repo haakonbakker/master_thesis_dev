@@ -15,7 +15,7 @@ class BatterySensor: Sensor {
     
     init(sensorEnum: SensorEnumeration = .BatterySensor, samplingRate:Double) {
         self.samplingRate = samplingRate
-        super.init()
+        super.init(sensorEnum:sensorEnum)
         self.events = []
     }
     

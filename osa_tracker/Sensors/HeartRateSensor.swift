@@ -180,4 +180,11 @@ class HeartRateSensor:Sensor, HKWorkoutSessionDelegate{
             }
             return heartRateQuery
         }
+    
+    func getLastEvent() -> HeartRateEvent?{
+        guard let event = self.events.last else {
+            return nil
+        }
+        return self.events.last as! HeartRateEvent
+    }
 }

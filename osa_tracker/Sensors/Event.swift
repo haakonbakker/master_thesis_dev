@@ -9,8 +9,8 @@
 import Foundation
 
 // OLD CLASS - PLEASE DELETE
-class Event:Codable{
-    init(){
-        
-    }
-}
+//class Event:Codable{
+//    init(){
+//        
+//    }
+//}

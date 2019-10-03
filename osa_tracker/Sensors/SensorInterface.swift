@@ -14,5 +14,5 @@ protocol SensorInterface {
     func startSensor() -> Bool
     func stopSensor() -> Bool
     
-    
+//    func getLastEvent() -> Event
 }

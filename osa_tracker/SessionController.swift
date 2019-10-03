@@ -21,9 +21,9 @@ class SessionController: ObservableObject{
     #else
     
     #endif
-    
-    
+
     var gyroscopeSensor:GyroscopeSensor!
+    
     init() {
         
         
@@ -64,6 +64,9 @@ class SessionController: ObservableObject{
         return currentSession!
     }
     
+    /**
+        
+     */
     func endSession(){
         if(self.currentSession?.hasEnded == false){
             for sensor in (self.currentSession?.sensorList)! {
@@ -136,6 +139,15 @@ class SessionController: ObservableObject{
     }
     
     func exportEvents(){
+        
+        // The following needs to be done:
+        /*
+         - When saving the session, the uuid needs to be attached to all sensor-events
+         - Meta event should be created at the begining, and at the end
+         - The recording.m4a also needs to get the uuid
+         - The file on the watch needs to be sent to the phone and stored there.
+         */
+        
         // We do not want to export events before the session has ended
         if(currentSession?.hasEnded == false){
             return
@@ -143,7 +155,8 @@ class SessionController: ObservableObject{
         
         print("Will export events to file")
         
-        let file = "file.txt" //this is the file. we will write to and read from it
+//        let file = "file.txt" //this is the file. we will write to and read from it
+        let file = currentSession!.sessionIdentifier.description + ".txt" //this is the file. we will write to and read from it
 
         var text = ""
         for sensor in currentSession!.sensorList{
@@ -170,4 +183,24 @@ class SessionController: ObservableObject{
         }
     }
     
+    
+//    func getLatestEvent(sensor_enum:SensorEnumeration){
+//        currentSession!.getLatestEvent(sensor_enum: sensor_enum)
+//    }
+    
+    func getLatestBatteryWatchEvent() -> String{
+        let event = currentSession!.getLatestBatteryWatchEvent()
+        let batteryPercStr = event.getPercent()
+        return batteryPercStr.description + "%"
+    }
+    
+    #if os(iOS)
+    // No heart rate sensor
+    #else
+    func getLatestHeartRateData() -> String{
+        let event = currentSession!.getLatestHREvent()
+        let hrStr = event?.getHR().description ?? "---"
+        return hrStr
+    }
+    #endif
 }

@@ -30,4 +30,8 @@ class BatteryEvent:EventProtocol, Codable {
         self.sensorName = "Battery"
         self.event = EventData(batteryLevel: batteryLevel, batteryPercent: batteryLevel*100, batteryState: batteryState)
     }
+    
+    func getPercent() -> Float{
+        return self.event.batteryPercent
+    }
 }

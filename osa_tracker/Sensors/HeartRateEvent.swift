@@ -25,4 +25,12 @@ struct HeartRateEvent:EventProtocol {
         self.sensorName = "Heart Rate"
         self.event = EventData(unit: unit, heartRate: heartRate)
     }
+    
+    func getHR() -> Double{
+        return event.heartRate
+    }
+    
+    func getHRUnit() -> String{
+        return event.unit
+    }
 }

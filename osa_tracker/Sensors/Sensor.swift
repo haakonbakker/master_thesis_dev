@@ -11,7 +11,7 @@ import Foundation
 class Sensor: NSObject {
     var sensorName: SensorEnumeration
     var events:[Any]
-    init(sensorEnum:SensorEnumeration = .Sensor) {
+    init(sensorEnum:SensorEnumeration) {
         self.sensorName = sensorEnum
         self.events = []
         
@@ -54,4 +54,8 @@ class Sensor: NSObject {
     func exportEvents() -> String{
         return "{\"info\":\"Must be overriden\", \"sensor\":\"\(self.sensorName)\"}\n"
     }
+//    
+//    func getLastEvent() -> Event{
+//        fatalError("Must Override")
+//    }
 }

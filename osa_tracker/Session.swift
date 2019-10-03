@@ -17,6 +17,9 @@ class Session:Identifiable{
     var hasEnded:Bool
     var wakeUpTime:Date
     var sensorList:[Sensor]
+    var sensorDict:Dictionary<SensorEnumeration, [Sensor]>
+    var sessionIdentifier:UUID
+    
     
     init(id:Int, wakeUpTime:Date, sensorList:[Sensor]){
         self.id = id
@@ -25,8 +28,13 @@ class Session:Identifiable{
         self.start_time = Date()
         self.end_time = Date()
         self.hasEnded = false
+        self.sessionIdentifier = UUID()
+        print(self.sessionIdentifier)
         self.sensorList = sensorList
         self.wakeUpTime = wakeUpTime
+        self.sensorDict = Dictionary(grouping: self.sensorList, by: {$0.sensorName})
+        print(self.sensorDict)
+        print("****************")
     }
 
     // Start the session here
@@ -45,5 +53,51 @@ class Session:Identifiable{
         return self.wakeUpTime
     }
     
+//    func getLatestEvent(sensor_enum:SensorEnumeration) -> Any?{
+////        print("Sensor_enum: ", sensor_enum)
+////        for sensor in self.sensorList{
+////            print("Type of sensor: ", type(of: sensor))
+////            if (type(of:sensor.sensorName) == type(of: sensor_enum))  {
+////                print("The sensor is a match!")
+////            }
+//////
+////            if case .sensor_enum.self = sensor.sensorName{
+////                print("Battery sensor")
+////            }
+////        }
+//
+//        for sensor in self.sensorDict{
+//            print(sensor.key)
+//            print(sensor_enum)
+//            if(sensor_enum == sensor.key){
+//                print("Match on: ")
+//                print(sensor.key)
+//                print(sensor_enum)
+//            }
+//        }
+//        return nil
+//    }
+    
+//    func getSensor(type:Sensor) -> Sensor{
+//        for sensor in self.sensorList{
+//            if(type(of: sensor) == type(of:type)){
+//                return sensor
+//            }
+//        }
+//    }
+    
+    func getLatestBatteryWatchEvent() -> BatteryEvent{
+        var batterySensor = self.sensorDict[.BatterySensorWatch]![0] as! BatterySensorWatch
+        return batterySensor.getLastEvent()
+        
+    }
+    
+    #if os(iOS)
+    #else
+    func getLatestHREvent() -> HeartRateEvent?{
+        var heartRateSensor = self.sensorDict[.HeartRateSensor]![0] as! HeartRateSensor
+        return heartRateSensor.getLastEvent()
+    }
+    #endif
     
 }
