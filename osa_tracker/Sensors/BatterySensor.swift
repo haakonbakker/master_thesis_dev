@@ -19,6 +19,12 @@ class BatterySensor: Sensor {
         self.events = []
     }
     
+    init(sensorEnum: SensorEnumeration = .BatterySensor, samplingRate:Double, sessionIdentifier:UUID) {
+        self.samplingRate = samplingRate
+        super.init(sensorEnum:sensorEnum, sessionIdentifier:sessionIdentifier)
+        self.events = []
+    }
+    
     override func startSensor() -> Bool {
         // Need to say to the system we want to monitor the battery.
         #if os(iOS)
@@ -52,9 +58,16 @@ class BatterySensor: Sensor {
      Will gather battery information for the device.
      */
     func gatherEvent(){
-        let event = BatteryEvent(device: UIDevice.current.model, batteryLevel: UIDevice.current.batteryLevel, batteryState: UIDevice.current.batteryState.rawValue)
-        self.events.append(event)
-        self.exportEvent()
+        
+        if let sessionIdentifier = self.sessionIdentifier {
+           let event = BatteryEvent(device: UIDevice.current.model, batteryLevel: UIDevice.current.batteryLevel, batteryState: UIDevice.current.batteryState.rawValue, sessionIdentifier: sessionIdentifier)
+            self.events.append(event)
+        } else {
+            let event = BatteryEvent(device: UIDevice.current.model, batteryLevel: UIDevice.current.batteryLevel, batteryState: UIDevice.current.batteryState.rawValue)
+            self.events.append(event)
+        }
+        
+        self.exportEvent() // Just printing to the console
     }
     
 
@@ -83,7 +96,8 @@ class BatterySensor: Sensor {
         } catch { print(error) }
     }
     
-    func getEventAsString(event:BatteryEvent) -> String{
+    override func getEventAsString(event:Any) -> String{
+        let event = event as! BatteryEvent
         do {
            // data we are getting from network request
             let encoder = JSONEncoder()

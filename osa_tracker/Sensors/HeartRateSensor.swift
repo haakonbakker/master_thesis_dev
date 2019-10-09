@@ -28,6 +28,11 @@ class HeartRateSensor:Sensor, HKWorkoutSessionDelegate{
         self.events = []
     }
     
+    override init(sensorEnum: SensorEnumeration = .HeartRateSensor, sessionIdentifier:UUID) {
+        super.init(sensorEnum: sensorEnum, sessionIdentifier:sessionIdentifier)
+        self.events = []
+    }
+    
     override func startSensor() -> Bool {
         print("Starting heart rate")
         
@@ -157,9 +162,33 @@ class HeartRateSensor:Sensor, HKWorkoutSessionDelegate{
             let value = sample.quantity.doubleValue(for: self.heartRateUnit)
             print("Current heart rate: " + value.description)
             // Add the event to the dataset
-            let event = HeartRateEvent(unit: "count/min", heartRate: value)
-            self.events.append(event)
+            if let session_uuid = self.sessionIdentifier {
+                let event = HeartRateEvent(unit: "count/min", heartRate: value, sessionIdentifier: session_uuid)
+                self.events.append(event)
+            }else{
+                let event = HeartRateEvent(unit: "count/min", heartRate: value)
+                self.events.append(event)
+            }
+            
 //            self.exportEvent()
+        }
+    
+    override func getEventAsString(event:Any) -> String{
+            let event = event as! HeartRateEvent
+            do {
+               // data we are getting from network request
+                let encoder = JSONEncoder()
+                encoder.outputFormatting = .sortedKeys
+                let res = try encoder.encode(event)
+    //            print(res)
+                if let json = String(data: res, encoding: .utf8) {
+    //              print("json", json)
+                    return json
+                }
+                
+                
+            } catch { print(error) }
+            return "Not able to return as string"
         }
         
         func createHeartRateStreamingQuery(_ workoutStartDate: Date) -> HKQuery? {

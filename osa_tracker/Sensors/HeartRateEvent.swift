@@ -11,6 +11,7 @@ import Foundation
 struct HeartRateEvent:EventProtocol {
     var sensorName: String
     var timestamp: Date
+    var sessionIdentifier:String?
     
     private var event:EventData
     
@@ -24,6 +25,13 @@ struct HeartRateEvent:EventProtocol {
         self.timestamp = Date()
         self.sensorName = "Heart Rate"
         self.event = EventData(unit: unit, heartRate: heartRate)
+    }
+    
+    init(unit:String, heartRate:Double, sessionIdentifier:UUID) {
+        self.timestamp = Date()
+        self.sensorName = "Heart Rate"
+        self.event = EventData(unit: unit, heartRate: heartRate)
+        self.sessionIdentifier = sessionIdentifier.description
     }
     
     func getHR() -> Double{

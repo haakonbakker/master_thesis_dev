@@ -11,10 +11,17 @@ import Foundation
 class Sensor: NSObject {
     var sensorName: SensorEnumeration
     var events:[Any]
+    var sessionIdentifier:UUID?
     init(sensorEnum:SensorEnumeration) {
         self.sensorName = sensorEnum
         self.events = []
         
+    }
+    
+    init(sensorEnum:SensorEnumeration, sessionIdentifier:UUID) {
+        self.sensorName = sensorEnum
+        self.events = []
+        self.sessionIdentifier = sessionIdentifier
     }
     
     func getNumberOfEvents() -> Int{
@@ -52,8 +59,24 @@ class Sensor: NSObject {
     }
     
     func exportEvents() -> String{
-        return "{\"info\":\"Must be overriden\", \"sensor\":\"\(self.sensorName)\"}\n"
+        if let session_uuid = self.sessionIdentifier?.description {
+            return "{\"info\":\"Must be overriden\", \"sensor\":\"\(self.sensorName)\", \"sessionIdentifier\":\"\(session_uuid))\"}\n"
+        }else{
+            return "{\"info\":\"Must be overriden\", \"sensor\":\"\(self.sensorName)\"}\n"
+        }
+        
     }
+    
+    func getEventAsString(event:Any) -> String{
+        if let session_uuid = self.sessionIdentifier?.description {
+            return "{\"info\":\"Must be overriden\", \"sensor\":\"\(self.sensorName)\", \"sessionIdentifier\":\"\(session_uuid))\"}\n"
+        }else{
+            return "{\"info\":\"Must be overriden\", \"sensor\":\"\(self.sensorName)\"}\n"
+        }
+        
+    }
+    
+    
 //    
 //    func getLastEvent() -> Event{
 //        fatalError("Must Override")

@@ -19,6 +19,12 @@ class AccelerometerSensor:Sensor, SensorInterface{
         
     }
     
+    override init(sensorEnum:SensorEnumeration = .Accelerometer, sessionIdentifier:UUID) {
+        super.init(sensorEnum: sensorEnum, sessionIdentifier:sessionIdentifier)
+        self.events = []
+        
+    }
+    
     override func getNumberOfEvents() -> Int{
         return self.events.count
     }

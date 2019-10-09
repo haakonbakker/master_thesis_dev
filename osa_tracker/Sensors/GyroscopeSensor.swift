@@ -45,6 +45,16 @@ class GyroscopeSensor: Sensor, GyroscopeInterface, ObservableObject {
         
     }
     
+    init(sessionIdentifier:UUID) {
+        motion = CMMotionManager()
+        timer = Timer()
+        gyroRotation = [0.0, 0.0, 0.0]
+        gyroData = GyroDataPoint()
+        super.init(sensorEnum: .GyroscopeSensor, sessionIdentifier:sessionIdentifier)
+        self.events = []
+        
+    }
+    
     func startGyros() {
         
        if motion.isGyroAvailable {

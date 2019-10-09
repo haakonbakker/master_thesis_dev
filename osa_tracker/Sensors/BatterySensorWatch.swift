@@ -23,6 +23,12 @@ class BatterySensorWatch: Sensor {
         self.events = []
     }
     
+    init(sensorEnum: SensorEnumeration = .BatterySensorWatch, samplingRate:Double, sessionIdentifier:UUID) {
+        self.samplingRate = samplingRate
+        super.init(sensorEnum: sensorEnum, sessionIdentifier:sessionIdentifier)
+        self.events = []
+    }
+    
     #if os(iOS)
     #else
     override func startSensor() -> Bool {
@@ -57,8 +63,16 @@ class BatterySensorWatch: Sensor {
         let batteryLevel = WKInterfaceDevice.current().batteryLevel
         let device = WKInterfaceDevice.current().model
         let batteryState = WKInterfaceDevice.current().batteryState.rawValue
-        let event = BatteryEvent(device: device, batteryLevel: batteryLevel, batteryState: batteryState)
-        self.events.append(event)
+        
+        
+        if let sessionIdentifier = self.sessionIdentifier {
+            let event = BatteryEvent(device: device, batteryLevel: batteryLevel, batteryState: batteryState, sessionIdentifier: sessionIdentifier)
+            self.events.append(event)
+        } else {
+            let event = BatteryEvent(device: device, batteryLevel: batteryLevel, batteryState: batteryState)
+            self.events.append(event)
+        }
+        
         self.exportEvent()
     }
     
@@ -88,7 +102,8 @@ class BatterySensorWatch: Sensor {
         } catch { print(error) }
     }
     
-    func getEventAsString(event:BatteryEvent) -> String{
+    override func getEventAsString(event:Any) -> String{
+        let event = event as! BatteryEvent
         do {
            // data we are getting from network request
             let encoder = JSONEncoder()

@@ -21,14 +21,14 @@ class Session:Identifiable{
     var sessionIdentifier:UUID
     
     
-    init(id:Int, wakeUpTime:Date, sensorList:[Sensor]){
+    init(id:Int, wakeUpTime:Date, sensorList:[Sensor], sessionIdentifier:UUID){
         self.id = id
         self.duration = "6h23m"
         self.timestamp = "June 9th to June 10th"
         self.start_time = Date()
         self.end_time = Date()
         self.hasEnded = false
-        self.sessionIdentifier = UUID()
+        self.sessionIdentifier = sessionIdentifier
         print(self.sessionIdentifier)
         self.sensorList = sensorList
         self.wakeUpTime = wakeUpTime

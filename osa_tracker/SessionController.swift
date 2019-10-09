@@ -42,15 +42,16 @@ class SessionController: ObservableObject{
     - Returns: A new Session instance.
     */
     func startSession(wakeUpTime:Date) -> Session{
+        let SESSION_UUID = UUID()
         #if os(iOS)
-        let sensorList = [GyroscopeSensor(), MicrophoneSensor(), BatterySensor(samplingRate: 5)]
+        let sensorList = [GyroscopeSensor(sessionIdentifier: SESSION_UUID), MicrophoneSensor(sessionIdentifier: SESSION_UUID), BatterySensor(samplingRate: 5, sessionIdentifier: SESSION_UUID)]
         #else
-        let sensorList = [GyroscopeSensor(), AccelerometerSensor(), BatterySensorWatch(samplingRate: 5), HeartRateSensor()]
+        let sensorList = [GyroscopeSensor(sessionIdentifier: SESSION_UUID), AccelerometerSensor(sessionIdentifier: SESSION_UUID), BatterySensorWatch(samplingRate: 5, sessionIdentifier: SESSION_UUID), HeartRateSensor(sessionIdentifier: SESSION_UUID)]
         #endif
         
 //        let sensorList = [BatterySensor(samplingRate: 5)]
         print("Will start the session")
-        currentSession = Session(id:3, wakeUpTime: wakeUpTime, sensorList: sensorList)
+        currentSession = Session(id:3, wakeUpTime: wakeUpTime, sensorList: sensorList, sessionIdentifier: SESSION_UUID)
         
         guard currentSession != nil else {
             print("No active session")
@@ -142,7 +143,7 @@ class SessionController: ObservableObject{
         
         // The following needs to be done:
         /*
-         - When saving the session, the uuid needs to be attached to all sensor-events
+         - When saving the session, the uuid needs to be attached to all sensor-events - DONE
          - Meta event should be created at the begining, and at the end
          - The recording.m4a also needs to get the uuid
          - The file on the watch needs to be sent to the phone and stored there.
@@ -159,10 +160,13 @@ class SessionController: ObservableObject{
         let file = currentSession!.sessionIdentifier.description + ".txt" //this is the file. we will write to and read from it
 
         var text = ""
+        // Looping over all the events in every sensor and storing in text variable.
         for sensor in currentSession!.sensorList{
-            text += sensor.exportEvents()
+            for event in sensor.events{
+                text += sensor.getEventAsString(event: event)
+                // text += "," // Could use this to separate JSON data
+            }
         }
-//        let text = "Hello world" //just a text
         print(text)
 
         if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {

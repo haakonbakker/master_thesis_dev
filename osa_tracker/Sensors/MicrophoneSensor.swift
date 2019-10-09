@@ -26,6 +26,15 @@ class MicrophoneSensor: Sensor, AVAudioRecorderDelegate, AVAudioPlayerDelegate, 
         super.init(sensorEnum: .MicrophoneSensor)
     }
     
+    
+    init(sessionIdentifier:UUID) {
+    //        self.sensorName = .MicrophoneSensor
+            self.sampleRate = 0
+            self.numberOfChannels = 0
+            super.init(sensorEnum: .MicrophoneSensor, sessionIdentifier:sessionIdentifier)
+        }
+    
+    
     override func startSensor() -> Bool {
         print("Will start Microphone")
         self.startRecording()
@@ -133,7 +142,7 @@ class MicrophoneSensor: Sensor, AVAudioRecorderDelegate, AVAudioPlayerDelegate, 
     }
     
     func endRecording(success: Bool) {
-            audioRecorder.stop()
+            //audioRecorder.stop()
     //        audioRecorder = nil
 
             if success {
