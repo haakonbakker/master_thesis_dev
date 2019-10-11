@@ -128,4 +128,33 @@ class GyroscopeSensor: Sensor, GyroscopeInterface, ObservableObject {
 
         } catch { print(error) }
     }
+    
+    
+    override func exportEvents() -> String{
+        var jsonString = ""
+        for event in self.events{
+            jsonString += self.getEventAsString(event: event as! GyroscopeEvent) + "\n" // Adding newline here - can we move this to the sessionController?
+        }
+        return jsonString
+        
+    }
+    
+    override func getEventAsString(event:Any) -> String{
+        let event = event as! GyroscopeEvent
+        do {
+           // data we are getting from network request
+            let encoder = JSONEncoder()
+            encoder.outputFormatting = .sortedKeys
+            let res = try encoder.encode(event)
+            print(res)
+            if let json = String(data: res, encoding: .utf8) {
+              print("json", json)
+                return json
+            }
+            
+            
+        } catch { print(error) }
+        return "Not able to return as string"
+        
+    }
 }

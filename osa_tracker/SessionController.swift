@@ -163,10 +163,12 @@ class SessionController: ObservableObject{
         // Looping over all the events in every sensor and storing in text variable.
         for sensor in currentSession!.sensorList{
             for event in sensor.events{
-                text += sensor.getEventAsString(event: event)
+                text += sensor.getEventAsString(event: event) + ","
                 // text += "," // Could use this to separate JSON data
             }
         }
+        text = String(text.dropLast()) // removing last ','
+        text = "[" + text + "]" // Producing valid JSON
         print(text)
 
         if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
