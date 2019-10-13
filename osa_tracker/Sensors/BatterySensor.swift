@@ -60,7 +60,7 @@ class BatterySensor: Sensor {
     func gatherEvent(){
         
         if let sessionIdentifier = self.sessionIdentifier {
-           let event = BatteryEvent(device: UIDevice.current.model, batteryLevel: UIDevice.current.batteryLevel, batteryState: UIDevice.current.batteryState.rawValue, sessionIdentifier: sessionIdentifier)
+            let event = BatteryEvent(device: UIDevice.current.model, batteryLevel: UIDevice.current.batteryLevel, batteryState: UIDevice.current.batteryState.rawValue, sessionIdentifier: sessionIdentifier.description)
             self.events.append(event)
         } else {
             let event = BatteryEvent(device: UIDevice.current.model, batteryLevel: UIDevice.current.batteryLevel, batteryState: UIDevice.current.batteryState.rawValue)

@@ -21,7 +21,7 @@ class BatteryEvent:EventProtocol, Codable {
     var sensorName: String
     var timestamp: Date
     var device:String
-    var sessionIdentifier:String?
+    var sessionIdentifier:String
     private var event:EventData
     
     init(device:String, batteryLevel:Float, batteryState:Int) {
@@ -29,14 +29,14 @@ class BatteryEvent:EventProtocol, Codable {
         self.timestamp = Date()
         self.sensorName = "Battery"
         self.event = EventData(batteryLevel: batteryLevel, batteryPercent: batteryLevel*100, batteryState: batteryState)
-        
+        self.sessionIdentifier = "NA"
     }
-    init(device:String, batteryLevel:Float, batteryState:Int, sessionIdentifier:UUID) {
+    init(device:String, batteryLevel:Float, batteryState:Int, sessionIdentifier:String?) {
         self.device = device
         self.timestamp = Date()
         self.sensorName = "Battery"
         self.event = EventData(batteryLevel: batteryLevel, batteryPercent: batteryLevel*100, batteryState: batteryState)
-        self.sessionIdentifier = sessionIdentifier.description
+        self.sessionIdentifier = sessionIdentifier ?? "NA"
     }
     
     func getPercent() -> Float{

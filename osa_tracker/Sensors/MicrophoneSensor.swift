@@ -72,7 +72,7 @@ class MicrophoneSensor: Sensor, AVAudioRecorderDelegate, AVAudioPlayerDelegate, 
         }
         
 //        Now we are ready to start the recording
-        let audioFilename = getDocumentsDirectory().appendingPathComponent("recording.m4a")
+        let audioFilename = getDocumentsDirectory().appendingPathComponent("\(self.sessionIdentifier?.description ?? "recording").m4a")
 
         let settings = [
             AVFormatIDKey: Int(kAudioFormatMPEG4AAC),

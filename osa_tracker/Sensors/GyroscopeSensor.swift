@@ -75,7 +75,7 @@ class GyroscopeSensor: Sensor, GyroscopeInterface, ObservableObject {
                 self.gyroRotation = [x, y, z]
                 
                 // Add the event to the dataset
-                let event = GyroscopeEvent(x: x, y: y, z: z, timestamp: timestamp)
+                let event = GyroscopeEvent(x: x, y: y, z: z, timestamp: timestamp, sessionIdentifier:self.sessionIdentifier?.description ?? "NA")
                 self.events.append(event)
                 self.exportEvent()
                 // Use the gyroscope data in your app.

@@ -11,4 +11,5 @@ import Foundation
 protocol EventProtocol:Codable {
     var timestamp:Date { get set }
     var sensorName:String { get set }
+    var sessionIdentifier:String { get set }
 }

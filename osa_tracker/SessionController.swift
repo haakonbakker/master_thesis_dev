@@ -145,7 +145,7 @@ class SessionController: ObservableObject{
         /*
          - When saving the session, the uuid needs to be attached to all sensor-events - DONE
          - Meta event should be created at the begining, and at the end
-         - The recording.m4a also needs to get the uuid
+         - The recording.m4a also needs to get the uuid - DONE
          - The file on the watch needs to be sent to the phone and stored there.
          */
         
@@ -157,7 +157,11 @@ class SessionController: ObservableObject{
         print("Will export events to file")
         
 //        let file = "file.txt" //this is the file. we will write to and read from it
-        let file = currentSession!.sessionIdentifier.description + ".txt" //this is the file. we will write to and read from it
+        let date_string = Date().date_to_string()
+        
+        
+        print(date_string)
+        let filename = date_string + "-" + currentSession!.sessionIdentifier.description + ".json" //this is the filename. We will write it to the system
 
         var text = ""
         // Looping over all the events in every sensor and storing in text variable.
@@ -171,28 +175,34 @@ class SessionController: ObservableObject{
         text = "[" + text + "]" // Producing valid JSON
         print(text)
 
-        if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
-
-            let fileURL = dir.appendingPathComponent(file)
-            print(fileURL)
-            //writing
-            do {
-                try text.write(to: fileURL, atomically: false, encoding: .utf8)
-            }
-            catch {/* error handling here */}
-
-            //reading
-            do {
-                let text2 = try String(contentsOf: fileURL, encoding: .utf8)
-            }
-            catch {/* error handling here */}
-        }
+        
+        let fh = FileHandler()
+        let _ = fh.writeFile(filename: filename, contents: text)
+        
+//        if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
+//
+//            let fileURL = dir.appendingPathComponent(file)
+//            print(fileURL)
+//            //writing
+//            do {
+//                try text.write(to: fileURL, atomically: false, encoding: .utf8)
+//            }
+//            catch {/* error handling here */}
+//
+//            //reading
+//            do {
+//                let text2 = try String(contentsOf: fileURL, encoding: .utf8)
+//            }
+//            catch {/* error handling here */}
+//        }
     }
     
     
 //    func getLatestEvent(sensor_enum:SensorEnumeration){
 //        currentSession!.getLatestEvent(sensor_enum: sensor_enum)
 //    }
+    
+    
     
     func getLatestBatteryWatchEvent() -> String{
         let event = currentSession!.getLatestBatteryWatchEvent()

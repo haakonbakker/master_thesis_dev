@@ -25,5 +25,13 @@ extension Date{
     var tomorrow: Date? {
         return Calendar.current.date(byAdding: .day, value: 1, to: self)
     }
+    
+    func date_to_string() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        return dateFormatter.string(from: Date())
+    }
+    
 
 }

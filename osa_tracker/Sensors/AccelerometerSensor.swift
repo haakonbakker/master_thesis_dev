@@ -48,7 +48,7 @@ class AccelerometerSensor:Sensor, SensorInterface{
                 // Use the accelerometer data in your app.
                 
                 // Add the event to the dataset
-                let event = AccelerometerEvent(x: x, y: y, z: z, timestamp: timestamp)
+                let event = AccelerometerEvent(x: x, y: y, z: z, timestamp: timestamp, sessionIdentifier: self.sessionIdentifier?.description ?? "NA")
                 self.events.append(event)
                 self.exportEvent()
                 
