@@ -7,6 +7,8 @@
 //
 
 import SwiftUI
+import WatchConnectivity
+
 
 struct ContentView : View {
     
@@ -22,7 +24,6 @@ struct ContentView : View {
         let cal: Calendar = Calendar(identifier: .gregorian)
         let newDate: Date = cal.date(bySettingHour: 6, minute: 30, second: 0, of: date)!
         _wakeUpTime = State(initialValue: newDate)
-        
     }
     
     var sessionController = SessionController()

@@ -10,7 +10,7 @@ import Foundation
 
 struct HeartRateEvent:EventProtocol {
     var sensorName: String
-    var timestamp: Date
+    var timestamp: TimeInterval
     var sessionIdentifier:String
     
     private var event:EventData
@@ -22,14 +22,14 @@ struct HeartRateEvent:EventProtocol {
     
     
     init(unit:String, heartRate:Double) {
-        self.timestamp = Date()
+        self.timestamp = Date().timeIntervalSince1970
         self.sensorName = "Heart Rate"
         self.event = EventData(unit: unit, heartRate: heartRate)
         self.sessionIdentifier = "NA"
     }
     
     init(unit:String, heartRate:Double, sessionIdentifier:UUID) {
-        self.timestamp = Date()
+        self.timestamp = Date().timeIntervalSince1970
         self.sensorName = "Heart Rate"
         self.event = EventData(unit: unit, heartRate: heartRate)
         self.sessionIdentifier = sessionIdentifier.description

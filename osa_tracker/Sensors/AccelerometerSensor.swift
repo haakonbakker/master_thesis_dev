@@ -94,9 +94,9 @@ class AccelerometerSensor:Sensor, SensorInterface{
              let encoder = JSONEncoder()
              encoder.outputFormatting = .sortedKeys
              let res = try encoder.encode(event)
-             print(res)
+//             print(res)
              if let json = String(data: res, encoding: .utf8) {
-               print("json", json)
+//               print("json", json)
                  return json
              }
              

@@ -51,8 +51,13 @@
 		6B3F6D01233B8334005752D4 /* AccelerometerEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3F6CFF233B82B2005752D4 /* AccelerometerEvent.swift */; };
 		6B3F6D03233B85A7005752D4 /* BatteryEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B566E7123337339003D6B1F /* BatteryEvent.swift */; };
 		6B3F6D06233B87B7005752D4 /* BatterySensorWatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3F6D04233B87AA005752D4 /* BatterySensorWatch.swift */; };
+		6B49BC112356EB1600C85D4B /* FileHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B25C58523533EEA00A18937 /* FileHandler.swift */; };
 		6B566E7023337313003D6B1F /* BatterySensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B566E6F23337313003D6B1F /* BatterySensor.swift */; };
 		6B566E7223337339003D6B1F /* BatteryEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B566E7123337339003D6B1F /* BatteryEvent.swift */; };
+		6B99568D2357081300DFF4DC /* CloudHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B99568C2357081300DFF4DC /* CloudHandler.swift */; };
+		6B99568F2357093B00DFF4DC /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B99568E2357093B00DFF4DC /* CloudKit.framework */; };
+		6B9956912357094100DFF4DC /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B9956902357094100DFF4DC /* CloudKit.framework */; };
+		6B995692235709D300DFF4DC /* CloudHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B99568C2357081300DFF4DC /* CloudHandler.swift */; };
 		6BAADBC12346065A00574202 /* ext_Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B35A623233234720095D911 /* ext_Date.swift */; };
 		6BAADBC323461D6E00574202 /* BatterySensorWatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3F6D04233B87AA005752D4 /* BatterySensorWatch.swift */; };
 		6BAD28EA231FA18900ECEEA8 /* SensorEnumeration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BAD28E9231FA18900ECEEA8 /* SensorEnumeration.swift */; };
@@ -176,6 +181,10 @@
 		6B3F6D04233B87AA005752D4 /* BatterySensorWatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatterySensorWatch.swift; sourceTree = "<group>"; };
 		6B566E6F23337313003D6B1F /* BatterySensor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatterySensor.swift; sourceTree = "<group>"; };
 		6B566E7123337339003D6B1F /* BatteryEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryEvent.swift; sourceTree = "<group>"; };
+		6B99568B2357041500DFF4DC /* osa_tracker_watch WatchKit App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "osa_tracker_watch WatchKit App.entitlements"; sourceTree = "<group>"; };
+		6B99568C2357081300DFF4DC /* CloudHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudHandler.swift; sourceTree = "<group>"; };
+		6B99568E2357093B00DFF4DC /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS6.1.sdk/System/Library/Frameworks/CloudKit.framework; sourceTree = DEVELOPER_DIR; };
+		6B9956902357094100DFF4DC /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		6BAD28E9231FA18900ECEEA8 /* SensorEnumeration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorEnumeration.swift; sourceTree = "<group>"; };
 		6BAD28EB231FACCF00ECEEA8 /* GyroscopeSensor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GyroscopeSensor.swift; sourceTree = "<group>"; };
 		6BAD28ED231FB65000ECEEA8 /* GyroscopeDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GyroscopeDataView.swift; sourceTree = "<group>"; };
@@ -220,6 +229,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6BE9C505233B8F1E000D3E76 /* HealthKit.framework in Frameworks */,
+				6B99568F2357093B00DFF4DC /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -228,6 +238,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6BF319252316875600E0FBC0 /* AudioToolbox.framework in Frameworks */,
+				6B9956912357094100DFF4DC /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -288,6 +299,7 @@
 		6B3F6CB0233B6358005752D4 /* osa_tracker_watch WatchKit App */ = {
 			isa = PBXGroup;
 			children = (
+				6B99568B2357041500DFF4DC /* osa_tracker_watch WatchKit App.entitlements */,
 				6B3F6CB1233B6358005752D4 /* Interface.storyboard */,
 				6B3F6CB4233B635A005752D4 /* Assets.xcassets */,
 				6B3F6CB6233B635A005752D4 /* Info.plist */,
@@ -327,6 +339,14 @@
 				6B3F6CE0233B694E005752D4 /* SessionWatchView.swift */,
 			);
 			path = SessionView;
+			sourceTree = "<group>";
+		};
+		6B9956842356FC3400DFF4DC /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				6B99568C2357081300DFF4DC /* CloudHandler.swift */,
+			);
+			path = Shared;
 			sourceTree = "<group>";
 		};
 		6BAD28F1231FC54300ECEEA8 /* Extensions */ = {
@@ -383,6 +403,8 @@
 		6BF319232316875600E0FBC0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6B9956902357094100DFF4DC /* CloudKit.framework */,
+				6B99568E2357093B00DFF4DC /* CloudKit.framework */,
 				6BE9C504233B8F1E000D3E76 /* HealthKit.framework */,
 				6BF319242316875600E0FBC0 /* AudioToolbox.framework */,
 			);
@@ -418,6 +440,7 @@
 		6BFBF9D02315BD0400373913 /* osa_tracker */ = {
 			isa = PBXGroup;
 			children = (
+				6B9956842356FC3400DFF4DC /* Shared */,
 				6BAD28F4231FC82500ECEEA8 /* Network */,
 				6BAD28F1231FC54300ECEEA8 /* Extensions */,
 				6BF319222316875600E0FBC0 /* osa_tracker.entitlements */,
@@ -731,6 +754,7 @@
 				6B3F6CE6233B6BE2005752D4 /* SensorEnumeration.swift in Sources */,
 				6B3F6CF8233B6C6D005752D4 /* EventInterface.swift in Sources */,
 				6B3F6CFB233B6CB0005752D4 /* Splunk_HEC.swift in Sources */,
+				6B49BC112356EB1600C85D4B /* FileHandler.swift in Sources */,
 				6B3F6CF7233B6C6D005752D4 /* GyroscopeInterface.swift in Sources */,
 				6B3F6CF2233B6C69005752D4 /* GyroscopeEvent.swift in Sources */,
 				6B3F6CC7233B635A005752D4 /* NotificationController.swift in Sources */,
@@ -740,6 +764,7 @@
 				6B3F6CF6233B6C6D005752D4 /* AudioSensorInterface.swift in Sources */,
 				6B3F6CC5233B635A005752D4 /* ExtensionDelegate.swift in Sources */,
 				6B3F6D03233B85A7005752D4 /* BatteryEvent.swift in Sources */,
+				6B995692235709D300DFF4DC /* CloudHandler.swift in Sources */,
 				6B3F6CED233B6C5A005752D4 /* HeartRateSensor.swift in Sources */,
 				6B3F6CF0233B6C69005752D4 /* EventProtocol.swift in Sources */,
 				6B3F6CC9233B635A005752D4 /* NotificationView.swift in Sources */,
@@ -785,6 +810,7 @@
 				6BAD28F6231FC83100ECEEA8 /* Splunk_HEC.swift in Sources */,
 				6B25C58623533EEA00A18937 /* FileHandler.swift in Sources */,
 				6B35A624233234720095D911 /* ext_Date.swift in Sources */,
+				6B99568D2357081300DFF4DC /* CloudHandler.swift in Sources */,
 				6B35A62B233264010095D911 /* HeartRateEvent.swift in Sources */,
 				6BF319212316835200E0FBC0 /* MicrophoneSensor.swift in Sources */,
 				6BAD28F8231FF2A500ECEEA8 /* ext_String.swift in Sources */,
@@ -884,6 +910,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "osa_tracker_watch WatchKit App/osa_tracker_watch WatchKit App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4SJ5BPZ2QK;
 				IBSC_MODULE = osa_tracker_watch_WatchKit_Extension;
@@ -903,6 +930,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "osa_tracker_watch WatchKit App/osa_tracker_watch WatchKit App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4SJ5BPZ2QK;
 				IBSC_MODULE = osa_tracker_watch_WatchKit_Extension;

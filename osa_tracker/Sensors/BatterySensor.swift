@@ -80,16 +80,16 @@ class BatterySensor: Sensor {
     
     override func exportEvent(){
         let event = self.events[0] as! BatteryEvent
-        print("Type of event:")
-        print("\(type(of: event))")
+//        print("Type of event:")
+//        print("\(type(of: event))")
         do {
            // data we are getting from network request
             let encoder = JSONEncoder()
             encoder.outputFormatting = .prettyPrinted
             let res = try encoder.encode(event)
-            print(res)
+//            print(res)
             if let json = String(data: res, encoding: .utf8) {
-              print("json", json)
+//              print("json", json)
             }
             
 

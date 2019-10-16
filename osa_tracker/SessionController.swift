@@ -173,12 +173,14 @@ class SessionController: ObservableObject{
         }
         text = String(text.dropLast()) // removing last ','
         text = "[" + text + "]" // Producing valid JSON
-        print(text)
+//        print(text)
 
         
         let fh = FileHandler()
         let _ = fh.writeFile(filename: filename, contents: text)
         
+        let ch = CloudHandler()
+        ch.upload_text(sessionIdentifier: self.currentSession?.sessionIdentifier.description ?? "NoSessionIdentifierProvided", text: text)
 //        if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
 //
 //            let fileURL = dir.appendingPathComponent(file)

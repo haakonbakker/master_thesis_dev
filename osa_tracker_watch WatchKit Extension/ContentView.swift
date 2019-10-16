@@ -7,9 +7,15 @@
 //
 
 import SwiftUI
+import WatchConnectivity
 
 struct ContentView: View {
     @State private var showSessionWatchView: Bool = false
+    
+    
+    init(){
+        print("\(#function)")
+    }
     
     var body: some View {
         VStack{

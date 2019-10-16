@@ -19,21 +19,21 @@ class BatteryEvent:EventProtocol, Codable {
     }
     
     var sensorName: String
-    var timestamp: Date
+    var timestamp: TimeInterval
     var device:String
     var sessionIdentifier:String
     private var event:EventData
     
     init(device:String, batteryLevel:Float, batteryState:Int) {
         self.device = device
-        self.timestamp = Date()
+        self.timestamp = Date().timeIntervalSince1970
         self.sensorName = "Battery"
         self.event = EventData(batteryLevel: batteryLevel, batteryPercent: batteryLevel*100, batteryState: batteryState)
         self.sessionIdentifier = "NA"
     }
     init(device:String, batteryLevel:Float, batteryState:Int, sessionIdentifier:String?) {
         self.device = device
-        self.timestamp = Date()
+        self.timestamp = Date().timeIntervalSince1970
         self.sensorName = "Battery"
         self.event = EventData(batteryLevel: batteryLevel, batteryPercent: batteryLevel*100, batteryState: batteryState)
         self.sessionIdentifier = sessionIdentifier ?? "NA"

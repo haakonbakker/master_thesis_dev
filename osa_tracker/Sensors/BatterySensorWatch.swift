@@ -66,7 +66,7 @@ class BatterySensorWatch: Sensor {
         
         
         if let sessionIdentifier = self.sessionIdentifier {
-            let event = BatteryEvent(device: device, batteryLevel: batteryLevel, batteryState: batteryState, sessionIdentifier: sessionIdentifier)
+            let event = BatteryEvent(device: device, batteryLevel: batteryLevel, batteryState: batteryState, sessionIdentifier: sessionIdentifier.description)
             self.events.append(event)
         } else {
             let event = BatteryEvent(device: device, batteryLevel: batteryLevel, batteryState: batteryState)

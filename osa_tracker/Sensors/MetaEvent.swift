@@ -11,7 +11,7 @@ import Foundation
 struct MetaEvent: EventProtocol, Codable {
     var sessionIdentifier: String
     
-    var timestamp: Date
+    var timestamp: TimeInterval
     
     var sensorName: String
     
@@ -20,7 +20,7 @@ struct MetaEvent: EventProtocol, Codable {
     }
     
     init(sensorList:[String], sessionIdentifier:String) {
-        self.timestamp = Date()
+        self.timestamp = Date().timeIntervalSince1970
         self.sensorName = "MetaEvent"
         self.sessionIdentifier = sessionIdentifier
     }
