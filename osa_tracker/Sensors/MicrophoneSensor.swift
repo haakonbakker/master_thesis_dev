@@ -142,19 +142,19 @@ class MicrophoneSensor: Sensor, AVAudioRecorderDelegate, AVAudioPlayerDelegate, 
     }
     
     func endRecording(success: Bool) {
-            //audioRecorder.stop()
-    //        audioRecorder = nil
+        // audioRecorder.stop()
+        // audioRecorder = nil
 
-            if success {
-    //            recordButton.setTitle("Tap to Re-record", for: .normal)
-                print("Finished recording!")
-            } else {
-    //            recordButton.setTitle("Tap to Record", for: .normal)
-                // recording failed :(
-            }
+        if success {
+            // recordButton.setTitle("Tap to Re-record", for: .normal)
+            print("Finished recording!")
+        } else {
+            // recordButton.setTitle("Tap to Record", for: .normal)
+            // recording failed :(
+        }
             
 
-        }
+    }
     
     func saveRecording(){
         print("Will save the audio")
