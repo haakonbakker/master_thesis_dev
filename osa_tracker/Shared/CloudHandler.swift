@@ -20,6 +20,8 @@ class CloudHandler{
     func upload_text(sessionIdentifier:String, text:String){
         let fh = FileHandler()
         let fileUrl = fh.write_file(filename: "test.txt", contents: text)
+        print("The following will be writted to iCloud:")
+        print(text)
         if let fileURL = fileUrl{
             
             
@@ -38,7 +40,7 @@ class CloudHandler{
             CKContainer.default().publicCloudDatabase.save(sessionRecord) { [unowned self] record, error in
                 DispatchQueue.main.async {
                     if let error = error {
-                        print("Error: \(error.localizedDescription)")
+                        print("Upload Error: \(error.localizedDescription)")
                     } else {
                         print("Done!")
                         print(record)

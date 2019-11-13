@@ -74,7 +74,10 @@ class AccelerometerSensor:Sensor, SensorInterface{
     */
     override func stopSensor() -> Bool{
         print("Will stop the accelerometer sensor")
-        // TODO: stop the accelerometer
+        // TODO: stop the
+        self.timer?.invalidate()
+        self.motion.stopAccelerometerUpdates()
+
         return true
     }
     

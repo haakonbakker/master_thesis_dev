@@ -74,6 +74,9 @@ class HeartRateSensor:Sensor, HKWorkoutSessionDelegate{
     }
     
     override func stopSensor() -> Bool {
+        self.workoutSession(session!, didChangeTo: .ended, from: .running, date: Date())
+        self.session?.stopActivity(with: Date())
+        self.workoutDidEnd(Date())
         session?.end()
         return true
     }
@@ -130,7 +133,8 @@ class HeartRateSensor:Sensor, HKWorkoutSessionDelegate{
                 case .running:
                     workoutDidStart(date)
                 case .ended:
-                    workoutDidEnd(date)
+                    self.healthStore.stop(currentQuery!)
+                    self.workoutDidEnd(date)
                 default:
                     print("Unexpected state \(toState)")
             }
@@ -151,8 +155,6 @@ class HeartRateSensor:Sensor, HKWorkoutSessionDelegate{
         }
         
         func workoutDidEnd(_ date : Date) {
-                healthStore.stop(self.currentQuery!)
-    //            label.setText("---")
                 session = nil
         }
         

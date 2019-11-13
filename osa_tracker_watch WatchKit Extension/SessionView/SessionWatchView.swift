@@ -18,6 +18,7 @@ struct SessionWatchView: View {
     
     @State private var sessionStarted: Bool = false
     @State private var sessionEnded:Bool = false
+    var onDismiss: () -> ()
     
     // Timer to update the view
     var timer: Timer {
@@ -37,6 +38,12 @@ struct SessionWatchView: View {
                 if(sessionEnded){
                     VStack{
                         Text("Session ended").font(.caption)
+                        Button(action: {
+                            print("Pressed going home");
+                            self.onDismiss()
+                        }) {
+                            Text("Home")
+                        }
                     }.onAppear(perform: {self.timer.invalidate()})
                 }else{
                     VStack(alignment: .leading){
@@ -92,6 +99,6 @@ struct SessionWatchView: View {
 
 struct SessionView_Previews: PreviewProvider {
     static var previews: some View {
-        SessionWatchView()
+        SessionWatchView(onDismiss: {})
     }
 }

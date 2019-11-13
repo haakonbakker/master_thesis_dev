@@ -28,7 +28,7 @@ struct ContentView: View {
             }) {
                 Text("Go to sleep")
             }.sheet(isPresented: self.$showSessionWatchView){
-                SessionWatchView()
+                SessionWatchView(onDismiss: {self.showSessionWatchView = false})
             }
         }
     }

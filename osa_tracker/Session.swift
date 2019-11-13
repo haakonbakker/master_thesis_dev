@@ -39,12 +39,14 @@ class Session:Identifiable{
 
     // Start the session here
     func startSession() -> Bool{
+        self.startSensors()
         self.start_time = Date()
         return true
     }
     
     // End the session here
     func endSession() -> Bool{
+        self.stopSensors()
         self.end_time = Date()
         return true
     }
@@ -92,12 +94,47 @@ class Session:Identifiable{
         
     }
     
-    #if os(iOS)
-    #else
+    #if os(watchOS)
     func getLatestHREvent() -> HeartRateEvent?{
         var heartRateSensor = self.sensorDict[.HeartRateSensor]![0] as! HeartRateSensor
         return heartRateSensor.getLastEvent()
     }
     #endif
     
+    
+    /**
+     Will stop all the sensors in the sensorList.
+     */
+    func stopSensors() -> Bool {        
+        for sensor in self.sensorList{
+            sensor.stopSensor()
+        }
+        return true
+    }
+    
+    /**
+    Will start all the sensors in the sensorList.
+     */
+    func startSensors() -> Bool {
+        for sensor in self.sensorList{
+            sensor.startSensor()
+        }
+        return true
+    }
+    
+    
+    /**
+     Will return the number of events gathered by all the sensors combined
+     
+     - Returns: The number of events as `Int`.
+     */
+    func getNumberOfEvents() -> Int {
+        var numberOfEvents = 0
+        
+        for sensor in self.sensorList {
+            numberOfEvents += sensor.getNumberOfEvents()
+        }
+
+        return numberOfEvents
+    }
 }

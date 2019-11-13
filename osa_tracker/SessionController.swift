@@ -24,12 +24,23 @@ class SessionController: ObservableObject{
 
     var gyroscopeSensor:GyroscopeSensor!
     
+    
+    var eventTimer: Timer {
+        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) {_ in
+            let numberOfEvents = self.getNumberOfEvents()
+            print("Number of events: ", numberOfEvents)
+        }
+    }
+    
     init() {
         
         
         // Splunk setup
-        let spl_hec = SplunkHEC(splunkInstance: SplunkInstance(theProtocol: "http", port: "8088", ip: "127.0.0.1"))
+//        let spl_hec = SplunkHEC(splunkInstance: SplunkInstance(theProtocol: "http", port: "8088", ip: "127.0.0.1"))
+//        print(spl_hec)
     }
+    
+    
     
     func getSessions() -> [Session]{
         let sessions:[Session] = []
@@ -58,27 +69,20 @@ class SessionController: ObservableObject{
             fatalError("currentSession is nil - cannot handle")
         }
         
-        for sensor in self.currentSession!.sensorList {
-            sensor.startSensor()
-        }
+        currentSession?.startSession()
+        
+        // Fire the timer, so that events will be processes batchwise.
+        self.eventTimer.fire()
         
         return currentSession!
     }
     
     /**
-        
+        Will call the session object and end the current session.
      */
     func endSession(){
         if(self.currentSession?.hasEnded == false){
-            for sensor in (self.currentSession?.sensorList)! {
-                sensor.stopSensor()
-                if sensor.events.count > 0 {
-                    sensor.exportEvent()
-                }
-                
-            }
-            
-            self.currentSession?.end_time = Date()
+            self.currentSession?.endSession()
             self.currentSession?.hasEnded = true
             self.exportEvents()
             print("Session has ended")
@@ -122,21 +126,13 @@ class SessionController: ObservableObject{
     }
 
     /**
-     Will return the number of events gathered by all the sensors combined
+     Will return the number of events gathered by the session
      */
     func getNumberOfEvents() -> Int{
         
         guard self.currentSession != nil else { /* Handle nil case */ return 0 }
         
-        // Should do:
-        // For every sensor; return count
-        var numberOfEvents = 0
-        
-        for sensor in self.currentSession!.sensorList {
-            numberOfEvents += sensor.getNumberOfEvents()
-        }
-
-        return numberOfEvents
+        return self.currentSession?.getNumberOfEvents() ?? 0
     }
     
     func exportEvents(){
@@ -181,22 +177,7 @@ class SessionController: ObservableObject{
         
         let ch = CloudHandler()
         ch.upload_text(sessionIdentifier: self.currentSession?.sessionIdentifier.description ?? "NoSessionIdentifierProvided", text: text)
-//        if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
-//
-//            let fileURL = dir.appendingPathComponent(file)
-//            print(fileURL)
-//            //writing
-//            do {
-//                try text.write(to: fileURL, atomically: false, encoding: .utf8)
-//            }
-//            catch {/* error handling here */}
-//
-//            //reading
-//            do {
-//                let text2 = try String(contentsOf: fileURL, encoding: .utf8)
-//            }
-//            catch {/* error handling here */}
-//        }
+
     }
     
     
