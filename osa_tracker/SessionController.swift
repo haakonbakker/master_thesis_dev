@@ -26,9 +26,10 @@ class SessionController: ObservableObject{
     
     
     var eventTimer: Timer {
-        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) {_ in
+        Timer.scheduledTimer(withTimeInterval: 5, repeats: true) {_ in
             let numberOfEvents = self.getNumberOfEvents()
             print("Number of events: ", numberOfEvents)
+            self.splitSession()
         }
     }
     
@@ -72,8 +73,9 @@ class SessionController: ObservableObject{
         currentSession?.startSession()
         
         // Fire the timer, so that events will be processes batchwise.
-        self.eventTimer.fire()
         
+        self.eventTimer.fire()
+        RunLoop.current.add(self.eventTimer, forMode: .default)
         return currentSession!
     }
     
@@ -89,8 +91,16 @@ class SessionController: ObservableObject{
         }else{
             print("Session already ended")
         }
-        
-        
+    }
+    
+    /**
+     This method should be called at an interval during a session.
+     It collects events that the sensors has gathered until this point.
+     */
+    func splitSession(){
+        let splitTime = Date()
+        let ssplit = SessionSplitter(session: self.currentSession!)
+        ssplit.splitSession(date:splitTime)
     }
     
     /**

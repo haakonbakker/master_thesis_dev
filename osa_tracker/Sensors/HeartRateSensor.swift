@@ -133,7 +133,8 @@ class HeartRateSensor:Sensor, HKWorkoutSessionDelegate{
                 case .running:
                     workoutDidStart(date)
                 case .ended:
-                    self.healthStore.stop(currentQuery!)
+                    guard let query = currentQuery else { workoutDidEnd(date); return}
+                    self.healthStore.stop(query)
                     self.workoutDidEnd(date)
                 default:
                     print("Unexpected state \(toState)")

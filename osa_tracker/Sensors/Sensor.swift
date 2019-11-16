@@ -76,6 +76,10 @@ class Sensor: NSObject {
         
     }
     
+    func getSplitEvents() -> String{
+//        fatalError("Must Override")
+        return "NA"
+    }
     
 //    
 //    func getLastEvent() -> Event{

@@ -105,7 +105,6 @@ class BatterySensorWatch: Sensor {
     override func getEventAsString(event:Any) -> String{
         let event = event as! BatteryEvent
         do {
-           // data we are getting from network request
             let encoder = JSONEncoder()
             encoder.outputFormatting = .sortedKeys
             let res = try encoder.encode(event)
@@ -132,4 +131,38 @@ class BatterySensorWatch: Sensor {
     func getLastEvent() -> BatteryEvent{
         return self.events.last as! BatteryEvent
     }
+    
+    override func getSplitEvents() -> String{
+        if(self.events.count == 0){
+            return ""
+        }
+        
+        
+        // First split the array to get a reasonable number of events
+        // How many to split? Depends on the sensor
+        
+        let indexToSplitAt = self.getIndexToSplitAt()
+        
+        print(indexToSplitAt)
+        var splittedEvents = self.events[0...indexToSplitAt]
+        self.events = Array(self.events[indexToSplitAt...self.events.count-1])
+        
+        var jsonString = ""
+        for event in splittedEvents{
+            jsonString += self.getEventAsString(event: event as! BatteryEvent) // Adding newline here - can we move this to the sessionController?
+            jsonString += ","
+        }
+        print(jsonString)
+//        jsonString = "[" + jsonString + "]" // Producing valid JSON
+        return jsonString
+    }
+    
+    func getIndexToSplitAt() -> Int{
+        if self.events.count < 200 {
+            return self.events.count - 1
+        }else{
+            return 200
+        }
+    }
+    
 }

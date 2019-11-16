@@ -51,42 +51,12 @@ class Session:Identifiable{
         return true
     }
     
+    /**
+     Will get the session's wake up time
+     */
     func getWakeUpTime() -> Date {
         return self.wakeUpTime
     }
-    
-//    func getLatestEvent(sensor_enum:SensorEnumeration) -> Any?{
-////        print("Sensor_enum: ", sensor_enum)
-////        for sensor in self.sensorList{
-////            print("Type of sensor: ", type(of: sensor))
-////            if (type(of:sensor.sensorName) == type(of: sensor_enum))  {
-////                print("The sensor is a match!")
-////            }
-//////
-////            if case .sensor_enum.self = sensor.sensorName{
-////                print("Battery sensor")
-////            }
-////        }
-//
-//        for sensor in self.sensorDict{
-//            print(sensor.key)
-//            print(sensor_enum)
-//            if(sensor_enum == sensor.key){
-//                print("Match on: ")
-//                print(sensor.key)
-//                print(sensor_enum)
-//            }
-//        }
-//        return nil
-//    }
-    
-//    func getSensor(type:Sensor) -> Sensor{
-//        for sensor in self.sensorList{
-//            if(type(of: sensor) == type(of:type)){
-//                return sensor
-//            }
-//        }
-//    }
     
     func getLatestBatteryWatchEvent() -> BatteryEvent{
         var batterySensor = self.sensorDict[.BatterySensorWatch]![0] as! BatterySensorWatch
