@@ -15,6 +15,9 @@ import SwiftUI
 /// Control every session
 class SessionController: ObservableObject{
 
+    
+    
+    
     @Published var currentSession:Session?
     #if os(iOS)
     var microphoneSensor:MicrophoneSensor!
@@ -23,15 +26,8 @@ class SessionController: ObservableObject{
     #endif
 
     var gyroscopeSensor:GyroscopeSensor!
+    var eventTimer:Timer?
     
-    
-    var eventTimer: Timer {
-        Timer.scheduledTimer(withTimeInterval: 5, repeats: true) {_ in
-            let numberOfEvents = self.getNumberOfEvents()
-            print("Number of events: ", numberOfEvents)
-            self.splitSession()
-        }
-    }
     
     init() {
         
@@ -73,9 +69,12 @@ class SessionController: ObservableObject{
         currentSession?.startSession()
         
         // Fire the timer, so that events will be processes batchwise.
-        
-        self.eventTimer.fire()
-        RunLoop.current.add(self.eventTimer, forMode: .default)
+        self.eventTimer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) {_ in
+            let numberOfEvents = self.getNumberOfEvents()
+            print("Number of events: ", numberOfEvents)
+            self.splitSession()
+        }
+
         return currentSession!
     }
     
@@ -88,6 +87,13 @@ class SessionController: ObservableObject{
             self.currentSession?.hasEnded = true
             self.exportEvents()
             print("Session has ended")
+            
+            if self.eventTimer != nil {
+              self.eventTimer?.invalidate()
+              self.eventTimer = nil
+            }
+            self.eventTimer = nil
+            
         }else{
             print("Session already ended")
         }
@@ -98,6 +104,11 @@ class SessionController: ObservableObject{
      It collects events that the sensors has gathered until this point.
      */
     func splitSession(){
+        if(self.currentSession == nil){
+            print("@Func-splitSession in SessionController")
+            return
+        }
+        
         let splitTime = Date()
         let ssplit = SessionSplitter(session: self.currentSession!)
         ssplit.splitSession(date:splitTime)

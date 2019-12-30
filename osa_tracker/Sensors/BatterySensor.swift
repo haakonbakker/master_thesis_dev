@@ -127,6 +127,6 @@ class BatterySensor: Sensor {
         for event in self.events{
             jsonString += self.getEventAsString(event: event as! BatteryEvent) + "\n" // Adding newline here - can we move this to the sessionController?
         }
-        return jsonString
+//        return jsonString
     }
 }
