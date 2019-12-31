@@ -19,6 +19,7 @@ class Session:Identifiable{
     var sensorList:[Sensor]
     var sensorDict:Dictionary<SensorEnumeration, [Sensor]>
     var sessionIdentifier:UUID
+    var eventList:[Data]
     
     
     init(id:Int, wakeUpTime:Date, sensorList:[Sensor], sessionIdentifier:UUID){
@@ -35,6 +36,7 @@ class Session:Identifiable{
         self.sensorDict = Dictionary(grouping: self.sensorList, by: {$0.sensorName})
         print(self.sensorDict)
         print("****************")
+        self.eventList = []
     }
 
     // Start the session here
@@ -58,16 +60,21 @@ class Session:Identifiable{
         return self.wakeUpTime
     }
     
+    #if os(watchOS)
     func getLatestBatteryWatchEvent() -> BatteryEvent{
         var batterySensor = self.sensorDict[.BatterySensorWatch]![0] as! BatterySensorWatch
         return batterySensor.getLastEvent()
         
     }
     
-    #if os(watchOS)
+    
     func getLatestHREvent() -> HeartRateEvent?{
-        var heartRateSensor = self.sensorDict[.HeartRateSensor]![0] as! HeartRateSensor
-        return heartRateSensor.getLastEvent()
+        if(self.sensorDict[.HeartRateSensor] != nil){
+            var heartRateSensor = self.sensorDict[.HeartRateSensor]![0] as! HeartRateSensor
+            return heartRateSensor.getLastEvent()
+        }else{
+            return nil
+        }
     }
     #endif
     
@@ -87,7 +94,7 @@ class Session:Identifiable{
      */
     func startSensors() -> Bool {
         for sensor in self.sensorList{
-            sensor.startSensor()
+            sensor.startSensor(session:self)
         }
         return true
     }
@@ -99,12 +106,6 @@ class Session:Identifiable{
      - Returns: The number of events as `Int`.
      */
     func getNumberOfEvents() -> Int {
-        var numberOfEvents = 0
-        
-        for sensor in self.sensorList {
-            numberOfEvents += sensor.getNumberOfEvents()
-        }
-
-        return numberOfEvents
+        return self.eventList.count
     }
 }

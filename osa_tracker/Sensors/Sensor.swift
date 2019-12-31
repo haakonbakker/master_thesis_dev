@@ -12,10 +12,10 @@ class Sensor: NSObject {
     var sensorName: SensorEnumeration
     var events:[Any]
     var sessionIdentifier:UUID?
+    var currentSession:Session?
     init(sensorEnum:SensorEnumeration) {
         self.sensorName = sensorEnum
         self.events = []
-        
     }
     
     init(sensorEnum:SensorEnumeration, sessionIdentifier:UUID) {
@@ -25,13 +25,13 @@ class Sensor: NSObject {
     }
     
     func getNumberOfEvents() -> Int{
-        fatalError("Must Override")
+        return 0
     }
     
     /**
      Will start the sensor. It will collect data on a given interval.
     */
-    func startSensor() -> Bool{
+    func startSensor(session:Session) -> Bool{
         fatalError("Must Override")
     }
     

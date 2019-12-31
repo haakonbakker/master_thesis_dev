@@ -10,6 +10,55 @@ import Foundation
 import CoreMotion
 
 class AccelerometerSensor:Sensor, SensorInterface{
+    func collectEvent() {
+        let event = createEvent()
+        
+        if let unwrapedEvent = event{
+            let encodedEvent = self.encodeEvent(event: unwrapedEvent)
+            if let jsonEncodedEvent = encodedEvent {
+                storeEvent(data:jsonEncodedEvent)
+            } else {
+                fatalError("@func - collectEvent. encodedEvent is nil")
+            }
+        }else{
+            fatalError("@func - collectEvent. event is nil")
+        }
+    }
+    
+    func createEvent() -> AccelerometerEvent? {
+        if let data = self.motion.accelerometerData {
+            let timestamp = Date()
+            let x = data.acceleration.x
+            let y = data.acceleration.y
+            let z = data.acceleration.z
+            // Use the accelerometer data in your app.
+            
+            // Add the event to the dataset
+            let event = AccelerometerEvent(x: x, y: y, z: z, timestamp: timestamp, sessionIdentifier: self.sessionIdentifier?.description ?? "NA")
+            
+            return event
+            
+         }
+        return nil
+    }
+    
+    func encodeEvent(event: AccelerometerEvent) -> Data? {
+        do {
+            let encoder = JSONEncoder()
+            encoder.outputFormatting = .prettyPrinted
+            let res = try encoder.encode(event)
+            return res
+        }catch{
+            print(error)
+        }
+        return nil
+    }
+    
+    func storeEvent(data: Data) {
+        self.currentSession?.eventList.append(data)
+    }
+    
+    
     let motion = CMMotionManager()
     var timer:Timer?
     
@@ -39,31 +88,22 @@ class AccelerometerSensor:Sensor, SensorInterface{
           self.timer = Timer(fire: Date(), interval: (1.0/60.0),
                 repeats: true, block: { (timer) in
              // Get the accelerometer data.
-             if let data = self.motion.accelerometerData {
-                let timestamp = Date()
-                let x = data.acceleration.x
-                let y = data.acceleration.y
-                let z = data.acceleration.z
-//                print(z)
-                // Use the accelerometer data in your app.
-                
-                // Add the event to the dataset
-                let event = AccelerometerEvent(x: x, y: y, z: z, timestamp: timestamp, sessionIdentifier: self.sessionIdentifier?.description ?? "NA")
-                self.events.append(event)
-                self.exportEvent()
-                
-             }
+                    self.collectEvent()
           })
 
           // Add the timer to the current run loop.
         RunLoop.current.add(self.timer!, forMode: .default)
-       }
+       }else{
+        print("@func - startAccelerometers -> motion is not available.")
+        }
+        
     }
     
     /**
      Will start the sensor. It will collect data on a given interval.
     */
-    override func startSensor() -> Bool{
+    override func startSensor(session:Session) -> Bool{
+        currentSession = session
         print("Will start the accelerometer sensor")
         self.startAccelerometers()
         return true
@@ -80,32 +120,4 @@ class AccelerometerSensor:Sensor, SensorInterface{
 
         return true
     }
-    
-    override func exportEvents() -> String{
-         var jsonString = ""
-         for event in self.events{
-             jsonString += self.getEventAsString(event: event as! AccelerometerEvent) + "\n" // Adding newline here - can we move this to the sessionController?
-         }
-         return jsonString
-         
-     }
-     
-     override func getEventAsString(event:Any) -> String{
-         let event = event as! AccelerometerEvent
-         do {
-            // data we are getting from network request
-             let encoder = JSONEncoder()
-             encoder.outputFormatting = .sortedKeys
-             let res = try encoder.encode(event)
-//             print(res)
-             if let json = String(data: res, encoding: .utf8) {
-//               print("json", json)
-                 return json
-             }
-             
-             
-         } catch { print(error) }
-         return "Not able to return as string"
-         
-     }
 }

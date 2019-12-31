@@ -30,8 +30,6 @@ class SessionController: ObservableObject{
     
     
     init() {
-        
-        
         // Splunk setup
 //        let spl_hec = SplunkHEC(splunkInstance: SplunkInstance(theProtocol: "http", port: "8088", ip: "127.0.0.1"))
 //        print(spl_hec)
@@ -52,12 +50,20 @@ class SessionController: ObservableObject{
     func startSession(wakeUpTime:Date) -> Session{
         let SESSION_UUID = UUID()
         #if os(iOS)
-        let sensorList = [GyroscopeSensor(sessionIdentifier: SESSION_UUID), MicrophoneSensor(sessionIdentifier: SESSION_UUID), BatterySensor(samplingRate: 5, sessionIdentifier: SESSION_UUID)]
+        let sensorList = [
+                GyroscopeSensor(sessionIdentifier: SESSION_UUID),
+                MicrophoneSensor(sessionIdentifier: SESSION_UUID),
+                BatterySensor(samplingRate: 5, sessionIdentifier: SESSION_UUID)
+            ]
         #else
-        let sensorList = [GyroscopeSensor(sessionIdentifier: SESSION_UUID), AccelerometerSensor(sessionIdentifier: SESSION_UUID), BatterySensorWatch(samplingRate: 5, sessionIdentifier: SESSION_UUID), HeartRateSensor(sessionIdentifier: SESSION_UUID)]
+        let sensorList = [
+                GyroscopeSensor(sessionIdentifier: SESSION_UUID),
+                AccelerometerSensor(sessionIdentifier: SESSION_UUID),
+                BatterySensorWatch(samplingRate: 5, sessionIdentifier: SESSION_UUID),
+                HeartRateSensor(sessionIdentifier: SESSION_UUID)
+            ]
         #endif
         
-//        let sensorList = [BatterySensor(samplingRate: 5)]
         print("Will start the session")
         currentSession = Session(id:3, wakeUpTime: wakeUpTime, sensorList: sensorList, sessionIdentifier: SESSION_UUID)
         
@@ -92,7 +98,6 @@ class SessionController: ObservableObject{
               self.eventTimer?.invalidate()
               self.eventTimer = nil
             }
-            self.eventTimer = nil
             
         }else{
             print("Session already ended")
@@ -104,8 +109,8 @@ class SessionController: ObservableObject{
      It collects events that the sensors has gathered until this point.
      */
     func splitSession(){
+        print("@Func-splitSession in SessionController")
         if(self.currentSession == nil){
-            print("@Func-splitSession in SessionController")
             return
         }
         

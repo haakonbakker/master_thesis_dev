@@ -25,7 +25,8 @@ class BatterySensor: Sensor {
         self.events = []
     }
     
-    override func startSensor() -> Bool {
+    override func startSensor(session:Session) -> Bool {
+        currentSession = session
         // Need to say to the system we want to monitor the battery.
         #if os(iOS)
         UIDevice.current.isBatteryMonitoringEnabled = true

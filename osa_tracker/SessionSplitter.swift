@@ -22,9 +22,10 @@ class SessionSplitter{
     func splitSession(date:Date){
         print("@Func-splitSession in SessionSplitter")
 //        print("********", session.sessionIdentifier)
-        for sensor in session.sensorList{
-            self._getSplitEventsFromSensor(sensor: sensor, date: date)
-        }
+//        for sensor in session.sensorList{
+//            self._getSplitEventsFromSensor(sensor: sensor, date: date)
+//        }
+        print("Data about the current eventList:\n Count: \(self.session.eventList.count)")
     }
     
     /**

@@ -18,7 +18,7 @@ class HeartRateSensor:Sensor, HKWorkoutSessionDelegate{
     let healthStore = HKHealthStore()
     //State of the app - is the workout activated
     var workoutActive = false
-    var session : HKWorkoutSession?
+    var HKsession : HKWorkoutSession?
     let heartRateUnit = HKUnit(from: "count/min")
     
     
@@ -33,7 +33,8 @@ class HeartRateSensor:Sensor, HKWorkoutSessionDelegate{
         self.events = []
     }
     
-    override func startSensor() -> Bool {
+    override func startSensor(session:Session) -> Bool {
+        currentSession = session
         print("Starting heart rate")
         
         guard HKHealthStore.isHealthDataAvailable() == true else {
@@ -53,7 +54,7 @@ class HeartRateSensor:Sensor, HKWorkoutSessionDelegate{
     
         
         // If we have already started the workout, then do nothing.
-        if (session != nil) {
+        if (HKsession != nil) {
             return false
         }
         
@@ -63,69 +64,22 @@ class HeartRateSensor:Sensor, HKWorkoutSessionDelegate{
         workoutConfiguration.locationType = .indoor
         
         do {
-            session = try HKWorkoutSession(healthStore: healthStore, configuration: workoutConfiguration)
-            session?.delegate = self
+            HKsession = try HKWorkoutSession(healthStore: healthStore, configuration: workoutConfiguration)
+            HKsession?.delegate = self
         } catch {
             fatalError("Unable to create the workout session!")
         }
-        session?.startActivity(with: Date())
+        HKsession?.startActivity(with: Date())
         self.workoutActive = true
         return true
     }
     
     override func stopSensor() -> Bool {
-        self.workoutSession(session!, didChangeTo: .ended, from: .running, date: Date())
-        self.session?.stopActivity(with: Date())
+        self.workoutSession(HKsession!, didChangeTo: .ended, from: .running, date: Date())
+        self.HKsession?.stopActivity(with: Date())
         self.workoutDidEnd(Date())
-        session?.end()
+        HKsession?.end()
         return true
-    }
-    
-    override func getNumberOfEvents() -> Int{
-        return self.events.count
-    }
-    
-    override func exportEvent(){
-        let event = self.events[0] as! HeartRateEvent
-//        print("Type of event:")
-//        print("\(type(of: event))")
-        do {
-           // data we are getting from network request
-            let encoder = JSONEncoder()
-            encoder.outputFormatting = .prettyPrinted
-            let res = try encoder.encode(event)
-//            print(res)
-            if let json = String(data: res, encoding: .utf8) {
-//              print("json", json)
-            }
-            
-
-        } catch { print(error) }
-    }
-    
-    func getEventAsString(event:HeartRateEvent) -> String{
-        do {
-           // data we are getting from network request
-            let encoder = JSONEncoder()
-            encoder.outputFormatting = .sortedKeys
-            let res = try encoder.encode(event)
-//            print(res)
-            if let json = String(data: res, encoding: .utf8) {
-//              print("json", json)
-                return json
-            }
-            
-            
-        } catch { print(error) }
-        return "Not able to return as string"
-    }
-    
-    override func exportEvents() -> String{
-        var jsonString = ""
-        for event in self.events{
-            jsonString += self.getEventAsString(event: event as! HeartRateEvent) + "\n" // Adding newline here - can we move this to the sessionController?
-        }
-        return jsonString
     }
     
     func workoutSession(_ workoutSession: HKWorkoutSession, didChangeTo toState: HKWorkoutSessionState, from fromState: HKWorkoutSessionState, date: Date) {
@@ -141,82 +95,93 @@ class HeartRateSensor:Sensor, HKWorkoutSessionDelegate{
             }
         }
         
-        func workoutSession(_ workoutSession: HKWorkoutSession, didFailWithError error: Error) {
-            // Do nothing for now
-            print("Workout error")
-        }
-        
-        func workoutDidStart(_ date : Date) {
-            if let query = createHeartRateStreamingQuery(date) {
-                self.currentQuery = query
-                healthStore.execute(query)
-            } else {
-    //            label.setText("cannot start")
-            }
-        }
-        
-        func workoutDidEnd(_ date : Date) {
-                session = nil
-        }
-        
-        func updateHeartRate(_ samples: [HKSample]?) {
-            guard let heartRateSamples = samples as? [HKQuantitySample] else {return}
-            guard let sample = heartRateSamples.first else{return}
-            let value = sample.quantity.doubleValue(for: self.heartRateUnit)
-            print("Current heart rate: " + value.description)
-            // Add the event to the dataset
-            if let session_uuid = self.sessionIdentifier {
-                let event = HeartRateEvent(unit: "count/min", heartRate: value, sessionIdentifier: session_uuid)
-                self.events.append(event)
-            }else{
-                let event = HeartRateEvent(unit: "count/min", heartRate: value)
-                self.events.append(event)
-            }
-            
-//            self.exportEvent()
-        }
+    func workoutSession(_ workoutSession: HKWorkoutSession, didFailWithError error: Error) {
+        // Do nothing for now
+        print("Workout error")
+    }
     
-    override func getEventAsString(event:Any) -> String{
-            let event = event as! HeartRateEvent
-            do {
-               // data we are getting from network request
-                let encoder = JSONEncoder()
-                encoder.outputFormatting = .sortedKeys
-                let res = try encoder.encode(event)
-    //            print(res)
-                if let json = String(data: res, encoding: .utf8) {
-    //              print("json", json)
-                    return json
-                }
-                
-                
-            } catch { print(error) }
-            return "Not able to return as string"
+    func workoutDidStart(_ date : Date) {
+        if let query = createHeartRateStreamingQuery(date) {
+            self.currentQuery = query
+            healthStore.execute(query)
+        } else {
+//            label.setText("cannot start")
+        }
+    }
+    
+    func workoutDidEnd(_ date : Date) {
+            HKsession = nil
+    }
+    
+    func createHeartRateStreamingQuery(_ workoutStartDate: Date) -> HKQuery? {
+        guard let quantityType = HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.heartRate) else { return nil }
+        
+        let datePredicate = HKQuery.predicateForSamples(withStart: workoutStartDate, end: nil, options: .strictEndDate )
+        
+        //let devicePredicate = HKQuery.predicateForObjects(from: [HKDevice.local()])
+        let predicate = NSCompoundPredicate(andPredicateWithSubpredicates:[datePredicate])
+        
+        
+        let heartRateQuery = HKAnchoredObjectQuery(type: quantityType, predicate: predicate, anchor: nil, limit: Int(HKObjectQueryNoLimit)) { (query, sampleObjects, deletedObjects, newAnchor, error) -> Void in
+            self.updateHeartRate(sampleObjects)
         }
         
-        func createHeartRateStreamingQuery(_ workoutStartDate: Date) -> HKQuery? {
-            guard let quantityType = HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.heartRate) else { return nil }
-            
-            let datePredicate = HKQuery.predicateForSamples(withStart: workoutStartDate, end: nil, options: .strictEndDate )
-            
-            //let devicePredicate = HKQuery.predicateForObjects(from: [HKDevice.local()])
-            let predicate = NSCompoundPredicate(andPredicateWithSubpredicates:[datePredicate])
-            
-            
-            let heartRateQuery = HKAnchoredObjectQuery(type: quantityType, predicate: predicate, anchor: nil, limit: Int(HKObjectQueryNoLimit)) { (query, sampleObjects, deletedObjects, newAnchor, error) -> Void in
-                self.updateHeartRate(sampleObjects)
-            }
-            
-            heartRateQuery.updateHandler = {(query, samples, deleteObjects, newAnchor, error) -> Void in
-                self.updateHeartRate(samples)
-            }
-            return heartRateQuery
+        heartRateQuery.updateHandler = {(query, samples, deleteObjects, newAnchor, error) -> Void in
+            self.updateHeartRate(samples)
         }
-    
+        return heartRateQuery
+    }
+
     func getLastEvent() -> HeartRateEvent?{
         guard let event = self.events.last else {
             return nil
         }
         return self.events.last as! HeartRateEvent
+    }
+
+    func updateHeartRate(_ samples: [HKSample]?) {
+        collectEvent()
+        print("@func - updateHeartRate in HeartRateSensor.")
+        
+        guard let heartRateSamples = samples as? [HKQuantitySample] else {return}
+        guard let sample = heartRateSamples.first else{return}
+        
+        let value = sample.quantity.doubleValue(for: self.heartRateUnit)
+        print("\tCurrent heart rate: " + value.description)
+        
+        let event = self.createEvent(value:value)
+        let encodedEvent = self.encodeEvent(event: event)
+        if let jsonEncodedEvent = encodedEvent {
+            storeEvent(data:jsonEncodedEvent)
+        } else {
+            fatalError("@func - updateHeartRate in HeartRateSensor. encodedEvent is nil")
+        }
+        self.events.append(event)
+    }
+    
+    func collectEvent(){
+        print("@func - collectEvent in HeartRateSensor")
+        print("\tupdateHeartRate is the function that handles the collect for the HeartRateSensor")
+    }
+    
+    func createEvent(value:Double) -> HeartRateEvent{
+        let event = HeartRateEvent(unit: "count/min", heartRate: value, sessionIdentifier: self.sessionIdentifier?.description ?? "NA")
+        return event
+    }
+    
+    func encodeEvent(event:HeartRateEvent) -> Data?{
+        do {
+            let encoder = JSONEncoder()
+            encoder.outputFormatting = .prettyPrinted
+            let res = try encoder.encode(event)
+            return res
+        }catch{
+            print(error)
+        }
+        return nil
+    }
+    
+    func storeEvent(data:Data){
+        self.currentSession?.eventList.append(data)
     }
 }

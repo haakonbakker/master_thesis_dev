@@ -11,8 +11,9 @@ import Foundation
 protocol SensorInterface {
     // Information about the sensor
     var sensorName:SensorEnumeration { get }
-    func startSensor() -> Bool
+    func startSensor(session:Session) -> Bool
     func stopSensor() -> Bool
-    
+    func collectEvent()
+    func storeEvent(data:Data)
 //    func getLastEvent() -> Event
 }

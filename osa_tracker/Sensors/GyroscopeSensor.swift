@@ -57,38 +57,27 @@ class GyroscopeSensor: Sensor, GyroscopeInterface, ObservableObject {
     
     func startGyros() {
         
-       if motion.isGyroAvailable {
-          self.motion.gyroUpdateInterval = 1.0 / 60.0 // Sets the update interval for the sensor data
-          self.motion.startGyroUpdates()
+        if motion.isGyroAvailable {
+            self.motion.gyroUpdateInterval = 1.0 / 60.0 // Sets the update interval for the sensor data
+            self.motion.startGyroUpdates()
 
-          // Configure a timer to fetch the accelerometer data.
-          self.timer = Timer(fire: Date(), interval: (1.0/60.0),
-                 repeats: true, block: { (timer) in
-             // Get the gyro data.
-             if let data = self.motion.gyroData {
-                let timestamp = Date()
-                let x = data.rotationRate.x
-                let y = data.rotationRate.y
-                let z = data.rotationRate.z
+            // Configure a timer to fetch the accelerometer data.
+            self.timer = Timer(fire: Date(), interval: (1.0/60.0),
+                               repeats: true, block:
+                {(timer) in
+                    self.collectEvent()
+                })
 
-                
-                self.gyroRotation = [x, y, z]
-                
-                // Add the event to the dataset
-                let event = GyroscopeEvent(x: x, y: y, z: z, timestamp: timestamp, sessionIdentifier:self.sessionIdentifier?.description ?? "NA")
-                self.events.append(event)
-                self.exportEvent()
-                // Use the gyroscope data in your app.
-             }
-          })
+            // Add the timer to the current run loop.
+            RunLoop.current.add(self.timer!, forMode: .default)
 
-          // Add the timer to the current run loop.
-        RunLoop.current.add(self.timer!, forMode: .default)
-        
+        }else{
+            print("@func - startGyros -> gyro is not available.")
         }
     }
     
-    override func startSensor() -> Bool {
+    override func startSensor(session:Session) -> Bool {
+        currentSession = session
         print("Will start Gyroscope")
         self.startGyros()
         return true
@@ -113,48 +102,57 @@ class GyroscopeSensor: Sensor, GyroscopeInterface, ObservableObject {
         return self.events.count
     }
     
-    override func exportEvent(){
-        let event = self.events[0] as! GyroscopeEvent
-        print("Type of event:")
-        print("\(type(of: event))")
-        do {
-           // data we are getting from network request
-            let encoder = JSONEncoder()
-            let res = try encoder.encode(event)
-            print(res)
-            if let json = String(data: res, encoding: .utf8) {
-              print("json", json)
+    
+    func collectEvent(){
+        let event = createEvent()
+        if let unwrapedEvent = event{
+            let encodedEvent = self.encodeEvent(event: unwrapedEvent)
+            if let jsonEncodedEvent = encodedEvent {
+                storeEvent(data:jsonEncodedEvent)
+            } else {
+                fatalError("@func - collectEvent. encodedEvent is nil")
             }
-
-        } catch { print(error) }
-    }
-    
-    
-    override func exportEvents() -> String{
-        var jsonString = ""
-        for event in self.events{
-            jsonString += self.getEventAsString(event: event as! GyroscopeEvent) + "\n" // Adding newline here - can we move this to the sessionController?
+        }else{
+            fatalError("@func - collectEvent. event is nil")
         }
-        return jsonString
-        
     }
     
-    override func getEventAsString(event:Any) -> String{
-        let event = event as! GyroscopeEvent
+    func createEvent() -> GyroscopeEvent?{
+        // Get the gyro data.
+        if let data = self.motion.gyroData {
+           let timestamp = Date()
+           let x = data.rotationRate.x
+           let y = data.rotationRate.y
+           let z = data.rotationRate.z
+
+           
+           self.gyroRotation = [x, y, z]
+           
+           // Add the event to the dataset
+           let event = GyroscopeEvent(x: x, y: y, z: z, timestamp: timestamp, sessionIdentifier:self.sessionIdentifier?.description ?? "NA")
+           return event
+        }
+        return nil
+    }
+    
+    func encodeEvent(event:GyroscopeEvent) -> Data?{
         do {
-           // data we are getting from network request
             let encoder = JSONEncoder()
-            encoder.outputFormatting = .sortedKeys
+            encoder.outputFormatting = .prettyPrinted
             let res = try encoder.encode(event)
             print(res)
-            if let json = String(data: res, encoding: .utf8) {
-              print("json", json)
-                return json
-            }
-            
-            
-        } catch { print(error) }
-        return "Not able to return as string"
-        
+//          Converting to String representation:
+//            if let json = String(data: res, encoding: .utf8) {
+//              print("json:\n", json)
+//            }
+            return res
+        }catch{
+            print(error)
+        }
+        return nil
+    }
+    
+    func storeEvent(data:Data){
+        self.currentSession?.eventList.append(data)
     }
 }

@@ -28,11 +28,11 @@ struct HeartRateEvent:EventProtocol {
         self.sessionIdentifier = "NA"
     }
     
-    init(unit:String, heartRate:Double, sessionIdentifier:UUID) {
+    init(unit:String, heartRate:Double, sessionIdentifier:String) {
         self.timestamp = Date().timeIntervalSince1970
         self.sensorName = "Heart Rate"
         self.event = EventData(unit: unit, heartRate: heartRate)
-        self.sessionIdentifier = sessionIdentifier.description
+        self.sessionIdentifier = sessionIdentifier
     }
     
     func getHR() -> Double{
