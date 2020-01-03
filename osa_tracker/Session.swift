@@ -20,6 +20,7 @@ class Session:Identifiable{
     var sensorDict:Dictionary<SensorEnumeration, [Sensor]>
     var sessionIdentifier:UUID
     var eventList:[Data]
+    var uploadedEventsCount:Int
     
     
     init(id:Int, wakeUpTime:Date, sensorList:[Sensor], sessionIdentifier:UUID){
@@ -36,19 +37,20 @@ class Session:Identifiable{
         self.sensorDict = Dictionary(grouping: self.sensorList, by: {$0.sensorName})
         print(self.sensorDict)
         print("****************")
+        self.uploadedEventsCount = 0
         self.eventList = []
     }
 
     // Start the session here
     func startSession() -> Bool{
-        self.startSensors()
+        _ = self.startSensors()
         self.start_time = Date()
         return true
     }
     
     // End the session here
     func endSession() -> Bool{
-        self.stopSensors()
+        _ = self.stopSensors()
         self.end_time = Date()
         return true
     }
@@ -62,7 +64,7 @@ class Session:Identifiable{
     
     #if os(watchOS)
     func getLatestBatteryWatchEvent() -> BatteryEvent{
-        var batterySensor = self.sensorDict[.BatterySensorWatch]![0] as! BatterySensorWatch
+        let batterySensor = self.sensorDict[.BatterySensorWatch]![0] as! BatterySensorWatch
         return batterySensor.getLastEvent()
         
     }
@@ -70,7 +72,7 @@ class Session:Identifiable{
     
     func getLatestHREvent() -> HeartRateEvent?{
         if(self.sensorDict[.HeartRateSensor] != nil){
-            var heartRateSensor = self.sensorDict[.HeartRateSensor]![0] as! HeartRateSensor
+            let heartRateSensor = self.sensorDict[.HeartRateSensor]![0] as! HeartRateSensor
             return heartRateSensor.getLastEvent()
         }else{
             return nil
@@ -84,7 +86,7 @@ class Session:Identifiable{
      */
     func stopSensors() -> Bool {        
         for sensor in self.sensorList{
-            sensor.stopSensor()
+            _ = sensor.stopSensor()
         }
         return true
     }
@@ -94,7 +96,7 @@ class Session:Identifiable{
      */
     func startSensors() -> Bool {
         for sensor in self.sensorList{
-            sensor.startSensor(session:self)
+            _ = sensor.startSensor(session:self)
         }
         return true
     }
@@ -106,6 +108,10 @@ class Session:Identifiable{
      - Returns: The number of events as `Int`.
      */
     func getNumberOfEvents() -> Int {
-        return self.eventList.count
+        return self.eventList.count + self.uploadedEventsCount
+    }
+    
+    func updateUploadedEventsCount(uploadedEvents:Int) {
+        self.uploadedEventsCount += uploadedEvents
     }
 }

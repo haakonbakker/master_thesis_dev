@@ -80,7 +80,7 @@ class BatterySensorWatch: Sensor {
     func encodeEvent(event:BatteryEvent) -> Data?{
         do {
             let encoder = JSONEncoder()
-            encoder.outputFormatting = .prettyPrinted
+            encoder.outputFormatting = .withoutEscapingSlashes
             let res = try encoder.encode(event)
             print(res)
 //          Converting to String representation:

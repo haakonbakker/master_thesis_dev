@@ -133,21 +133,21 @@ class HeartRateSensor:Sensor, HKWorkoutSessionDelegate{
     }
 
     func getLastEvent() -> HeartRateEvent?{
-        guard let event = self.events.last else {
+        guard self.events.last != nil else {
             return nil
         }
-        return self.events.last as! HeartRateEvent
+        return self.events.last as? HeartRateEvent
     }
 
     func updateHeartRate(_ samples: [HKSample]?) {
         collectEvent()
-        print("@func - updateHeartRate in HeartRateSensor.")
+//        print("@func - updateHeartRate in HeartRateSensor.")
         
         guard let heartRateSamples = samples as? [HKQuantitySample] else {return}
         guard let sample = heartRateSamples.first else{return}
         
         let value = sample.quantity.doubleValue(for: self.heartRateUnit)
-        print("\tCurrent heart rate: " + value.description)
+//        print("\tCurrent heart rate: " + value.description)
         
         let event = self.createEvent(value:value)
         let encodedEvent = self.encodeEvent(event: event)
@@ -160,8 +160,8 @@ class HeartRateSensor:Sensor, HKWorkoutSessionDelegate{
     }
     
     func collectEvent(){
-        print("@func - collectEvent in HeartRateSensor")
-        print("\tupdateHeartRate is the function that handles the collect for the HeartRateSensor")
+//        print("@func - collectEvent in HeartRateSensor")
+//        print("\tupdateHeartRate is the function that handles the collect for the HeartRateSensor")
     }
     
     func createEvent(value:Double) -> HeartRateEvent{
@@ -172,7 +172,7 @@ class HeartRateSensor:Sensor, HKWorkoutSessionDelegate{
     func encodeEvent(event:HeartRateEvent) -> Data?{
         do {
             let encoder = JSONEncoder()
-            encoder.outputFormatting = .prettyPrinted
+            encoder.outputFormatting = .withoutEscapingSlashes
             let res = try encoder.encode(event)
             return res
         }catch{

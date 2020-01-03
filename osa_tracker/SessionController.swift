@@ -27,6 +27,7 @@ class SessionController: ObservableObject{
 
     var gyroscopeSensor:GyroscopeSensor!
     var eventTimer:Timer?
+    var sessionSplitter:SessionSplitter?
     
     
     init() {
@@ -49,20 +50,8 @@ class SessionController: ObservableObject{
     */
     func startSession(wakeUpTime:Date) -> Session{
         let SESSION_UUID = UUID()
-        #if os(iOS)
-        let sensorList = [
-                GyroscopeSensor(sessionIdentifier: SESSION_UUID),
-                MicrophoneSensor(sessionIdentifier: SESSION_UUID),
-                BatterySensor(samplingRate: 5, sessionIdentifier: SESSION_UUID)
-            ]
-        #else
-        let sensorList = [
-                GyroscopeSensor(sessionIdentifier: SESSION_UUID),
-                AccelerometerSensor(sessionIdentifier: SESSION_UUID),
-                BatterySensorWatch(samplingRate: 5, sessionIdentifier: SESSION_UUID),
-                HeartRateSensor(sessionIdentifier: SESSION_UUID)
-            ]
-        #endif
+        let sensorList = SessionConfig.getSensorList(SESSION_UUID: SESSION_UUID)
+        
         
         print("Will start the session")
         currentSession = Session(id:3, wakeUpTime: wakeUpTime, sensorList: sensorList, sessionIdentifier: SESSION_UUID)
@@ -72,8 +61,8 @@ class SessionController: ObservableObject{
             fatalError("currentSession is nil - cannot handle")
         }
         
-        currentSession?.startSession()
-        
+        _ = currentSession?.startSession()
+        self.sessionSplitter = SessionSplitter(session: self.currentSession!)
         // Fire the timer, so that events will be processes batchwise.
         self.eventTimer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) {_ in
             let numberOfEvents = self.getNumberOfEvents()
@@ -89,9 +78,9 @@ class SessionController: ObservableObject{
      */
     func endSession(){
         if(self.currentSession?.hasEnded == false){
-            self.currentSession?.endSession()
+            _ = self.currentSession?.endSession()
             self.currentSession?.hasEnded = true
-            self.exportEvents()
+//            self.exportEvents()
             print("Session has ended")
             
             if self.eventTimer != nil {
@@ -110,13 +99,29 @@ class SessionController: ObservableObject{
      */
     func splitSession(){
         print("@Func-splitSession in SessionController")
-        if(self.currentSession == nil){
-            return
+        
+        guard let currentSession = self.currentSession else {
+            print("\tNo active currentSession")
+            fatalError("\tcurrentSession is nil - cannot handle")
+        }
+        
+        guard let sessionSplitter = self.sessionSplitter else {
+            print("\tNo active sessionSplitter")
+            fatalError("\tsessionSplitter is nil - cannot handle")
         }
         
         let splitTime = Date()
-        let ssplit = SessionSplitter(session: self.currentSession!)
-        ssplit.splitSession(date:splitTime)
+        let splittedArray = sessionSplitter.splitSession(date:splitTime)
+        print(splittedArray.count)
+        // From here, this function is responsible for letting the splittedArray be uploaded or stored somehow.
+        
+        // Handle and upload
+        
+        let response = CloudHandler.uploadSplitSession(events: splittedArray, sessionIdentifier: self.currentSession?.sessionIdentifier.description ?? "NA")
+        print("\tAble to upload to iCloud: \(response)")
+        // Update the currentsession.uploadedEventsCount
+        
+        currentSession.updateUploadedEventsCount(uploadedEvents: splittedArray.count)
     }
     
     /**
@@ -213,15 +218,17 @@ class SessionController: ObservableObject{
     
     
     
+    
+    
+    #if os(iOS)
+    // No heart rate sensor
+    #else
     func getLatestBatteryWatchEvent() -> String{
         let event = currentSession!.getLatestBatteryWatchEvent()
         let batteryPercStr = event.getPercent()
         return batteryPercStr.description + "%"
     }
     
-    #if os(iOS)
-    // No heart rate sensor
-    #else
     func getLatestHeartRateData() -> String{
         let event = currentSession!.getLatestHREvent()
         let hrStr = event?.getHR().description ?? "---"

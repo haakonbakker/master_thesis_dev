@@ -85,7 +85,7 @@ struct SessionWatchView: View {
                 Button(action: {
                     print("Start button pressed");
                     self.sessionStarted = true;
-                    self.sessionController.startSession(wakeUpTime: Date());
+                    _ = self.sessionController.startSession(wakeUpTime: Date());
                 }) {
                     Text("Start session")
                 }

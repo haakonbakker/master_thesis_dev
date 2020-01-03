@@ -58,6 +58,8 @@
 		6B99568F2357093B00DFF4DC /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B99568E2357093B00DFF4DC /* CloudKit.framework */; };
 		6B9956912357094100DFF4DC /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B9956902357094100DFF4DC /* CloudKit.framework */; };
 		6B995692235709D300DFF4DC /* CloudHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B99568C2357081300DFF4DC /* CloudHandler.swift */; };
+		6BA7E70E23BB566A00B6E765 /* SessionConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA7E70D23BB566A00B6E765 /* SessionConfig.swift */; };
+		6BA7E70F23BB576600B6E765 /* SessionConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA7E70D23BB566A00B6E765 /* SessionConfig.swift */; };
 		6BAADBC12346065A00574202 /* ext_Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B35A623233234720095D911 /* ext_Date.swift */; };
 		6BAD28EA231FA18900ECEEA8 /* SensorEnumeration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BAD28E9231FA18900ECEEA8 /* SensorEnumeration.swift */; };
 		6BAD28EC231FACCF00ECEEA8 /* GyroscopeSensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BAD28EB231FACCF00ECEEA8 /* GyroscopeSensor.swift */; };
@@ -187,6 +189,7 @@
 		6B99568E2357093B00DFF4DC /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS6.1.sdk/System/Library/Frameworks/CloudKit.framework; sourceTree = DEVELOPER_DIR; };
 		6B9956902357094100DFF4DC /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		6BA7E70C23BB536D00B6E765 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		6BA7E70D23BB566A00B6E765 /* SessionConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionConfig.swift; sourceTree = "<group>"; };
 		6BAD28E9231FA18900ECEEA8 /* SensorEnumeration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorEnumeration.swift; sourceTree = "<group>"; };
 		6BAD28EB231FACCF00ECEEA8 /* GyroscopeSensor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GyroscopeSensor.swift; sourceTree = "<group>"; };
 		6BAD28ED231FB65000ECEEA8 /* GyroscopeDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GyroscopeDataView.swift; sourceTree = "<group>"; };
@@ -495,6 +498,7 @@
 				6B35A62C233264440095D911 /* Session.swift */,
 				6BFBFA0523165F1F00373913 /* SessionController.swift */,
 				6BF41349237C5215003080FE /* SessionSplitter.swift */,
+				6BA7E70D23BB566A00B6E765 /* SessionConfig.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -767,6 +771,7 @@
 				6BAADBC12346065A00574202 /* ext_Date.swift in Sources */,
 				6B3F6D01233B8334005752D4 /* AccelerometerEvent.swift in Sources */,
 				6B3F6CEC233B6C5A005752D4 /* GyroscopeSensor.swift in Sources */,
+				6BA7E70F23BB576600B6E765 /* SessionConfig.swift in Sources */,
 				6B3F6CF6233B6C6D005752D4 /* AudioSensorInterface.swift in Sources */,
 				6B3F6CC5233B635A005752D4 /* ExtensionDelegate.swift in Sources */,
 				6B3F6D03233B85A7005752D4 /* BatteryEvent.swift in Sources */,
@@ -818,6 +823,7 @@
 				6B35A624233234720095D911 /* ext_Date.swift in Sources */,
 				6B99568D2357081300DFF4DC /* CloudHandler.swift in Sources */,
 				6B35A62B233264010095D911 /* HeartRateEvent.swift in Sources */,
+				6BA7E70E23BB566A00B6E765 /* SessionConfig.swift in Sources */,
 				6BF319212316835200E0FBC0 /* MicrophoneSensor.swift in Sources */,
 				6BAD28F8231FF2A500ECEEA8 /* ext_String.swift in Sources */,
 				6BEB61342316CCB3006E43FB /* SensorInterface.swift in Sources */,

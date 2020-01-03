@@ -19,28 +19,31 @@ class SessionSplitter{
      Will split the events from the sensors.
      Takes the oldest events until the time when this method is called.
      */
-    func splitSession(date:Date){
+    func splitSession(date:Date) -> [Data]{
         print("@Func-splitSession in SessionSplitter")
 //        print("********", session.sessionIdentifier)
 //        for sensor in session.sensorList{
 //            self._getSplitEventsFromSensor(sensor: sensor, date: date)
 //        }
-        print("Data about the current eventList:\n Count: \(self.session.eventList.count)")
+        print("Data about the current eventList:")
+        let evlistCount = self.session.eventList.count
+        print("\tCount: \(evlistCount)")
+        print("\tCapacity: \(self.session.eventList.capacity)")
+        
+        let eventCount = self.session.eventList.count - 1 // Index starts at 0
+        let splittedEvents = Array(self.session.eventList[0...eventCount - 1]) // Remove all but last.
+        
+        // Update the eventList to only contain the last event
+        self.session.eventList = Array(self.session.eventList[eventCount...self.session.eventList.count - 1])
+        
+        let newEvListCount = self.session.eventList.count
+        print("\tsplittedEvents: Count: \(splittedEvents.count)")
+        print("\teventList: Count: \(newEvListCount)")
+        print("\tTotal Events: \(splittedEvents.count + newEvListCount) - Should be: \(evlistCount)")
+        
+        return splittedEvents
     }
     
-    /**
-     This function will get events from a sensor.
-     
-     */
-    func _getSplitEventsFromSensor(sensor:Sensor, date:Date){
-        print(sensor.sensorName)
-        if sensor.sensorName == SensorEnumeration.BatterySensorWatch{
-            let data = sensor.getSplitEvents()
-            print("*****")
-            
-            print(data)
-            
-            print("*****")
-        }
-    }
+    
+    
 }

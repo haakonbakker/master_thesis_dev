@@ -45,7 +45,7 @@ class AccelerometerSensor:Sensor, SensorInterface{
     func encodeEvent(event: AccelerometerEvent) -> Data? {
         do {
             let encoder = JSONEncoder()
-            encoder.outputFormatting = .prettyPrinted
+            encoder.outputFormatting = .withoutEscapingSlashes
             let res = try encoder.encode(event)
             return res
         }catch{
