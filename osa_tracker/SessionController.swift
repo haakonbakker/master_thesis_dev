@@ -14,29 +14,14 @@ import SwiftUI
 
 /// Control every session
 class SessionController: ObservableObject{
-
     
-    
-    
-    @Published var currentSession:Session?
-    #if os(iOS)
-    var microphoneSensor:MicrophoneSensor!
-    #else
-    
-    #endif
-
-    var gyroscopeSensor:GyroscopeSensor!
+    @Published var currentSession:Session!
     var eventTimer:Timer?
     var sessionSplitter:SessionSplitter?
     
-    
     init() {
-        // Splunk setup
-//        let spl_hec = SplunkHEC(splunkInstance: SplunkInstance(theProtocol: "http", port: "8088", ip: "127.0.0.1"))
-//        print(spl_hec)
+
     }
-    
-    
     
     func getSessions() -> [Session]{
         let sessions:[Session] = []
@@ -54,24 +39,20 @@ class SessionController: ObservableObject{
         
         
         print("Will start the session")
-        currentSession = Session(id:3, wakeUpTime: wakeUpTime, sensorList: sensorList, sessionIdentifier: SESSION_UUID)
-        
-        guard currentSession != nil else {
-            print("No active session")
-            fatalError("currentSession is nil - cannot handle")
-        }
-        
-        _ = currentSession?.startSession()
+        currentSession = Session(wakeUpTime: wakeUpTime, sensorList: sensorList, sessionIdentifier: SESSION_UUID)
+                
+        currentSession.startSession()
         self.sessionSplitter = SessionSplitter(session: self.currentSession!)
+        
         // Fire the timer, so that events will be processes batchwise.
         self.eventTimer = Timer.scheduledTimer(withTimeInterval: SessionConfig.BATCHFREQUENCY, repeats: true) {_ in
-            let numberOfEvents = self.getNumberOfEvents()
-            print("Number of events: ", numberOfEvents)
-            self.splitSession()
+            self.handleBatch()
         }
 
         return currentSession!
     }
+    
+
     
     /**
         Will call the session object and end the current session.
@@ -83,26 +64,29 @@ class SessionController: ObservableObject{
         }
         
         if(self.currentSession?.hasEnded == false){
-            _ = self.currentSession?.endSession()
-            self.currentSession?.hasEnded = true
-//            self.exportEvents()
-            print("Session has ended")
-            
-            
-            
+            let didEnd = self.currentSession?.endSession()
+            self.currentSession?.hasEnded = didEnd ?? false
         }else{
-            print("Session already ended")
+            // Session already ended
         }
+    }
+    
+    func handleBatch(){
+        let numberOfEvents = self.getNumberOfEvents()
+        print("Number of events: ", numberOfEvents)
+        let events = self.splitSessionEvents()
+        self.runSinks(events: events)
+        self.currentSession!.updateHandledEventsCount(uploadedEvents: events.count)
     }
     
     /**
      This method should be called at an interval during a session.
      It collects events that the sensors has gathered until this point.
      */
-    func splitSession(){
+    func splitSessionEvents() -> [Data]{
         print("@Func-splitSession in SessionController")
         
-        guard let currentSession = self.currentSession else {
+        guard self.currentSession != nil else {
             print("\tNo active currentSession")
             fatalError("\tcurrentSession is nil - cannot handle")
         }
@@ -112,18 +96,17 @@ class SessionController: ObservableObject{
             fatalError("\tsessionSplitter is nil - cannot handle")
         }
         
-        let splitTime = Date()
-        let splittedArray = sessionSplitter.splitSession(date:splitTime)
-        print(splittedArray.count)
+        let splittedArray = sessionSplitter.splitSession()
+        return splittedArray
+    }
+    
+    func runSinks(events:[Data]) {
+        print("@Func-runSink in SessionController")
         // From here, this function is responsible for letting the splittedArray be uploaded or stored somehow.
-        
         // Handle and upload
         
-        let response = CloudKitSink.uploadSplitSession(events: splittedArray, sessionIdentifier: self.currentSession?.sessionIdentifier.description ?? "NA")
+        let response = CloudKitSink.uploadSplitSession(events: events, sessionIdentifier: self.currentSession?.sessionIdentifier.description ?? "NA")
         print("\tAble to upload to iCloud: \(response)")
-        // Update the currentsession.uploadedEventsCount
-        
-        currentSession.updateUploadedEventsCount(uploadedEvents: splittedArray.count)
     }
     
     /**
@@ -134,28 +117,15 @@ class SessionController: ObservableObject{
     - Returns: Will return the duration of the session as a `String`.
     */
     func getSessionDurationString(session:Session) -> String {
-        if(session.hasEnded){
-            let calendar = Calendar(identifier: .gregorian)
-            let components = calendar
-                .dateComponents([.day, .hour, .minute, .second],
-                                from: session.start_time,
-                                to: session.end_time!)
-            return String(format: "%02dh:%02dm:%02ds",
-                          components.hour ?? 00,
-                          components.minute ?? 00,
-                          components.second ?? 00)
-        }else{
-            let calendar = Calendar(identifier: .gregorian)
-            let components = calendar
-                .dateComponents([.day, .hour, .minute, .second],
-                                from: session.start_time,
-                                to: Date())
-            return String(format: "%02dh:%02dm:%02ds",
-                          components.hour ?? 00,
-                          components.minute ?? 00,
-                          components.second ?? 00)
-        }
-        
+        let calendar = Calendar(identifier: .gregorian)
+        let components = calendar
+            .dateComponents([.day, .hour, .minute, .second],
+                            from: session.start_time,
+                            to: session.end_time ?? Date())
+        return String(format: "%02dh:%02dm:%02ds",
+                      components.hour ?? 00,
+                      components.minute ?? 00,
+                      components.second ?? 00)
     }
 
     /**
@@ -167,60 +137,6 @@ class SessionController: ObservableObject{
         
         return self.currentSession?.getNumberOfEvents() ?? 0
     }
-    
-    func exportEvents(){
-        
-        // The following needs to be done:
-        /*
-         - When saving the session, the uuid needs to be attached to all sensor-events - DONE
-         - Meta event should be created at the begining, and at the end
-         - The recording.m4a also needs to get the uuid - DONE
-         - The file on the watch needs to be sent to the phone and stored there.
-         */
-        
-        // We do not want to export events before the session has ended
-        if(currentSession?.hasEnded == false){
-            return
-        }
-        
-        print("Will export events to file")
-        
-//        let file = "file.txt" //this is the file. we will write to and read from it
-        let date_string = Date().date_to_string()
-        
-        
-        print(date_string)
-        let filename = date_string + "-" + currentSession!.sessionIdentifier.description + ".json" //this is the filename. We will write it to the system
-
-        var text = ""
-        // Looping over all the events in every sensor and storing in text variable.
-        for sensor in currentSession!.sensorList{
-            for event in sensor.events{
-                text += sensor.getEventAsString(event: event) + ","
-                // text += "," // Could use this to separate JSON data
-            }
-        }
-        text = String(text.dropLast()) // removing last ','
-        text = "[" + text + "]" // Producing valid JSON
-//        print(text)
-
-        
-        let fh = FileHandler()
-        let _ = fh.writeFile(filename: filename, contents: text)
-        
-        let ch = CloudKitSink()
-//        ch.upload_text(sessionIdentifier: self.currentSession?.sessionIdentifier.description ?? "NoSessionIdentifierProvided", text: text)
-
-    }
-    
-    
-//    func getLatestEvent(sensor_enum:SensorEnumeration){
-//        currentSession!.getLatestEvent(sensor_enum: sensor_enum)
-//    }
-    
-    
-    
-    
     
     #if os(iOS)
     // No heart rate sensor

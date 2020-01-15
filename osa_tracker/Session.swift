@@ -9,7 +9,6 @@
 import Foundation
 
 class Session:Identifiable{
-    var id:Int
     var timestamp:String
     var duration:String
     var start_time:Date
@@ -20,11 +19,10 @@ class Session:Identifiable{
     var sensorDict:Dictionary<SensorEnumeration, [Sensor]>
     var sessionIdentifier:UUID
     var eventList:[Data]
-    var uploadedEventsCount:Int
+    var handledEvents:Int
     
     
-    init(id:Int, wakeUpTime:Date, sensorList:[Sensor], sessionIdentifier:UUID){
-        self.id = id
+    init(wakeUpTime:Date, sensorList:[Sensor], sessionIdentifier:UUID){
         self.duration = "6h23m"
         self.timestamp = "June 9th to June 10th"
         self.start_time = Date()
@@ -35,17 +33,15 @@ class Session:Identifiable{
         self.sensorList = sensorList
         self.wakeUpTime = wakeUpTime
         self.sensorDict = Dictionary(grouping: self.sensorList, by: {$0.sensorName})
-        print(self.sensorDict)
-        print("****************")
-        self.uploadedEventsCount = 0
+        print("Sensor dict: \n\t\(self.sensorDict)")
+        self.handledEvents = 0
         self.eventList = []
     }
 
     // Start the session here
-    func startSession() -> Bool{
+    func startSession(){
         _ = self.startSensors()
         self.start_time = Date()
-        return true
     }
     
     // End the session here
@@ -68,7 +64,6 @@ class Session:Identifiable{
         return batterySensor.getLastEvent()
         
     }
-    
     
     func getLatestHREvent() -> HeartRateEvent?{
         if(self.sensorDict[.HeartRateSensor] != nil){
@@ -108,10 +103,10 @@ class Session:Identifiable{
      - Returns: The number of events as `Int`.
      */
     func getNumberOfEvents() -> Int {
-        return self.eventList.count + self.uploadedEventsCount
+        return self.eventList.count + self.handledEvents
     }
     
-    func updateUploadedEventsCount(uploadedEvents:Int) {
-        self.uploadedEventsCount += uploadedEvents
+    func updateHandledEventsCount(uploadedEvents:Int) {
+        self.handledEvents += uploadedEvents
     }
 }

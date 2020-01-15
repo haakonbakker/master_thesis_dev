@@ -66,9 +66,9 @@ struct SessionView : View {
                 }
                 Divider()
                 // Button to perform ad-hoc analysis
-                Button(action: {self.sessionController.microphoneSensor!.saveRecording()}) {
-                    Text("Ad hoc analysis")
-                }
+//                Button(action: {self.sessionController.microphoneSensor!.saveRecording()}) {
+//                    Text("Ad hoc analysis")
+//                }
                 
                 Spacer()
                 // Dismiss the session

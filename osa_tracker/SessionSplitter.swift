@@ -19,7 +19,7 @@ class SessionSplitter{
      Will split the events from the sensors.
      Takes the oldest events until the time when this method is called.
      */
-    func splitSession(date:Date) -> [Data]{
+    func splitSession() -> [Data]{
         print("@Func-splitSession in SessionSplitter")
 //        print("********", session.sessionIdentifier)
 //        for sensor in session.sensorList{
