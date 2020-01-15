@@ -9,7 +9,7 @@
 import Foundation
 import CloudKit
 
-class CloudHandler{
+class CloudKitSink{
     init(){
         print("Initialized the CloudHandler class")
     }

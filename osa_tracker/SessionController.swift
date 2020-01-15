@@ -64,7 +64,7 @@ class SessionController: ObservableObject{
         _ = currentSession?.startSession()
         self.sessionSplitter = SessionSplitter(session: self.currentSession!)
         // Fire the timer, so that events will be processes batchwise.
-        self.eventTimer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) {_ in
+        self.eventTimer = Timer.scheduledTimer(withTimeInterval: SessionConfig.BATCHFREQUENCY, repeats: true) {_ in
             let numberOfEvents = self.getNumberOfEvents()
             print("Number of events: ", numberOfEvents)
             self.splitSession()
@@ -77,16 +77,18 @@ class SessionController: ObservableObject{
         Will call the session object and end the current session.
      */
     func endSession(){
+        if self.eventTimer != nil {
+          self.eventTimer?.invalidate()
+          self.eventTimer = nil
+        }
+        
         if(self.currentSession?.hasEnded == false){
             _ = self.currentSession?.endSession()
             self.currentSession?.hasEnded = true
 //            self.exportEvents()
             print("Session has ended")
             
-            if self.eventTimer != nil {
-              self.eventTimer?.invalidate()
-              self.eventTimer = nil
-            }
+            
             
         }else{
             print("Session already ended")
@@ -117,7 +119,7 @@ class SessionController: ObservableObject{
         
         // Handle and upload
         
-        let response = CloudHandler.uploadSplitSession(events: splittedArray, sessionIdentifier: self.currentSession?.sessionIdentifier.description ?? "NA")
+        let response = CloudKitSink.uploadSplitSession(events: splittedArray, sessionIdentifier: self.currentSession?.sessionIdentifier.description ?? "NA")
         print("\tAble to upload to iCloud: \(response)")
         // Update the currentsession.uploadedEventsCount
         
@@ -206,8 +208,8 @@ class SessionController: ObservableObject{
         let fh = FileHandler()
         let _ = fh.writeFile(filename: filename, contents: text)
         
-        let ch = CloudHandler()
-        ch.upload_text(sessionIdentifier: self.currentSession?.sessionIdentifier.description ?? "NoSessionIdentifierProvided", text: text)
+        let ch = CloudKitSink()
+//        ch.upload_text(sessionIdentifier: self.currentSession?.sessionIdentifier.description ?? "NoSessionIdentifierProvided", text: text)
 
     }
     

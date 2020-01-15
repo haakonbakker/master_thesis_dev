@@ -9,10 +9,8 @@
 import Foundation
 struct AccelerometerEvent:EventProtocol{
     var sessionIdentifier: String
-    
     var sensorName: String
     var timestamp: TimeInterval
-    
     private var event:EventData
     
     private struct EventData:Codable{

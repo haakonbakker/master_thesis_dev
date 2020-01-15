@@ -10,6 +10,9 @@ import Foundation
 
 
 class SessionConfig{
+    
+    static let BATCHFREQUENCY:Double = 5
+    
     init() {
         
     }
