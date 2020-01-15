@@ -18,7 +18,7 @@ class CloudKitSink{
      Returns a bool depending on whether or not the upload was successful. If it failed the application should handle it gracefully.
      The upload_text function will upload data to iCloud. THIS FUNCTION UPLOADS TO THE PUBLIC CLOUD.
      */
-    static func uploadSplitSession(events:[Data], sessionIdentifier:String) -> Bool{
+    static func runSink(events:[Data], sessionIdentifier:String){
         // Convert all data objects to strings and append.
         let jsonString = getArrayAsJsonString(array: events)
         
@@ -45,8 +45,6 @@ class CloudKitSink{
                 }
             }
         }
-        
-        return true
     }
     
     static func getArrayAsJsonString(array:[Data]) -> String {

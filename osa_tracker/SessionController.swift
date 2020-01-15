@@ -17,10 +17,10 @@ class SessionController: ObservableObject{
     
     @Published var currentSession:Session!
     var eventTimer:Timer?
-    var sessionSplitter:SessionSplitter?
+    var sessionSplitter:SessionSplitter!
     
     init() {
-
+        
     }
     
     func getSessions() -> [Session]{
@@ -42,7 +42,7 @@ class SessionController: ObservableObject{
         currentSession = Session(wakeUpTime: wakeUpTime, sensorList: sensorList, sessionIdentifier: SESSION_UUID)
                 
         currentSession.startSession()
-        self.sessionSplitter = SessionSplitter(session: self.currentSession!)
+        self.sessionSplitter = SessionSplitter()
         
         // Fire the timer, so that events will be processes batchwise.
         self.eventTimer = Timer.scheduledTimer(withTimeInterval: SessionConfig.BATCHFREQUENCY, repeats: true) {_ in
@@ -51,9 +51,7 @@ class SessionController: ObservableObject{
 
         return currentSession!
     }
-    
-
-    
+        
     /**
         Will call the session object and end the current session.
      */
@@ -72,8 +70,6 @@ class SessionController: ObservableObject{
     }
     
     func handleBatch(){
-        let numberOfEvents = self.getNumberOfEvents()
-        print("Number of events: ", numberOfEvents)
         let events = self.splitSessionEvents()
         self.runSinks(events: events)
         self.currentSession!.updateHandledEventsCount(uploadedEvents: events.count)
@@ -85,28 +81,14 @@ class SessionController: ObservableObject{
      */
     func splitSessionEvents() -> [Data]{
         print("@Func-splitSession in SessionController")
-        
-        guard self.currentSession != nil else {
-            print("\tNo active currentSession")
-            fatalError("\tcurrentSession is nil - cannot handle")
-        }
-        
-        guard let sessionSplitter = self.sessionSplitter else {
-            print("\tNo active sessionSplitter")
-            fatalError("\tsessionSplitter is nil - cannot handle")
-        }
-        
-        let splittedArray = sessionSplitter.splitSession()
+        let splittedArray = sessionSplitter.splitSession(session: self.currentSession)
         return splittedArray
     }
     
     func runSinks(events:[Data]) {
         print("@Func-runSink in SessionController")
-        // From here, this function is responsible for letting the splittedArray be uploaded or stored somehow.
-        // Handle and upload
-        
-        let response = CloudKitSink.uploadSplitSession(events: events, sessionIdentifier: self.currentSession?.sessionIdentifier.description ?? "NA")
-        print("\tAble to upload to iCloud: \(response)")
+        CloudKitSink.runSink(events: events, sessionIdentifier: self.currentSession?.sessionIdentifier.description ?? "NA")
+        ConsoleSink.runSink(events: events)
     }
     
     /**
@@ -117,11 +99,12 @@ class SessionController: ObservableObject{
     - Returns: Will return the duration of the session as a `String`.
     */
     func getSessionDurationString(session:Session) -> String {
+        let toTime = session.end_time ?? Date()
         let calendar = Calendar(identifier: .gregorian)
         let components = calendar
             .dateComponents([.day, .hour, .minute, .second],
                             from: session.start_time,
-                            to: session.end_time ?? Date())
+                            to: toTime)
         return String(format: "%02dh:%02dm:%02ds",
                       components.hour ?? 00,
                       components.minute ?? 00,
@@ -132,14 +115,10 @@ class SessionController: ObservableObject{
      Will return the number of events gathered by the session
      */
     func getNumberOfEvents() -> Int{
-        
-        guard self.currentSession != nil else { /* Handle nil case */ return 0 }
-        
         return self.currentSession?.getNumberOfEvents() ?? 0
     }
     
     #if os(iOS)
-    // No heart rate sensor
     #else
     func getLatestBatteryWatchEvent() -> String{
         let event = currentSession!.getLatestBatteryWatchEvent()

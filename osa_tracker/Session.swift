@@ -26,7 +26,7 @@ class Session:Identifiable{
         self.duration = "6h23m"
         self.timestamp = "June 9th to June 10th"
         self.start_time = Date()
-        self.end_time = Date()
+        self.end_time = nil
         self.hasEnded = false
         self.sessionIdentifier = sessionIdentifier
         print(self.sessionIdentifier)

@@ -17,7 +17,6 @@ class SessionConfig{
         
     }
     
-    
     static func getSensorList(SESSION_UUID:UUID) -> [Sensor]{
         #if os(iOS)
         let sensorList = [
