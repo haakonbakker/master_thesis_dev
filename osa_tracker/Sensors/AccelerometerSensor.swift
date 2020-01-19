@@ -10,6 +10,36 @@ import Foundation
 import CoreMotion
 
 class AccelerometerSensor:Sensor, SensorInterface{
+    
+    let motion = CMMotionManager()
+    var timer:Timer?
+        
+    override init(sensorEnum:SensorEnumeration = .Accelerometer, sessionIdentifier:UUID) {
+        super.init(sensorEnum: sensorEnum, sessionIdentifier:sessionIdentifier)
+    }
+    
+    /**
+     Will start the sensor. It will collect data on a given interval.
+    */
+    override func startSensor(session:Session) -> Bool{
+        currentSession = session
+        print("Will start the accelerometer sensor")
+        self.startAccelerometers()
+        return true
+    }
+    
+    /**
+     Will stop the sensor.
+    */
+    override func stopSensor() -> Bool{
+        print("Will stop the accelerometer sensor")
+        // TODO: stop the
+        self.timer?.invalidate()
+        self.motion.stopAccelerometerUpdates()
+
+        return true
+    }
+    
     func collectEvent() {
         let event = createEvent()
         
@@ -54,30 +84,6 @@ class AccelerometerSensor:Sensor, SensorInterface{
         return nil
     }
     
-    func storeEvent(data: Data) {
-        self.currentSession?.eventList.append(data)
-    }
-    
-    
-    let motion = CMMotionManager()
-    var timer:Timer?
-    
-    override init(sensorEnum:SensorEnumeration = .Accelerometer) {
-        super.init(sensorEnum: sensorEnum)
-        self.events = []
-        
-    }
-    
-    override init(sensorEnum:SensorEnumeration = .Accelerometer, sessionIdentifier:UUID) {
-        super.init(sensorEnum: sensorEnum, sessionIdentifier:sessionIdentifier)
-        self.events = []
-        
-    }
-    
-    override func getNumberOfEvents() -> Int{
-        return self.events.count
-    }
-    
     func startAccelerometers() {
        // Make sure the accelerometer hardware is available.
        if self.motion.isAccelerometerAvailable {
@@ -97,27 +103,5 @@ class AccelerometerSensor:Sensor, SensorInterface{
         print("@func - startAccelerometers -> motion is not available.")
         }
         
-    }
-    
-    /**
-     Will start the sensor. It will collect data on a given interval.
-    */
-    override func startSensor(session:Session) -> Bool{
-        currentSession = session
-        print("Will start the accelerometer sensor")
-        self.startAccelerometers()
-        return true
-    }
-    
-    /**
-     Will stop the sensor.
-    */
-    override func stopSensor() -> Bool{
-        print("Will stop the accelerometer sensor")
-        // TODO: stop the
-        self.timer?.invalidate()
-        self.motion.stopAccelerometerUpdates()
-
-        return true
     }
 }

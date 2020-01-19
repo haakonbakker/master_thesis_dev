@@ -28,80 +28,49 @@ struct GyroDataPoint{
 class GyroscopeSensor: Sensor, GyroscopeInterface, ObservableObject {
     var motion:CMMotionManager
     var timer:Timer?
-    
-    @Published var gyroRotation:[Double]
-    
-    @Published var gyroData:GyroDataPoint // Should add it as some form of array
-    
-//    @Published var events:[GyroscopeEvent]
-    
-    init() {
-        motion = CMMotionManager()
-        timer = Timer()
-        gyroRotation = [0.0, 0.0, 0.0]
-        gyroData = GyroDataPoint()
-        super.init(sensorEnum: .GyroscopeSensor)
-        self.events = []
+    var samplingRate:Double
         
-    }
-    
     init(sessionIdentifier:UUID) {
         motion = CMMotionManager()
         timer = Timer()
-        gyroRotation = [0.0, 0.0, 0.0]
-        gyroData = GyroDataPoint()
+        self.samplingRate = 1.0 / 60.0 // Sets the update interval for the sensor data
         super.init(sensorEnum: .GyroscopeSensor, sessionIdentifier:sessionIdentifier)
         self.events = []
         
     }
     
-    func startGyros() {
-        
-        if motion.isGyroAvailable {
-            self.motion.gyroUpdateInterval = 1.0 / 60.0 // Sets the update interval for the sensor data
-            self.motion.startGyroUpdates()
-
-            // Configure a timer to fetch the accelerometer data.
-            self.timer = Timer(fire: Date(), interval: (1.0/60.0),
-                               repeats: true, block:
-                {(timer) in
-                    self.collectEvent()
-                })
-
-            // Add the timer to the current run loop.
-            RunLoop.current.add(self.timer!, forMode: .default)
-
-        }else{
-            print("@func - startGyros -> gyro is not available.")
-        }
-    }
-    
     override func startSensor(session:Session) -> Bool {
         currentSession = session
         print("Will start Gyroscope")
-        self.startGyros()
+        if motion.isGyroAvailable {
+            self.startGyros()
+        }
         return true
+    }
+    
+    func startGyros() {
+        self.motion.gyroUpdateInterval = self.samplingRate
+        self.motion.startGyroUpdates()
+
+        // Configure a timer to fetch the accelerometer data.
+        self.timer = Timer(fire: Date(), interval: self.samplingRate, repeats: true, block: { (timer) in
+                self.collectEvent()
+            })
+
+        // Add the timer to the current run loop.
+        RunLoop.current.add(self.timer!, forMode: .default)
     }
     
     override func stopSensor() -> Bool {
         print("Will stop Gyroscope")
-        self.stopGyros()
+        if self.timer != nil {
+           self.timer?.invalidate()
+           self.timer = nil
+
+           self.motion.stopGyroUpdates()
+        }
         return true
     }
-    
-    func stopGyros() {
-       if self.timer != nil {
-          self.timer?.invalidate()
-          self.timer = nil
-
-          self.motion.stopGyroUpdates()
-       }
-    }
-    
-    override func getNumberOfEvents() -> Int{
-        return self.events.count
-    }
-    
     
     func collectEvent(){
         let event = createEvent()
@@ -124,9 +93,6 @@ class GyroscopeSensor: Sensor, GyroscopeInterface, ObservableObject {
            let x = data.rotationRate.x
            let y = data.rotationRate.y
            let z = data.rotationRate.z
-
-           
-           self.gyroRotation = [x, y, z]
            
            // Add the event to the dataset
            let event = GyroscopeEvent(x: x, y: y, z: z, timestamp: timestamp, sessionIdentifier:self.sessionIdentifier?.description ?? "NA")
@@ -140,19 +106,10 @@ class GyroscopeSensor: Sensor, GyroscopeInterface, ObservableObject {
             let encoder = JSONEncoder()
             encoder.outputFormatting = .withoutEscapingSlashes
             let res = try encoder.encode(event)
-            print(res)
-//          Converting to String representation:
-//            if let json = String(data: res, encoding: .utf8) {
-//              print("json:\n", json)
-//            }
             return res
         }catch{
             print(error)
         }
         return nil
-    }
-    
-    func storeEvent(data:Data){
-        self.currentSession?.eventList.append(data)
     }
 }

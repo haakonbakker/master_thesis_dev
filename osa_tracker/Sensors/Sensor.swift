@@ -81,6 +81,9 @@ class Sensor: NSObject {
         return "NA"
     }
     
+    func storeEvent(data: Data) {
+        self.currentSession?.eventList.append(data)
+    }
 //    
 //    func getLastEvent() -> Event{
 //        fatalError("Must Override")

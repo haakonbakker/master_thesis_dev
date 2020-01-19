@@ -21,16 +21,10 @@ class HeartRateSensor:Sensor, HKWorkoutSessionDelegate{
     var HKsession : HKWorkoutSession?
     let heartRateUnit = HKUnit(from: "count/min")
     
-    
-    
-    override init(sensorEnum: SensorEnumeration = .HeartRateSensor) {
-        super.init(sensorEnum: sensorEnum)
-        self.events = []
-    }
+    var latestHREvent:HeartRateEvent!
     
     override init(sensorEnum: SensorEnumeration = .HeartRateSensor, sessionIdentifier:UUID) {
         super.init(sensorEnum: sensorEnum, sessionIdentifier:sessionIdentifier)
-        self.events = []
     }
     
     override func startSensor(session:Session) -> Bool {
@@ -48,7 +42,7 @@ class HeartRateSensor:Sensor, HKWorkoutSessionDelegate{
         let dataTypes = Set(arrayLiteral: quantityType)
         healthStore.requestAuthorization(toShare: nil, read: dataTypes) { (success, error) -> Void in
             if success == false {
-//                self.displayNotAllowed()
+                print("Not authorized to use HealthKit.")
             }
         }
     
@@ -60,7 +54,7 @@ class HeartRateSensor:Sensor, HKWorkoutSessionDelegate{
         
         // Configure the workout session.
         let workoutConfiguration = HKWorkoutConfiguration()
-        workoutConfiguration.activityType = .crossTraining
+        workoutConfiguration.activityType = .other
         workoutConfiguration.locationType = .indoor
         
         do {
@@ -96,7 +90,7 @@ class HeartRateSensor:Sensor, HKWorkoutSessionDelegate{
         }
         
     func workoutSession(_ workoutSession: HKWorkoutSession, didFailWithError error: Error) {
-        // Do nothing for now
+        workoutSession.end()
         print("Workout error")
     }
     
@@ -104,8 +98,6 @@ class HeartRateSensor:Sensor, HKWorkoutSessionDelegate{
         if let query = createHeartRateStreamingQuery(date) {
             self.currentQuery = query
             healthStore.execute(query)
-        } else {
-//            label.setText("cannot start")
         }
     }
     
@@ -123,31 +115,27 @@ class HeartRateSensor:Sensor, HKWorkoutSessionDelegate{
         
         
         let heartRateQuery = HKAnchoredObjectQuery(type: quantityType, predicate: predicate, anchor: nil, limit: Int(HKObjectQueryNoLimit)) { (query, sampleObjects, deletedObjects, newAnchor, error) -> Void in
-            self.updateHeartRate(sampleObjects)
+            self.collectEvent(sampleObjects)
         }
         
         heartRateQuery.updateHandler = {(query, samples, deleteObjects, newAnchor, error) -> Void in
-            self.updateHeartRate(samples)
+            self.collectEvent(samples)
         }
         return heartRateQuery
     }
 
     func getLastEvent() -> HeartRateEvent?{
-        guard self.events.last != nil else {
+        guard self.latestHREvent != nil else {
             return nil
         }
-        return self.events.last as? HeartRateEvent
+        return self.latestHREvent
     }
 
-    func updateHeartRate(_ samples: [HKSample]?) {
-        collectEvent()
-//        print("@func - updateHeartRate in HeartRateSensor.")
-        
+    func collectEvent(_ samples: [HKSample]?) {
         guard let heartRateSamples = samples as? [HKQuantitySample] else {return}
         guard let sample = heartRateSamples.first else{return}
         
         let value = sample.quantity.doubleValue(for: self.heartRateUnit)
-//        print("\tCurrent heart rate: " + value.description)
         
         let event = self.createEvent(value:value)
         let encodedEvent = self.encodeEvent(event: event)
@@ -156,14 +144,9 @@ class HeartRateSensor:Sensor, HKWorkoutSessionDelegate{
         } else {
             fatalError("@func - updateHeartRate in HeartRateSensor. encodedEvent is nil")
         }
-        self.events.append(event)
+        self.latestHREvent = event
     }
-    
-    func collectEvent(){
-//        print("@func - collectEvent in HeartRateSensor")
-//        print("\tupdateHeartRate is the function that handles the collect for the HeartRateSensor")
-    }
-    
+        
     func createEvent(value:Double) -> HeartRateEvent{
         let event = HeartRateEvent(unit: "count/min", heartRate: value, sessionIdentifier: self.sessionIdentifier?.description ?? "NA")
         return event
@@ -179,9 +162,5 @@ class HeartRateSensor:Sensor, HKWorkoutSessionDelegate{
             print(error)
         }
         return nil
-    }
-    
-    func storeEvent(data:Data){
-        self.currentSession?.eventList.append(data)
     }
 }

@@ -17,17 +17,9 @@ class BatterySensorWatch: Sensor {
     var timer:Timer?
     var samplingRate:Double
     
-    
-    init(sensorEnum: SensorEnumeration = .BatterySensorWatch, samplingRate:Double) {
-        self.samplingRate = samplingRate
-        super.init(sensorEnum: sensorEnum)
-        self.events = []
-    }
-    
     init(sensorEnum: SensorEnumeration = .BatterySensorWatch, samplingRate:Double, sessionIdentifier:UUID) {
         self.samplingRate = samplingRate
         super.init(sensorEnum: sensorEnum, sessionIdentifier:sessionIdentifier)
-        self.events = []
     }
     
     #if os(iOS)
@@ -82,20 +74,11 @@ class BatterySensorWatch: Sensor {
             let encoder = JSONEncoder()
             encoder.outputFormatting = .withoutEscapingSlashes
             let res = try encoder.encode(event)
-            print(res)
-//          Converting to String representation:
-//            if let json = String(data: res, encoding: .utf8) {
-//              print("json:\n", json)
-//            }
             return res
         }catch{
             print(error)
         }
         return nil
-    }
-    
-    func storeEvent(data:Data){
-        self.currentSession?.eventList.append(data)
     }
     #endif
     

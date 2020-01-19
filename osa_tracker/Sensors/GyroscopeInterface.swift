@@ -9,6 +9,5 @@
 import Foundation
 
 protocol GyroscopeInterface {
-    func startGyros()
-    func stopGyros()
+    
 }
