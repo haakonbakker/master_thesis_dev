@@ -11,7 +11,6 @@
 		6B023A6823CF4CBD00D434A2 /* ConsoleSink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B023A6623CF4BA700D434A2 /* ConsoleSink.swift */; };
 		6B25C58623533EEA00A18937 /* FileHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B25C58523533EEA00A18937 /* FileHandler.swift */; };
 		6B25C588235340EE00A18937 /* MetaEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B25C587235340EE00A18937 /* MetaEvent.swift */; };
-		6B268EC2233399B200D55CA3 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B268EC1233399B200D55CA3 /* Event.swift */; };
 		6B35A619233215060095D911 /* ReadyToStartSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B35A618233215060095D911 /* ReadyToStartSessionView.swift */; };
 		6B35A61B233223CA0095D911 /* ActiveGraphDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B35A61A233223CA0095D911 /* ActiveGraphDataView.swift */; };
 		6B35A61D2332253C0095D911 /* EventInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B35A61C2332253C0095D911 /* EventInterface.swift */; };
@@ -37,7 +36,6 @@
 		6B3F6CEC233B6C5A005752D4 /* GyroscopeSensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BAD28EB231FACCF00ECEEA8 /* GyroscopeSensor.swift */; };
 		6B3F6CED233B6C5A005752D4 /* HeartRateSensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B35A628233263A70095D911 /* HeartRateSensor.swift */; };
 		6B3F6CF0233B6C69005752D4 /* EventProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B35A621233227FD0095D911 /* EventProtocol.swift */; };
-		6B3F6CF1233B6C69005752D4 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B268EC1233399B200D55CA3 /* Event.swift */; };
 		6B3F6CF2233B6C69005752D4 /* GyroscopeEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B35A61F2332257C0095D911 /* GyroscopeEvent.swift */; };
 		6B3F6CF3233B6C69005752D4 /* HeartRateEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B35A62A233264010095D911 /* HeartRateEvent.swift */; };
 		6B3F6CF5233B6C6D005752D4 /* SensorInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BEB61332316CCB3006E43FB /* SensorInterface.swift */; };
@@ -60,6 +58,11 @@
 		6B99568F2357093B00DFF4DC /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B99568E2357093B00DFF4DC /* CloudKit.framework */; };
 		6B9956912357094100DFF4DC /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B9956902357094100DFF4DC /* CloudKit.framework */; };
 		6B995692235709D300DFF4DC /* CloudKitSink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B99568C2357081300DFF4DC /* CloudKitSink.swift */; };
+		6BA7A41323D48200002EF0B0 /* MetaSensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA7A41223D48200002EF0B0 /* MetaSensor.swift */; };
+		6BA7A41423D48229002EF0B0 /* MetaSensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA7A41223D48200002EF0B0 /* MetaSensor.swift */; };
+		6BA7A41523D4837E002EF0B0 /* MetaEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B25C587235340EE00A18937 /* MetaEvent.swift */; };
+		6BA7A41723D4838E002EF0B0 /* MetaStopEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA7A41623D4838E002EF0B0 /* MetaStopEvent.swift */; };
+		6BA7A41823D4840F002EF0B0 /* MetaStopEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA7A41623D4838E002EF0B0 /* MetaStopEvent.swift */; };
 		6BA7E70E23BB566A00B6E765 /* SessionConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA7E70D23BB566A00B6E765 /* SessionConfig.swift */; };
 		6BA7E70F23BB576600B6E765 /* SessionConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA7E70D23BB566A00B6E765 /* SessionConfig.swift */; };
 		6BAADBC12346065A00574202 /* ext_Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B35A623233234720095D911 /* ext_Date.swift */; };
@@ -155,7 +158,6 @@
 		6B023A6623CF4BA700D434A2 /* ConsoleSink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleSink.swift; sourceTree = "<group>"; };
 		6B25C58523533EEA00A18937 /* FileHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileHandler.swift; sourceTree = "<group>"; };
 		6B25C587235340EE00A18937 /* MetaEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetaEvent.swift; sourceTree = "<group>"; };
-		6B268EC1233399B200D55CA3 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		6B268EC323339D5600D55CA3 /* EventFormat.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = EventFormat.md; sourceTree = "<group>"; };
 		6B35A618233215060095D911 /* ReadyToStartSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadyToStartSessionView.swift; sourceTree = "<group>"; };
 		6B35A61A233223CA0095D911 /* ActiveGraphDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveGraphDataView.swift; sourceTree = "<group>"; };
@@ -191,6 +193,8 @@
 		6B99568C2357081300DFF4DC /* CloudKitSink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitSink.swift; sourceTree = "<group>"; };
 		6B99568E2357093B00DFF4DC /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS6.1.sdk/System/Library/Frameworks/CloudKit.framework; sourceTree = DEVELOPER_DIR; };
 		6B9956902357094100DFF4DC /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		6BA7A41223D48200002EF0B0 /* MetaSensor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetaSensor.swift; sourceTree = "<group>"; };
+		6BA7A41623D4838E002EF0B0 /* MetaStopEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetaStopEvent.swift; sourceTree = "<group>"; };
 		6BA7E70C23BB536D00B6E765 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		6BA7E70D23BB566A00B6E765 /* SessionConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionConfig.swift; sourceTree = "<group>"; };
 		6BAD28E9231FA18900ECEEA8 /* SensorEnumeration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorEnumeration.swift; sourceTree = "<group>"; };
@@ -280,12 +284,12 @@
 			isa = PBXGroup;
 			children = (
 				6B35A621233227FD0095D911 /* EventProtocol.swift */,
-				6B268EC1233399B200D55CA3 /* Event.swift */,
 				6B35A61F2332257C0095D911 /* GyroscopeEvent.swift */,
 				6B35A62A233264010095D911 /* HeartRateEvent.swift */,
 				6B566E7123337339003D6B1F /* BatteryEvent.swift */,
 				6B3F6CFF233B82B2005752D4 /* AccelerometerEvent.swift */,
 				6B25C587235340EE00A18937 /* MetaEvent.swift */,
+				6BA7A41623D4838E002EF0B0 /* MetaStopEvent.swift */,
 			);
 			name = EventTypes;
 			sourceTree = "<group>";
@@ -301,6 +305,7 @@
 				6BAD28EB231FACCF00ECEEA8 /* GyroscopeSensor.swift */,
 				6B35A628233263A70095D911 /* HeartRateSensor.swift */,
 				6BF319202316835200E0FBC0 /* MicrophoneSensor.swift */,
+				6BA7A41223D48200002EF0B0 /* MetaSensor.swift */,
 			);
 			name = SensorClasses;
 			sourceTree = "<group>";
@@ -760,6 +765,7 @@
 				6B3F6CF3233B6C69005752D4 /* HeartRateEvent.swift in Sources */,
 				6B3F6CEB233B6C5A005752D4 /* Sensor.swift in Sources */,
 				6BF4134B237C52A1003080FE /* SessionSplitter.swift in Sources */,
+				6BA7A41823D4840F002EF0B0 /* MetaStopEvent.swift in Sources */,
 				6B3F6CE1233B694E005752D4 /* SessionWatchView.swift in Sources */,
 				6B3F6CFE233B81A2005752D4 /* AccelerometerSensor.swift in Sources */,
 				6B3F6CC1233B635A005752D4 /* ContentView.swift in Sources */,
@@ -767,6 +773,7 @@
 				6B3F6CF5233B6C6D005752D4 /* SensorInterface.swift in Sources */,
 				6B3F6CE6233B6BE2005752D4 /* SensorEnumeration.swift in Sources */,
 				6B3F6CF8233B6C6D005752D4 /* EventInterface.swift in Sources */,
+				6BA7A41423D48229002EF0B0 /* MetaSensor.swift in Sources */,
 				6B3F6CFB233B6CB0005752D4 /* Splunk_HEC.swift in Sources */,
 				6B49BC112356EB1600C85D4B /* FileHandler.swift in Sources */,
 				6B3F6CF7233B6C6D005752D4 /* GyroscopeInterface.swift in Sources */,
@@ -783,8 +790,8 @@
 				6B023A6823CF4CBD00D434A2 /* ConsoleSink.swift in Sources */,
 				6B3F6CED233B6C5A005752D4 /* HeartRateSensor.swift in Sources */,
 				6B3F6CF0233B6C69005752D4 /* EventProtocol.swift in Sources */,
+				6BA7A41523D4837E002EF0B0 /* MetaEvent.swift in Sources */,
 				6B3F6CC9233B635A005752D4 /* NotificationView.swift in Sources */,
-				6B3F6CF1233B6C69005752D4 /* Event.swift in Sources */,
 				6B3F6D06233B87B7005752D4 /* BatterySensorWatch.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -794,7 +801,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				6B566E7023337313003D6B1F /* BatterySensor.swift in Sources */,
-				6B268EC2233399B200D55CA3 /* Event.swift in Sources */,
 				6BEB61362316CD0A006E43FB /* AudioSensorInterface.swift in Sources */,
 				6BF3191E2316786D00E0FBC0 /* TimerView.swift in Sources */,
 				6BF4134A237C5215003080FE /* SessionSplitter.swift in Sources */,
@@ -812,6 +818,7 @@
 				6B35A622233227FD0095D911 /* EventProtocol.swift in Sources */,
 				6BAD28F3231FC55900ECEEA8 /* ext_Double.swift in Sources */,
 				6B3F6CFD233B6FDD005752D4 /* AccelerometerSensor.swift in Sources */,
+				6BA7A41323D48200002EF0B0 /* MetaSensor.swift in Sources */,
 				6B35A61B233223CA0095D911 /* ActiveGraphDataView.swift in Sources */,
 				6BFBF9D42315BD0400373913 /* SceneDelegate.swift in Sources */,
 				6B25C588235340EE00A18937 /* MetaEvent.swift in Sources */,
@@ -823,6 +830,7 @@
 				6BFBF9D62315BD0400373913 /* ContentView.swift in Sources */,
 				6B3F6D00233B82B2005752D4 /* AccelerometerEvent.swift in Sources */,
 				6B35A6202332257C0095D911 /* GyroscopeEvent.swift in Sources */,
+				6BA7A41723D4838E002EF0B0 /* MetaStopEvent.swift in Sources */,
 				6BAD28F6231FC83100ECEEA8 /* Splunk_HEC.swift in Sources */,
 				6B25C58623533EEA00A18937 /* FileHandler.swift in Sources */,
 				6B35A624233234720095D911 /* ext_Date.swift in Sources */,

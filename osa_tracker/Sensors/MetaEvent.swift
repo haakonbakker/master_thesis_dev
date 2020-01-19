@@ -7,21 +7,43 @@
 //
 
 import Foundation
+#if os(iOS)
+import UIKit
+#else
+import WatchKit
+#endif
 
-struct MetaEvent: EventProtocol, Codable {
+struct MetaStartEvent: EventProtocol, Codable {
     var sessionIdentifier: String
     
     var timestamp: TimeInterval
     
     var sensorName: String
+    private var event:EventData
     
     private struct EventData:Codable{
         var sensorList:[String]
+        var type:String = "Start"
+        
+        
+        #if os(iOS)
+        var device = UIDevice.current.model
+        var version = UIDevice.current.systemVersion
+        #endif
+        
+        #if os(watchOS)
+        var device = WKInterfaceDevice.current().model
+        var version = WKInterfaceDevice.current().systemVersion
+        #endif
+        
     }
     
-    init(sensorList:[String], sessionIdentifier:String) {
+    init(sensorList:[Sensor], sessionIdentifier:String) {
         self.timestamp = Date().timeIntervalSince1970
-        self.sensorName = "MetaEvent"
+        self.sensorName = "MetaStartEvent"
         self.sessionIdentifier = sessionIdentifier
+        
+        let sensorListStr = sensorList.map({ $0.description })
+        self.event = EventData(sensorList: sensorListStr)
     }
 }

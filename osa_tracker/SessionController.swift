@@ -17,33 +17,25 @@ class SessionController: ObservableObject{
     
     @Published var currentSession:Session!
     var eventTimer:Timer?
-    var sessionSplitter:SessionSplitter!
+    var sessionSplitter:SessionSplitter = SessionSplitter()
     
     init() {
         
     }
     
-    func getSessions() -> [Session]{
-        let sessions:[Session] = []
-        return sessions
-    }
-    
     /**
     This function starts a new session.
-
+     
     - Returns: A new Session instance.
     */
     func startSession(wakeUpTime:Date) -> Session{
+        print("Will start the session")
+        
         let SESSION_UUID = UUID()
         let sensorList = SessionConfig.getSensorList(SESSION_UUID: SESSION_UUID)
         
-        
-        print("Will start the session")
         currentSession = Session(wakeUpTime: wakeUpTime, sensorList: sensorList, sessionIdentifier: SESSION_UUID)
-                
         currentSession.startSession()
-        self.sessionSplitter = SessionSplitter()
-        
         // Fire the timer, so that events will be processes batchwise.
         self.eventTimer = Timer.scheduledTimer(withTimeInterval: SessionConfig.BATCHFREQUENCY, repeats: true) {_ in
             self.handleBatch()
@@ -53,7 +45,7 @@ class SessionController: ObservableObject{
     }
         
     /**
-        Will call the session object and end the current session.
+        Will call the session object and end the current session. If currentsession has already ended, it will do nothing.
      */
     func endSession(){
         if self.eventTimer != nil {
@@ -64,9 +56,8 @@ class SessionController: ObservableObject{
         if(self.currentSession?.hasEnded == false){
             let didEnd = self.currentSession?.endSession()
             self.currentSession?.hasEnded = didEnd ?? false
-        }else{
-            // Session already ended
         }
+        self.handleBatch()
     }
     
     func handleBatch(){
@@ -105,10 +96,7 @@ class SessionController: ObservableObject{
             .dateComponents([.day, .hour, .minute, .second],
                             from: session.start_time,
                             to: toTime)
-        return String(format: "%02dh:%02dm:%02ds",
-                      components.hour ?? 00,
-                      components.minute ?? 00,
-                      components.second ?? 00)
+        return String(format: "%02dh:%02dm:%02ds", components.hour ?? 00, components.minute ?? 00, components.second ?? 00)
     }
 
     /**
@@ -121,15 +109,11 @@ class SessionController: ObservableObject{
     #if os(iOS)
     #else
     func getLatestBatteryWatchEvent() -> String{
-        let event = currentSession!.getLatestBatteryWatchEvent()
-        let batteryPercStr = event.getPercent()
-        return batteryPercStr.description + "%"
+        return currentSession!.getLatestBatteryWatchEvent().getPercent().description + "%"
     }
     
     func getLatestHeartRateData() -> String{
-        let event = currentSession!.getLatestHREvent()
-        let hrStr = event?.getHR().description ?? "---"
-        return hrStr
+        return currentSession!.getLatestHREvent()?.getHR().description ?? "---"
     }
     #endif
 }
