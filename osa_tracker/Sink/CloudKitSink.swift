@@ -9,16 +9,12 @@
 import Foundation
 import CloudKit
 
-class CloudKitSink{
-    init(){
-        print("Initialized the CloudHandler class")
-    }
-    
+class CloudKitSink:Sink{
     /**
      Returns a bool depending on whether or not the upload was successful. If it failed the application should handle it gracefully.
      The upload_text function will upload data to iCloud. THIS FUNCTION UPLOADS TO THE PUBLIC CLOUD.
      */
-    static func runSink(events:[Data], sessionIdentifier:String){
+    static func runSink(events:[Data], sessionIdentifier:String) -> [Data]{
         // Convert all data objects to strings and append.
         let jsonString = getArrayAsJsonString(array: events)
         
@@ -45,6 +41,7 @@ class CloudKitSink{
                 }
             }
         }
+        return events
     }
     
     static func getArrayAsJsonString(array:[Data]) -> String {

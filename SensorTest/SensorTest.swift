@@ -1,15 +1,14 @@
 //
-//  osa_trackerTests.swift
-//  osa_trackerTests
+//  SensorTest.swift
+//  SensorTest
 //
-//  Created by Haakon W Hoel Bakker on 27/08/2019.
-//  Copyright © 2019 Haakon W Hoel Bakker. All rights reserved.
+//  Created by Haakon W Hoel Bakker on 22/01/2020.
+//  Copyright © 2020 Haakon W Hoel Bakker. All rights reserved.
 //
 
 import XCTest
-@testable import osa_tracker
 
-class osa_trackerTests: XCTestCase {
+class SensorTest: XCTestCase {
 
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -26,14 +25,9 @@ class osa_trackerTests: XCTestCase {
 
     func testPerformanceExample() {
         // This is an example of a performance test case.
-        self.measure {
+        measure {
             // Put the code you want to measure the time of here.
         }
-    }
-    
-    func testGetSplitEvents(){
-        let sensor = Sensor(sensorEnum: .Sensor, sessionIdentifier: UUID())
-        XCTAssertEqual(sensor.getSplitEvents(), "NA")
     }
 
 }

@@ -10,6 +10,10 @@ import Foundation
 import AVFoundation
 
 class MicrophoneSensor: Sensor, AVAudioRecorderDelegate, AVAudioPlayerDelegate, AudioSensorInterface, SensorInterface {
+    func collectEvent() {
+        
+    }
+    
 //    var sensorName: SensorEnumeration
     
     var sampleRate: Int
@@ -35,7 +39,7 @@ class MicrophoneSensor: Sensor, AVAudioRecorderDelegate, AVAudioPlayerDelegate, 
         }
     
     
-    override func startSensor() -> Bool {
+    func startSensor() -> Bool {
         print("Will start Microphone")
         self.startRecording()
         return true

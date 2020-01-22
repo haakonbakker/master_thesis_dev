@@ -23,7 +23,7 @@ class SessionConfig{
                 GyroscopeSensor(sessionIdentifier: SESSION_UUID),
                 MicrophoneSensor(sessionIdentifier: SESSION_UUID),
                 BatterySensor(samplingRate: 5, sessionIdentifier: SESSION_UUID),
-            MetaSensor(sessionIdentifier: SESSION_UUID)
+                MetaSensor(sessionIdentifier: SESSION_UUID)
             ]
         #else
         let sensorList = [

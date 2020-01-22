@@ -48,6 +48,16 @@
                ReferencedContainer = "container:osa_tracker.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "6B58FF0423D85373003D6D75"
+               BuildableName = "SensorTest.xctest"
+               BlueprintName = "SensorTest"
+               ReferencedContainer = "container:osa_tracker.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

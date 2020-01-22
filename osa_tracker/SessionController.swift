@@ -78,8 +78,9 @@ class SessionController: ObservableObject{
     
     func runSinks(events:[Data]) {
         print("@Func-runSink in SessionController")
-        CloudKitSink.runSink(events: events, sessionIdentifier: self.currentSession?.sessionIdentifier.description ?? "NA")
-        ConsoleSink.runSink(events: events)
+//        let events1 = CloudKitSink.runSink(events: events, sessionIdentifier: self.currentSession?.sessionIdentifier.description ?? "NA")
+//        let _ = ConsoleSink.runSink(events: events1, sessionIdentifier: self.currentSession?.sessionIdentifier.description ?? "NA")
+        let _ = FilterSink.runSink(events: events, sessionIdentifier: "NA")
     }
     
     /**

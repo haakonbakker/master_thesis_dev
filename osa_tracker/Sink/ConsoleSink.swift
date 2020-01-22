@@ -8,14 +8,12 @@
 
 import Foundation
 
-class ConsoleSink{
-    init() {
-    }
-    
-    static func runSink(events:[Data]){
+class ConsoleSink:Sink{
+    static func runSink(events:[Data], sessionIdentifier:String) -> [Data]{
         for event in events{
             let printable = String(decoding: event, as: UTF8.self)
             print(printable)
         }
+        return events
     }
 }
