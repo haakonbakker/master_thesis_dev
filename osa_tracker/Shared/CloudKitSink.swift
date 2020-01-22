@@ -45,6 +45,11 @@ class CloudKitSink:Sink{
         return events
     }
     
+    static func runSink(events:[Data]) -> [Data]{
+        // Convert all data objects to strings and append.
+        fatalError("Need to call the runSink function with sessionIdentifier as a parameter.")
+    }
+    
     static func getArrayAsJsonString(array:[Data]) -> String {
         var jsonString:String = "["
         for event in array {

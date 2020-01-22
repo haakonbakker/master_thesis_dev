@@ -15,7 +15,7 @@ import HealthKit
 class HeartRateSensor:Sensor, HKWorkoutSessionDelegate{
     
     var currentQuery : HKQuery?
-    let healthStore = HKHealthStore()
+    var healthStore = HKHealthStore()
     //State of the app - is the workout activated
     var workoutActive = false
     var HKsession : HKWorkoutSession?
@@ -29,6 +29,7 @@ class HeartRateSensor:Sensor, HKWorkoutSessionDelegate{
     
     override func startSensor(session:Session) -> Bool {
         currentSession = session
+        self.healthStore = HKHealthStore() // Re-initiating this object
         print("Starting heart rate")
         
         guard HKHealthStore.isHealthDataAvailable() == true else {
@@ -90,7 +91,6 @@ class HeartRateSensor:Sensor, HKWorkoutSessionDelegate{
         }
         
     func workoutSession(_ workoutSession: HKWorkoutSession, didFailWithError error: Error) {
-        workoutSession.end()
         print("Workout error")
     }
     

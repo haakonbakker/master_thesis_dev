@@ -29,11 +29,10 @@ class Session:Identifiable{
         self.end_time = nil
         self.hasEnded = false
         self.sessionIdentifier = sessionIdentifier
-        print(self.sessionIdentifier)
+        print("Session identifier: \(self.sessionIdentifier)")
         self.sensorList = sensorList
         self.wakeUpTime = wakeUpTime
         self.sensorDict = Dictionary(grouping: self.sensorList, by: {$0.sensorName})
-        print("Sensor dict: \n\t\(self.sensorDict)")
         self.handledEvents = 0
         self.eventList = []
     }

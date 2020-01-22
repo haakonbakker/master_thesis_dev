@@ -9,5 +9,5 @@
 import Foundation
 
 protocol Sink {
-    static func runSink(events:[Data], sessionIdentifier:String) -> [Data]
+    static func runSink(events:[Data]) -> [Data]
 }

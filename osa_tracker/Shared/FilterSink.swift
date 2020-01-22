@@ -9,9 +9,25 @@
 import Foundation
 
 class FilterSink:Sink{
-    static func runSink(events: [Data], sessionIdentifier: String) -> [Data] {
-        let json = try? JSONSerialization.jsonObject(with: events[0], options: [])
-        print(json)
-        return events
+    
+    static func runSink(events: [Data]) -> [Data] {
+        
+        var mutableEvents = events
+        mutableEvents.removeAll(where: {event in
+            let _ = try? JSONSerialization.jsonObject(with: event, options: []) as? [String:AnyObject]
+            // Will never remove anything, we cannot know what the user wants to remove.
+            return false
+        })
+        return mutableEvents
+    }
+    
+    static func runSink(events: [Data], sensorsToRemove:[String]) -> [Data]{
+        var mutableEvents = events
+        mutableEvents.removeAll(where: {event in
+            let serializedJson = try? JSONSerialization.jsonObject(with: event, options: []) as? [String:AnyObject]
+            let sensorName = serializedJson!["sensorName"] as! String
+            return sensorsToRemove.contains(sensorName)
+        })
+        return mutableEvents
     }
 }

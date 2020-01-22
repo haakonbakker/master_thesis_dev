@@ -80,7 +80,9 @@ class SessionController: ObservableObject{
         print("@Func-runSink in SessionController")
         //        let events1 = CloudKitSink.runSink(events: events, sessionIdentifier: self.currentSession?.sessionIdentifier.description ?? "NA")
         //        let _ = ConsoleSink.runSink(events: events1, sessionIdentifier: self.currentSession?.sessionIdentifier.description ?? "NA")
-                let _ = FilterSink.runSink(events: events, sessionIdentifier: "NA")
+        let sensorsToRemove:[String] = []
+        let mutatedEvents = FilterSink.runSink(events: events, sensorsToRemove: sensorsToRemove)
+        let _ = ConsoleSink.runSink(events: mutatedEvents)
     }
     
     /**
