@@ -16,9 +16,10 @@ struct GyroscopeDataView: View {
     
     var body: some View {
         VStack{
-            Text("x: \(gyroSensor.gyroRotation[0].rounded(toPlaces: 2).description)")
-            Text("y: \(gyroSensor.gyroRotation[1].rounded(toPlaces: 2).description))")
-            Text("z: \(gyroSensor.gyroRotation[2].rounded(toPlaces: 2).description))")
+                        Text("Some text here")
+            //            Text("x: \(gyroSensor.gyroRotation[0].rounded(toPlaces: 2).description)")
+            //            Text("y: \(gyroSensor.gyroRotation[1].rounded(toPlaces: 2).description))")
+            //            Text("z: \(gyroSensor.gyroRotation[2].rounded(toPlaces: 2).description))")
         }
     }
 }

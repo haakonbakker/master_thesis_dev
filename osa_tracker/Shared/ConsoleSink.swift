@@ -9,13 +9,11 @@
 import Foundation
 
 class ConsoleSink{
-    init() {
-    }
-    
-    static func runSink(events:[Data]){
+    static func runSink(events:[Data]) -> [Data]{
         for event in events{
             let printable = String(decoding: event, as: UTF8.self)
             print(printable)
         }
+        return events
     }
 }

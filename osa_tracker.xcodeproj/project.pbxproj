@@ -54,6 +54,10 @@
 		6B49BC112356EB1600C85D4B /* FileHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B25C58523533EEA00A18937 /* FileHandler.swift */; };
 		6B566E7023337313003D6B1F /* BatterySensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B566E6F23337313003D6B1F /* BatterySensor.swift */; };
 		6B566E7223337339003D6B1F /* BatteryEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B566E7123337339003D6B1F /* BatteryEvent.swift */; };
+		6B61C68423D8761400DC4083 /* FilterSink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B61C68323D8761400DC4083 /* FilterSink.swift */; };
+		6B61C68623D8762B00DC4083 /* SinkProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B61C68523D8762B00DC4083 /* SinkProtocol.swift */; };
+		6B61C68723D8763E00DC4083 /* FilterSink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B61C68323D8761400DC4083 /* FilterSink.swift */; };
+		6B61C68823D8764000DC4083 /* SinkProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B61C68523D8762B00DC4083 /* SinkProtocol.swift */; };
 		6B99568D2357081300DFF4DC /* CloudKitSink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B99568C2357081300DFF4DC /* CloudKitSink.swift */; };
 		6B99568F2357093B00DFF4DC /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B99568E2357093B00DFF4DC /* CloudKit.framework */; };
 		6B9956912357094100DFF4DC /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B9956902357094100DFF4DC /* CloudKit.framework */; };
@@ -189,6 +193,8 @@
 		6B3F6D04233B87AA005752D4 /* BatterySensorWatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatterySensorWatch.swift; sourceTree = "<group>"; };
 		6B566E6F23337313003D6B1F /* BatterySensor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatterySensor.swift; sourceTree = "<group>"; };
 		6B566E7123337339003D6B1F /* BatteryEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryEvent.swift; sourceTree = "<group>"; };
+		6B61C68323D8761400DC4083 /* FilterSink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterSink.swift; sourceTree = "<group>"; };
+		6B61C68523D8762B00DC4083 /* SinkProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SinkProtocol.swift; sourceTree = "<group>"; };
 		6B99568B2357041500DFF4DC /* osa_tracker_watch WatchKit App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "osa_tracker_watch WatchKit App.entitlements"; sourceTree = "<group>"; };
 		6B99568C2357081300DFF4DC /* CloudKitSink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitSink.swift; sourceTree = "<group>"; };
 		6B99568E2357093B00DFF4DC /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS6.1.sdk/System/Library/Frameworks/CloudKit.framework; sourceTree = DEVELOPER_DIR; };
@@ -361,6 +367,8 @@
 				6B99568C2357081300DFF4DC /* CloudKitSink.swift */,
 				6B25C58523533EEA00A18937 /* FileHandler.swift */,
 				6B023A6623CF4BA700D434A2 /* ConsoleSink.swift */,
+				6B61C68323D8761400DC4083 /* FilterSink.swift */,
+				6B61C68523D8762B00DC4083 /* SinkProtocol.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -780,10 +788,12 @@
 				6B3F6CF2233B6C69005752D4 /* GyroscopeEvent.swift in Sources */,
 				6B3F6CC7233B635A005752D4 /* NotificationController.swift in Sources */,
 				6BAADBC12346065A00574202 /* ext_Date.swift in Sources */,
+				6B61C68723D8763E00DC4083 /* FilterSink.swift in Sources */,
 				6B3F6D01233B8334005752D4 /* AccelerometerEvent.swift in Sources */,
 				6B3F6CEC233B6C5A005752D4 /* GyroscopeSensor.swift in Sources */,
 				6BA7E70F23BB576600B6E765 /* SessionConfig.swift in Sources */,
 				6B3F6CF6233B6C6D005752D4 /* AudioSensorInterface.swift in Sources */,
+				6B61C68823D8764000DC4083 /* SinkProtocol.swift in Sources */,
 				6B3F6CC5233B635A005752D4 /* ExtensionDelegate.swift in Sources */,
 				6B3F6D03233B85A7005752D4 /* BatteryEvent.swift in Sources */,
 				6B995692235709D300DFF4DC /* CloudKitSink.swift in Sources */,
@@ -820,10 +830,12 @@
 				6B3F6CFD233B6FDD005752D4 /* AccelerometerSensor.swift in Sources */,
 				6BA7A41323D48200002EF0B0 /* MetaSensor.swift in Sources */,
 				6B35A61B233223CA0095D911 /* ActiveGraphDataView.swift in Sources */,
+				6B61C68423D8761400DC4083 /* FilterSink.swift in Sources */,
 				6BFBF9D42315BD0400373913 /* SceneDelegate.swift in Sources */,
 				6B25C588235340EE00A18937 /* MetaEvent.swift in Sources */,
 				6BAD28F0231FB75000ECEEA8 /* GyroscopeInterface.swift in Sources */,
 				6BD00DF523320E8200223ABC /* Sensor.swift in Sources */,
+				6B61C68623D8762B00DC4083 /* SinkProtocol.swift in Sources */,
 				6BFBFA0623165F1F00373913 /* SessionController.swift in Sources */,
 				6BFBFA0A23165F7D00373913 /* SessionDetailView.swift in Sources */,
 				6B35A62D233264440095D911 /* Session.swift in Sources */,

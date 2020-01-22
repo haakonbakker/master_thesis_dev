@@ -27,7 +27,7 @@ struct ContentView : View {
     }
     
     var sessionController = SessionController()
-    let sessionData = SessionController().getSessions()
+    let sessionData = [SessionController().currentSession]
     @State private var showPopover: Bool = false
     @State private var wakeUpTime:Date
     var body: some View {
