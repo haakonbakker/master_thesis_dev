@@ -29,21 +29,21 @@ class SessionController: ObservableObject{
     - Returns: A new Session instance.
     */
     func startSession(wakeUpTime:Date) -> Session{
-        print("Will start the session")
-        
         let SESSION_UUID = UUID()
         let sensorList = SessionConfig.getSensorList(SESSION_UUID: SESSION_UUID)
         
         currentSession = Session(wakeUpTime: wakeUpTime, sensorList: sensorList, sessionIdentifier: SESSION_UUID)
         currentSession.startSession()
-        // Fire the timer, so that events will be processes batchwise.
-        self.eventTimer = Timer.scheduledTimer(withTimeInterval: SessionConfig.BATCHFREQUENCY, repeats: true) {_ in
-            self.handleBatch()
-        }
-
-        return currentSession!
+        setupBatchTimer(interval: SessionConfig.BATCHFREQUENCY)
+        return currentSession
     }
         
+    func setupBatchTimer(interval:Double){
+        // Fire the timer, so that events will be processes batchwise.
+        self.eventTimer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) {_ in
+            self.handleBatch()
+        }
+    }
     /**
         Will call the session object and end the current session. If currentsession has already ended, it will do nothing.
      */
@@ -78,12 +78,8 @@ class SessionController: ObservableObject{
     
     func runSinks(events:[Data]) {
         print("@Func-runSink in SessionController")
-        //        let events1 = CloudKitSink.runSink(events: events, sessionIdentifier: self.currentSession?.sessionIdentifier.description ?? "NA")
-        //        let _ = ConsoleSink.runSink(events: events1, sessionIdentifier: self.currentSession?.sessionIdentifier.description ?? "NA")
-        let sensorsToRemove:[String] = []
-//        let mutatedEvents = FilterSink.runSink(events: events, sensorsToRemove: sensorsToRemove)
-        let mutatedEvents = AggregationSink.runSink(events: events, sessionIdentifier: self.currentSession?.sessionIdentifier.description ?? "NA")
-        let _ = ConsoleSink.runSink(events: mutatedEvents)
+        SessionConfig.runSinks(events: events, UUID: self.currentSession.sessionIdentifier.description)
+//        let _ = SplunkSink.runSink(events: events)
     }
     
     /**

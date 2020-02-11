@@ -22,6 +22,8 @@ class FilterSink:Sink{
     }
     
     static func runSink(events: [Data], sensorsToRemove:[String]) -> [Data]{
+        if (events.isEmpty){return events}
+        
         var mutableEvents = events
         mutableEvents.removeAll(where: {event in
             let serializedJson = try? JSONSerialization.jsonObject(with: event, options: []) as? [String:AnyObject]

@@ -34,6 +34,26 @@ class SessionConfig{
                 MetaSensor(sessionIdentifier: SESSION_UUID)
             ]
         #endif
+        
+        
+        let t = runSinks
+        let y = t([Data()], "someUUID")
         return sensorList
+    }
+    
+    static func getSinkMethod() -> ([Data], String) -> () {
+        return runSinks
+    }
+    
+    
+    static func runSinks(events:[Data], UUID:String)
+    {
+//        let _ = ConsoleSink.runSink(events: events)
+        let _ = SplunkSink.runSink(events: events)
+//        let filtered = FilterSink.runSink(events: events, sensorsToRemove: ["Battery"])
+//        let aggregated = AggregationSink.runSink(events: filtered, sessionIdentifier: UUID)
+//        let _ = SplunkSink.runSink(events: aggregated, [])
+        
+//        return aggregated
     }
 }

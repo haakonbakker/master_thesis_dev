@@ -48,24 +48,12 @@ struct SessionWatchView: View {
                 }else{
                     VStack(alignment: .leading){
                         Text("Active session").font(.caption)
-                        HStack{
-                            Text("# Events: \(self.numberOfEvents)")
-                        }
-                        
+                        Text("# Events: \(self.numberOfEvents)")
                         // Adding some default information
-                        HStack{
-                            Text("🕑: \(self.current_time)")
-                        }
-                        
-                        HStack{
-                            Text("⏱: \(self.duration_string)")
-                        }
-                        HStack{
-                            Text("💗: \(self.hr_rate)")
-                        }
-                        HStack{
-                            Text("🔋: \(self.batteryPerc)")
-                        }
+                        Text("🕑: \(self.current_time)")
+                        Text("⏱: \(self.duration_string)")
+                        Text("💗: \(self.hr_rate)")
+                        Text("🔋: \(self.batteryPerc)")
                         
                         Spacer()
                         Button(action: {
@@ -91,9 +79,6 @@ struct SessionWatchView: View {
                 }
             }
         }
-        
-        
-        
     }
 }
 

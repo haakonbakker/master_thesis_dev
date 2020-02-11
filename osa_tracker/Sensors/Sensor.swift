@@ -82,10 +82,6 @@ class Sensor: NSObject {
     }
     
     func storeEvent(data: Data) {
-        self.currentSession?.eventList.append(data)
+        self.currentSession?.appendToEventArray(data: data)
     }
-//    
-//    func getLastEvent() -> Event{
-//        fatalError("Must Override")
-//    }
 }

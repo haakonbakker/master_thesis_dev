@@ -20,13 +20,13 @@ struct ContentView: View {
     var body: some View {
         VStack{
             
-            Text("Sleep tracker").font(.caption)
-            Text("Waking up at 06:30am").font(.subheadline)
+            Text("Sopor").font(.headline)
+            Text("Wake up at 06:30am").font(.footnote)
             Button(action: {
                 print("Go to sleep button pressed");
                 self.showSessionWatchView = true
             }) {
-                Text("Go to sleep")
+                Text("Get ready")
             }.sheet(isPresented: self.$showSessionWatchView){
                 SessionWatchView(onDismiss: {self.showSessionWatchView = false})
             }

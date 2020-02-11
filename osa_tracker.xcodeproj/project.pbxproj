@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		6B023A6723CF4BA700D434A2 /* ConsoleSink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B023A6623CF4BA700D434A2 /* ConsoleSink.swift */; };
 		6B023A6823CF4CBD00D434A2 /* ConsoleSink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B023A6623CF4BA700D434A2 /* ConsoleSink.swift */; };
+		6B1733CA23F3025800947350 /* SplunkSink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B1733C923F3025800947350 /* SplunkSink.swift */; };
+		6B1733CB23F3025D00947350 /* SplunkSink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B1733C923F3025800947350 /* SplunkSink.swift */; };
 		6B25C58623533EEA00A18937 /* FileHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B25C58523533EEA00A18937 /* FileHandler.swift */; };
 		6B25C588235340EE00A18937 /* MetaEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B25C587235340EE00A18937 /* MetaEvent.swift */; };
 		6B35A619233215060095D911 /* ReadyToStartSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B35A618233215060095D911 /* ReadyToStartSessionView.swift */; };
@@ -164,6 +166,7 @@
 
 /* Begin PBXFileReference section */
 		6B023A6623CF4BA700D434A2 /* ConsoleSink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleSink.swift; sourceTree = "<group>"; };
+		6B1733C923F3025800947350 /* SplunkSink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplunkSink.swift; sourceTree = "<group>"; };
 		6B25C58523533EEA00A18937 /* FileHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileHandler.swift; sourceTree = "<group>"; };
 		6B25C587235340EE00A18937 /* MetaEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetaEvent.swift; sourceTree = "<group>"; };
 		6B268EC323339D5600D55CA3 /* EventFormat.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = EventFormat.md; sourceTree = "<group>"; };
@@ -377,6 +380,7 @@
 				6B61C68323D8761400DC4083 /* FilterSink.swift */,
 				6B61C68523D8762B00DC4083 /* SinkProtocol.swift */,
 				6B61C68923D8806A00DC4083 /* AggregationSink.swift */,
+				6B1733C923F3025800947350 /* SplunkSink.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -783,6 +787,7 @@
 				6BF4134B237C52A1003080FE /* SessionSplitter.swift in Sources */,
 				6BA7A41823D4840F002EF0B0 /* MetaStopEvent.swift in Sources */,
 				6B3F6CE1233B694E005752D4 /* SessionWatchView.swift in Sources */,
+				6B1733CB23F3025D00947350 /* SplunkSink.swift in Sources */,
 				6B3F6CFE233B81A2005752D4 /* AccelerometerSensor.swift in Sources */,
 				6B61750023D896ED00A1CC42 /* AggregatedMetric.swift in Sources */,
 				6B3F6CC1233B635A005752D4 /* ContentView.swift in Sources */,
@@ -831,6 +836,7 @@
 				6BFBFA0C23165FB400373913 /* SessionInfo.swift in Sources */,
 				6BFBFA1023166D5300373913 /* SessionViewActive.swift in Sources */,
 				6BAD28EA231FA18900ECEEA8 /* SensorEnumeration.swift in Sources */,
+				6B1733CA23F3025800947350 /* SplunkSink.swift in Sources */,
 				6BFBF9D22315BD0400373913 /* AppDelegate.swift in Sources */,
 				6B566E7223337339003D6B1F /* BatteryEvent.swift in Sources */,
 				6B35A619233215060095D911 /* ReadyToStartSessionView.swift in Sources */,

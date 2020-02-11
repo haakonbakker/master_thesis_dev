@@ -10,4 +10,5 @@ import Foundation
 
 protocol Sink {
     static func runSink(events:[Data]) -> [Data]
+//    static func runSink(events:[Data], options:[(String, String)]) -> [Data]
 }

@@ -88,6 +88,7 @@ class AccelerometerSensor:Sensor, SensorInterface{
        // Make sure the accelerometer hardware is available.
        if self.motion.isAccelerometerAvailable {
           self.motion.accelerometerUpdateInterval = 1.0 / 60.0  // 60 Hz
+//        self.motion.startAccelerometerUpdates(to: OperationQueue(), withHandler: {_,_ in self.collectEvent()})
           self.motion.startAccelerometerUpdates()
 
           // Configure a timer to fetch the data.

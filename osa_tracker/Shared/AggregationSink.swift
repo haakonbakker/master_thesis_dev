@@ -10,6 +10,7 @@ import Foundation
 
 class AggregationSink: Sink {
     static func runSink(events: [Data]) -> [Data] {
+        // Not applicable.
         fatalError()
     }
     
@@ -37,6 +38,9 @@ class AggregationSink: Sink {
     static func generateAggregatedHealthEvent(aggregationEvents: [Int], sessionIdentifier:String) -> Data{
         let numberOfEvents = aggregationEvents.count
         let sumHR = aggregationEvents.reduce(0, +)
+        
+        if numberOfEvents == 0 {return Data()};
+        
         print("numberOfEvents: \(numberOfEvents)")
         print("HR Array: \(aggregationEvents)")
         print("Sum HR: \(sumHR)")

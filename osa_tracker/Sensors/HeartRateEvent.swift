@@ -8,9 +8,9 @@
 
 import Foundation
 
-struct HeartRateEvent:EventProtocol {
+struct HeartRateEvent:Encodable {
     var sensorName: String
-    var timestamp: TimeInterval
+    var timestamp: UInt64
     var sessionIdentifier:String
     
     private var event:EventData
@@ -22,14 +22,14 @@ struct HeartRateEvent:EventProtocol {
     
     
     init(unit:String, heartRate:Double) {
-        self.timestamp = Date().timeIntervalSince1970
+        self.timestamp = UInt64(NSDate().timeIntervalSince1970 * 1000.0)
         self.sensorName = "Heart Rate"
         self.event = EventData(unit: unit, heartRate: heartRate)
         self.sessionIdentifier = "NA"
     }
     
     init(unit:String, heartRate:Double, sessionIdentifier:String) {
-        self.timestamp = Date().timeIntervalSince1970
+        self.timestamp = UInt64(NSDate().timeIntervalSince1970 * 1000.0)
         self.sensorName = "Heart Rate"
         self.event = EventData(unit: unit, heartRate: heartRate)
         self.sessionIdentifier = sessionIdentifier

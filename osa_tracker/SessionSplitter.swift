@@ -20,11 +20,8 @@ class SessionSplitter{
         print("@Func-splitSession in SessionSplitter")
         
         let eventCount = session.eventList.count - 1 // Index starts at 0
-        let splittedEvents = Array(session.eventList[0...eventCount - 1]) // Remove all but last.
-        
-        // Update the eventList to only contain the last event
-        session.eventList = Array(session.eventList[eventCount...session.eventList.count - 1])
-        
+        let splittedEvents = Array(session.eventList[0...eventCount])
+        session.eventList.removeSubrange(0...eventCount)
         return splittedEvents
     }
 }

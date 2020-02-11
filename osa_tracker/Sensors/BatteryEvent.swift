@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 
-class BatteryEvent:EventProtocol, Codable {
+class BatteryEvent:Codable {
     
     private struct EventData:Codable{
         var batteryLevel:Float
@@ -19,21 +19,21 @@ class BatteryEvent:EventProtocol, Codable {
     }
     
     var sensorName: String
-    var timestamp: TimeInterval
+    var timestamp: UInt64
     var device:String
     var sessionIdentifier:String
     private var event:EventData
     
     init(device:String, batteryLevel:Float, batteryState:Int) {
         self.device = device
-        self.timestamp = Date().timeIntervalSince1970
+        self.timestamp = UInt64(NSDate().timeIntervalSince1970 * 1000.0)
         self.sensorName = "Battery"
         self.event = EventData(batteryLevel: batteryLevel, batteryPercent: batteryLevel*100, batteryState: batteryState)
         self.sessionIdentifier = "NA"
     }
     init(device:String, batteryLevel:Float, batteryState:Int, sessionIdentifier:String?) {
         self.device = device
-        self.timestamp = Date().timeIntervalSince1970
+        self.timestamp = UInt64(NSDate().timeIntervalSince1970 * 1000.0)
         self.sensorName = "Battery"
         self.event = EventData(batteryLevel: batteryLevel, batteryPercent: batteryLevel*100, batteryState: batteryState)
         self.sessionIdentifier = sessionIdentifier ?? "NA"

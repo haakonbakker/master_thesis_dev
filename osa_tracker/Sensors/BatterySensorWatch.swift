@@ -29,7 +29,8 @@ class BatterySensorWatch: Sensor {
         currentSession = session
         // Need to say to the system we want to monitor the battery.
         WKInterfaceDevice.current().isBatteryMonitoringEnabled = true
-        // Configure a timer to fetch the accelerometer data.
+        
+        // Configure a timer to fetch the battery data.
         self.timer = Timer(fire: Date(), interval: (self.samplingRate), repeats: true, block: { (timer) in
             // Get the battery data on an interval.
             self.collectEvent()

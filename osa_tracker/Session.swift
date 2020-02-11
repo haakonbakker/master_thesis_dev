@@ -18,7 +18,7 @@ class Session:Identifiable{
     var sensorList:[Sensor]
     var sensorDict:Dictionary<SensorEnumeration, [Sensor]>
     var sessionIdentifier:UUID
-    var eventList:[Data]
+    var eventList:[Data] // TODO: Rename to "events"
     var handledEvents:Int
     
     
@@ -43,10 +43,30 @@ class Session:Identifiable{
         self.start_time = Date()
     }
     
+    /**
+    Will start all the sensors in the sensorList.
+     */
+    func startSensors() -> Bool {
+        for sensor in self.sensorList{
+            _ = sensor.startSensor(session:self)
+        }
+        return true
+    }
+    
     // End the session here
     func endSession() -> Bool{
         _ = self.stopSensors()
         self.end_time = Date()
+        return true
+    }
+    
+    /**
+     Will stop all the sensors in the sensorList.
+     */
+    func stopSensors() -> Bool {
+        for sensor in self.sensorList{
+            _ = sensor.stopSensor()
+        }
         return true
     }
     
@@ -74,28 +94,6 @@ class Session:Identifiable{
     }
     #endif
     
-    
-    /**
-     Will stop all the sensors in the sensorList.
-     */
-    func stopSensors() -> Bool {        
-        for sensor in self.sensorList{
-            _ = sensor.stopSensor()
-        }
-        return true
-    }
-    
-    /**
-    Will start all the sensors in the sensorList.
-     */
-    func startSensors() -> Bool {
-        for sensor in self.sensorList{
-            _ = sensor.startSensor(session:self)
-        }
-        return true
-    }
-    
-    
     /**
      Will return the number of events gathered by all the sensors combined
      
@@ -107,5 +105,9 @@ class Session:Identifiable{
     
     func updateHandledEventsCount(uploadedEvents:Int) {
         self.handledEvents += uploadedEvents
+    }
+    
+    func appendToEventArray(data:Data){
+        self.eventList.append(data)
     }
 }
