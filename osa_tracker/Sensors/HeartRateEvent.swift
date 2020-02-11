@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct HeartRateEvent:Encodable {
+struct HeartRateEvent:EventProtocol {
     var sensorName: String
     var timestamp: UInt64
     var sessionIdentifier:String

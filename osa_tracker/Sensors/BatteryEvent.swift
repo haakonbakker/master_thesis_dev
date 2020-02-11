@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 
-class BatteryEvent:Codable {
+class BatteryEvent:EventProtocol {
     
     private struct EventData:Codable{
         var batteryLevel:Float
