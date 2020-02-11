@@ -84,6 +84,8 @@
 		6BAD28F6231FC83100ECEEA8 /* Splunk_HEC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BAD28F5231FC83100ECEEA8 /* Splunk_HEC.swift */; };
 		6BAD28F8231FF2A500ECEEA8 /* ext_String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BAD28F7231FF2A500ECEEA8 /* ext_String.swift */; };
 		6BD00DF523320E8200223ABC /* Sensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BD00DF423320E8200223ABC /* Sensor.swift */; };
+		6BE627DD23F3441D001CF686 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6BE627DC23F3441D001CF686 /* GoogleService-Info.plist */; };
+		6BE627DE23F3441D001CF686 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6BE627DC23F3441D001CF686 /* GoogleService-Info.plist */; };
 		6BE9C505233B8F1E000D3E76 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BE9C504233B8F1E000D3E76 /* HealthKit.framework */; };
 		6BEB61342316CCB3006E43FB /* SensorInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BEB61332316CCB3006E43FB /* SensorInterface.swift */; };
 		6BEB61362316CD0A006E43FB /* AudioSensorInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BEB61352316CD0A006E43FB /* AudioSensorInterface.swift */; };
@@ -220,6 +222,7 @@
 		6BAD28F5231FC83100ECEEA8 /* Splunk_HEC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Splunk_HEC.swift; sourceTree = "<group>"; };
 		6BAD28F7231FF2A500ECEEA8 /* ext_String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ext_String.swift; sourceTree = "<group>"; };
 		6BD00DF423320E8200223ABC /* Sensor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sensor.swift; sourceTree = "<group>"; };
+		6BE627DC23F3441D001CF686 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6BE9C503233B8F1E000D3E76 /* osa_tracker_watch WatchKit Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "osa_tracker_watch WatchKit Extension.entitlements"; sourceTree = "<group>"; };
 		6BE9C504233B8F1E000D3E76 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS6.0.sdk/System/Library/Frameworks/HealthKit.framework; sourceTree = DEVELOPER_DIR; };
 		6BEB61332316CCB3006E43FB /* SensorInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorInterface.swift; sourceTree = "<group>"; };
@@ -477,6 +480,7 @@
 			isa = PBXGroup;
 			children = (
 				6BA7E70C23BB536D00B6E765 /* README.md */,
+				6BE627DC23F3441D001CF686 /* GoogleService-Info.plist */,
 				6B9956842356FC3400DFF4DC /* Shared */,
 				6BAD28F4231FC82500ECEEA8 /* Network */,
 				6BAD28F1231FC54300ECEEA8 /* Extensions */,
@@ -746,6 +750,7 @@
 			files = (
 				6B3F6CCE233B635B005752D4 /* Preview Assets.xcassets in Resources */,
 				6B3F6CCB233B635B005752D4 /* Assets.xcassets in Resources */,
+				6BE627DE23F3441D001CF686 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -754,6 +759,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6BFBF9DE2315BD0600373913 /* LaunchScreen.storyboard in Resources */,
+				6BE627DD23F3441D001CF686 /* GoogleService-Info.plist in Resources */,
 				6BFBF9DB2315BD0600373913 /* Preview Assets.xcassets in Resources */,
 				6BFBF9D82315BD0600373913 /* Assets.xcassets in Resources */,
 			);

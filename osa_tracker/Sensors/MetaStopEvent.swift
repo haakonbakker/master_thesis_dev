@@ -20,7 +20,7 @@ struct MetaStopEvent: EventProtocol, Codable {
     }
     
     init(sessionIdentifier:String, totalCount:Int) {
-        self.timestamp = UInt64(NSDate().timeIntervalSince1970 * 1000.0)
+        self.timestamp = UInt64(NSDate().timeIntervalSince1970)
         self.sensorName = "MetaStopEvent"
         self.sessionIdentifier = sessionIdentifier
         self.event = EventData(totalCount: totalCount)

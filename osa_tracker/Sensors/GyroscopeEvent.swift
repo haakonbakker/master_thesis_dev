@@ -20,11 +20,12 @@ struct GyroscopeEvent: EventProtocol{
         var x:Double
         var y:Double
         var z:Double
+        var yaw:Double
     }
     
-    init(x:Double, y:Double, z:Double, timestamp:Date, sessionIdentifier:String){
-        self.event = EventData(x: x, y: y, z: z)
-        self.timestamp = UInt64(timestamp.timeIntervalSince1970 * 1000.0)
+    init(x:Double, y:Double, z:Double, yaw:Double, timestamp:Date, sessionIdentifier:String){
+        self.event = EventData(x: x, y: y, z: z, yaw:yaw)
+        self.timestamp = UInt64(timestamp.timeIntervalSince1970)
         self.sensorName = "Gyroscope"
         self.sessionIdentifier = sessionIdentifier
     }

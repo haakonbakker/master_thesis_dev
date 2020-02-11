@@ -22,14 +22,14 @@ struct HeartRateEvent:EventProtocol {
     
     
     init(unit:String, heartRate:Double) {
-        self.timestamp = UInt64(NSDate().timeIntervalSince1970 * 1000.0)
+        self.timestamp = UInt64(NSDate().timeIntervalSince1970)
         self.sensorName = "Heart Rate"
         self.event = EventData(unit: unit, heartRate: heartRate)
         self.sessionIdentifier = "NA"
     }
     
     init(unit:String, heartRate:Double, sessionIdentifier:String) {
-        self.timestamp = UInt64(NSDate().timeIntervalSince1970 * 1000.0)
+        self.timestamp = UInt64(NSDate().timeIntervalSince1970)
         self.sensorName = "Heart Rate"
         self.event = EventData(unit: unit, heartRate: heartRate)
         self.sessionIdentifier = sessionIdentifier

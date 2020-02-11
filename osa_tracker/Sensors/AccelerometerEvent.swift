@@ -19,9 +19,9 @@ struct AccelerometerEvent:EventProtocol{
         var z:Double
     }
     
-    init(x:Double, y:Double, z:Double, timestamp:Date, sessionIdentifier:String){
+    init(x:Double, y:Double, z:Double, timestamp:NSDate, sessionIdentifier:String){
         self.event = EventData(x: x, y: y, z: z)
-        self.timestamp = UInt64(NSDate().timeIntervalSince1970 * 1000.0)
+        self.timestamp = UInt64(timestamp.timeIntervalSince1970)
         self.sensorName = "Accelerometer"
         self.sessionIdentifier = sessionIdentifier
     }

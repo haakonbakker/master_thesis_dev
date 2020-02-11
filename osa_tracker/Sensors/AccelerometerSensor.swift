@@ -57,7 +57,7 @@ class AccelerometerSensor:Sensor, SensorInterface{
     
     func createEvent() -> AccelerometerEvent? {
         if let data = self.motion.accelerometerData {
-            let timestamp = Date()
+            let timestamp = NSDate()
             let x = data.acceleration.x
             let y = data.acceleration.y
             let z = data.acceleration.z

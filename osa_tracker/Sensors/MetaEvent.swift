@@ -39,7 +39,7 @@ struct MetaStartEvent: EventProtocol, Codable {
     }
     
     init(sensorList:[Sensor], sessionIdentifier:String) {
-        self.timestamp = UInt64(NSDate().timeIntervalSince1970 * 1000.0)
+        self.timestamp = UInt64(NSDate().timeIntervalSince1970)
         self.sensorName = "MetaStartEvent"
         self.sessionIdentifier = sessionIdentifier
         

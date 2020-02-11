@@ -26,14 +26,14 @@ class BatteryEvent:EventProtocol {
     
     init(device:String, batteryLevel:Float, batteryState:Int) {
         self.device = device
-        self.timestamp = UInt64(NSDate().timeIntervalSince1970 * 1000.0)
+        self.timestamp = UInt64(NSDate().timeIntervalSince1970)
         self.sensorName = "Battery"
         self.event = EventData(batteryLevel: batteryLevel, batteryPercent: batteryLevel*100, batteryState: batteryState)
         self.sessionIdentifier = "NA"
     }
     init(device:String, batteryLevel:Float, batteryState:Int, sessionIdentifier:String?) {
         self.device = device
-        self.timestamp = UInt64(NSDate().timeIntervalSince1970 * 1000.0)
+        self.timestamp = UInt64(NSDate().timeIntervalSince1970)
         self.sensorName = "Battery"
         self.event = EventData(batteryLevel: batteryLevel, batteryPercent: batteryLevel*100, batteryState: batteryState)
         self.sessionIdentifier = sessionIdentifier ?? "NA"

@@ -18,21 +18,16 @@ class SplunkSink:Sink{
         var request = URLRequest(url: url!)
         request.httpMethod = "POST"
 
-        // insert json data to the request
-        
+        // insert json data to the request        
         var data = String()
         for event in events{
             data.append(String(decoding: event, as: UTF8.self))
         }
-//        _ = events.map({ data.append($0)})
-//        let data = try? JSONSerialization.data(withJSONObject: events)
-        print(data.data(using: .utf8))
-        print(data)
+
         request.httpBody = data.data(using: .utf8)
         
         request.setValue("Splunk e29076df-e74d-432d-acc7-3e6ad9d80cbf", forHTTPHeaderField: "Authorization")
         
-        print("Will upload to Splunk.")
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data, error == nil else {
                 print(error?.localizedDescription ?? "No data")
