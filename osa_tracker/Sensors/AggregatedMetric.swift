@@ -10,7 +10,7 @@ import Foundation
 
 class AggregatedMetric:EventProtocol{
     var sensorName: String
-    var timestamp: TimeInterval
+    var timestamp: UInt64
     var sessionIdentifier:String
     
     private var event:EventData
@@ -21,7 +21,7 @@ class AggregatedMetric:EventProtocol{
     }
     
     init(metricValue:Double, type:String, sessionIdentifier:String?) {
-        self.timestamp = Date().timeIntervalSince1970
+        self.timestamp = UInt64(NSDate().timeIntervalSince1970 * 1000.0)
         self.sensorName = "AggregatedMetric"
         self.event = EventData(metricValue: metricValue, type: type)
         self.sessionIdentifier = sessionIdentifier ?? "NA"

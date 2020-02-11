@@ -13,7 +13,7 @@ struct GyroscopeEvent: EventProtocol{
     
     var sensorName: String
     
-    var timestamp:TimeInterval
+    var timestamp:UInt64
     private var event:EventData
     
     private struct EventData:Codable{
@@ -24,7 +24,7 @@ struct GyroscopeEvent: EventProtocol{
     
     init(x:Double, y:Double, z:Double, timestamp:Date, sessionIdentifier:String){
         self.event = EventData(x: x, y: y, z: z)
-        self.timestamp = timestamp.timeIntervalSince1970
+        self.timestamp = UInt64(timestamp.timeIntervalSince1970 * 1000.0)
         self.sensorName = "Gyroscope"
         self.sessionIdentifier = sessionIdentifier
     }

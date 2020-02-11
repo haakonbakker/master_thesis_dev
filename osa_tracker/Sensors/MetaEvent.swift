@@ -16,7 +16,7 @@ import WatchKit
 struct MetaStartEvent: EventProtocol, Codable {
     var sessionIdentifier: String
     
-    var timestamp: TimeInterval
+    var timestamp: UInt64
     
     var sensorName: String
     private var event:EventData
@@ -39,7 +39,7 @@ struct MetaStartEvent: EventProtocol, Codable {
     }
     
     init(sensorList:[Sensor], sessionIdentifier:String) {
-        self.timestamp = Date().timeIntervalSince1970
+        self.timestamp = UInt64(NSDate().timeIntervalSince1970 * 1000.0)
         self.sensorName = "MetaStartEvent"
         self.sessionIdentifier = sessionIdentifier
         

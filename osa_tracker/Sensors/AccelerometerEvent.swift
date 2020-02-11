@@ -10,7 +10,7 @@ import Foundation
 struct AccelerometerEvent:EventProtocol{
     var sessionIdentifier: String
     var sensorName: String
-    var timestamp: TimeInterval
+    var timestamp: UInt64
     private var event:EventData
     
     private struct EventData:Codable{
@@ -21,7 +21,7 @@ struct AccelerometerEvent:EventProtocol{
     
     init(x:Double, y:Double, z:Double, timestamp:Date, sessionIdentifier:String){
         self.event = EventData(x: x, y: y, z: z)
-        self.timestamp = timestamp.timeIntervalSince1970
+        self.timestamp = UInt64(NSDate().timeIntervalSince1970 * 1000.0)
         self.sensorName = "Accelerometer"
         self.sessionIdentifier = sessionIdentifier
     }

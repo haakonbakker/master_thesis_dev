@@ -10,7 +10,7 @@ import Foundation
 
 struct MetaStopEvent: EventProtocol, Codable {
     var sessionIdentifier: String
-    var timestamp: TimeInterval
+    var timestamp: UInt64
     var sensorName: String
     private var event:EventData
     
@@ -20,7 +20,7 @@ struct MetaStopEvent: EventProtocol, Codable {
     }
     
     init(sessionIdentifier:String, totalCount:Int) {
-        self.timestamp = Date().timeIntervalSince1970
+        self.timestamp = UInt64(NSDate().timeIntervalSince1970 * 1000.0)
         self.sensorName = "MetaStopEvent"
         self.sessionIdentifier = sessionIdentifier
         self.event = EventData(totalCount: totalCount)

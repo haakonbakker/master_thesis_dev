@@ -18,11 +18,7 @@ class SessionController: ObservableObject{
     @Published var currentSession:Session!
     var eventTimer:Timer?
     var sessionSplitter:SessionSplitter = SessionSplitter()
-    
-    init() {
-        
-    }
-    
+
     /**
     This function starts a new session.
      
@@ -79,7 +75,6 @@ class SessionController: ObservableObject{
     func runSinks(events:[Data]) {
         print("@Func-runSink in SessionController")
         SessionConfig.runSinks(events: events, UUID: self.currentSession.sessionIdentifier.description)
-//        let _ = SplunkSink.runSink(events: events)
     }
     
     /**
