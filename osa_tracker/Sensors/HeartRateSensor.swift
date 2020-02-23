@@ -18,7 +18,7 @@ class HeartRateSensor:Sensor, HKWorkoutSessionDelegate{
     var healthStore = HKHealthStore()
     //State of the app - is the workout activated
     var workoutActive = false
-    var HKsession : HKWorkoutSession?
+    var hksession : HKWorkoutSession?
     let heartRateUnit = HKUnit(from: "count/min")
     
     var latestHREvent:HeartRateEvent!
@@ -46,10 +46,9 @@ class HeartRateSensor:Sensor, HKWorkoutSessionDelegate{
                 print("Not authorized to use HealthKit.")
             }
         }
-    
-        
+
         // If we have already started the workout, then do nothing.
-        if (HKsession != nil) {
+        if (hksession != nil) {
             return false
         }
         
@@ -59,21 +58,22 @@ class HeartRateSensor:Sensor, HKWorkoutSessionDelegate{
         workoutConfiguration.locationType = .indoor
         
         do {
-            HKsession = try HKWorkoutSession(healthStore: healthStore, configuration: workoutConfiguration)
-            HKsession?.delegate = self
+            hksession = try HKWorkoutSession(healthStore: healthStore, configuration: workoutConfiguration)
+            hksession?.delegate = self
         } catch {
             fatalError("Unable to create the workout session!")
         }
-        HKsession?.startActivity(with: Date())
+        
+        hksession?.startActivity(with: Date())
         self.workoutActive = true
         return true
     }
     
     override func stopSensor() -> Bool {
-        self.workoutSession(HKsession!, didChangeTo: .ended, from: .running, date: Date())
-        self.HKsession?.stopActivity(with: Date())
+        self.workoutSession(hksession!, didChangeTo: .ended, from: .running, date: Date())
+        self.hksession?.stopActivity(with: Date())
         self.workoutDidEnd(Date())
-        HKsession?.end()
+        hksession?.end()
         return true
     }
     
@@ -102,7 +102,8 @@ class HeartRateSensor:Sensor, HKWorkoutSessionDelegate{
     }
     
     func workoutDidEnd(_ date : Date) {
-            HKsession = nil
+        hksession?.stopActivity(with: date)
+        hksession = nil
     }
     
     func createHeartRateStreamingQuery(_ workoutStartDate: Date) -> HKQuery? {
@@ -110,9 +111,7 @@ class HeartRateSensor:Sensor, HKWorkoutSessionDelegate{
         
         let datePredicate = HKQuery.predicateForSamples(withStart: workoutStartDate, end: nil, options: .strictEndDate )
         
-        //let devicePredicate = HKQuery.predicateForObjects(from: [HKDevice.local()])
         let predicate = NSCompoundPredicate(andPredicateWithSubpredicates:[datePredicate])
-        
         
         let heartRateQuery = HKAnchoredObjectQuery(type: quantityType, predicate: predicate, anchor: nil, limit: Int(HKObjectQueryNoLimit)) { (query, sampleObjects, deletedObjects, newAnchor, error) -> Void in
             self.collectEvent(sampleObjects)
@@ -148,8 +147,7 @@ class HeartRateSensor:Sensor, HKWorkoutSessionDelegate{
     }
         
     func createEvent(value:Double) -> HeartRateEvent{
-        let event = HeartRateEvent(unit: "count/min", heartRate: value, sessionIdentifier: self.sessionIdentifier?.description ?? "NA")
-        return event
+        return HeartRateEvent(unit: "count/min", heartRate: value, sessionIdentifier: self.sessionIdentifier?.description ?? "NA")
     }
     
     func encodeEvent(event:HeartRateEvent) -> Data?{

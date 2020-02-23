@@ -40,6 +40,7 @@ class SessionConfig{
     
     static func runSinks(events:[Data], UUID:String)
     {
-        let _ = SplunkSink.runSink(events: events)
+        let _ = CloudKitSink.runSink(events: events, sessionIdentifier: UUID)
+//        let _ = SplunkSink.runSink(events: events)
     }
 }

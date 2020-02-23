@@ -43,8 +43,8 @@ class AccelerometerSensor:Sensor, SensorInterface{
     func collectEvent() {
         let event = createEvent()
         
-        if let unwrapedEvent = event{
-            let encodedEvent = self.encodeEvent(event: unwrapedEvent)
+        if let unwrappedEvent = event{
+            let encodedEvent = self.encodeEvent(event: unwrappedEvent)
             if let jsonEncodedEvent = encodedEvent {
                 storeEvent(data:jsonEncodedEvent)
             } else {
@@ -64,10 +64,7 @@ class AccelerometerSensor:Sensor, SensorInterface{
             // Use the accelerometer data in your app.
             
             // Add the event to the dataset
-            let event = AccelerometerEvent(x: x, y: y, z: z, timestamp: timestamp, sessionIdentifier: self.sessionIdentifier?.description ?? "NA")
-            
-            return event
-            
+            return AccelerometerEvent(x: x, y: y, z: z, timestamp: timestamp, sessionIdentifier: self.sessionIdentifier?.description ?? "NA")
          }
         return nil
     }

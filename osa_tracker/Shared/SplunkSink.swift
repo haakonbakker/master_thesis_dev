@@ -38,13 +38,25 @@ class SplunkSink:Sink{
             if let responseJSON = responseJSON as? [String: Any] {
                 print(responseJSON)
             }
+            
         }
 
         task.resume()
         
+        // Implement https://developer.apple.com/documentation/foundation/url_loading_system/downloading_files_in_the_background
+//        let backgroundTask = urlSession.downloadTask(with: request)
+//        backgroundTask.resume()
+        
         
         return events
     }
+    
+    private lazy var urlSession: URLSession = {
+        let config = URLSessionConfiguration.background(withIdentifier: "MySession")
+        config.isDiscretionary = true
+        config.sessionSendsLaunchEvents = true
+        return URLSession(configuration: config, delegate: self as! URLSessionDelegate, delegateQueue: nil)
+    }()
     
     static func unableToUpload(){
         print("Unable to upload to Splunk.")
