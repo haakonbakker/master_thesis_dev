@@ -8,7 +8,7 @@
 
 import Foundation
 
-class AggregatedMetric:EventProtocol{
+struct AggregatedMetric:EventProtocol{
     var sensorName: String
     var timestamp: UInt64
     var sessionIdentifier:String

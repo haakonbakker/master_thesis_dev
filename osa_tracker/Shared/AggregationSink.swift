@@ -21,7 +21,6 @@ class AggregationSink: Sink {
             let serializedJson = try? JSONSerialization.jsonObject(with: event, options: []) as? [String:AnyObject]
             
             let sensorName = serializedJson!["sensorName"] as! String
-            print(serializedJson)
             if(sensorName == "Heart Rate"){
                 let event = serializedJson!["event"] as? [String:AnyObject]
                 let hr = event!["heartRate"] as? Int
@@ -36,16 +35,11 @@ class AggregationSink: Sink {
     }
     
     static func generateAggregatedHealthEvent(aggregationEvents: [Int], sessionIdentifier:String) -> Data{
-        let numberOfEvents = aggregationEvents.count
         let sumHR = aggregationEvents.reduce(0, +)
         
-        if numberOfEvents == 0 {return Data()};
+        if (aggregationEvents.count) == 0 {return Data()};
         
-        print("numberOfEvents: \(numberOfEvents)")
-        print("HR Array: \(aggregationEvents)")
-        print("Sum HR: \(sumHR)")
-        let avgHR:Double = Double(sumHR/numberOfEvents)
-        print("AvgHR: \(avgHR)")
+        let avgHR:Double = Double(sumHR/aggregationEvents.count)
         let aggEvent = AggregatedMetric(metricValue: avgHR, type: "Avg(hr)", sessionIdentifier: sessionIdentifier)
         return AggregatedMetric.encodeEvent(event: aggEvent) ?? Data()
     }
