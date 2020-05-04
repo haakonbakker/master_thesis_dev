@@ -8,9 +8,9 @@
 
 import Foundation
 
-class SplunkSink:Sink{
+class SplunkSink{
     
-    static func runSink(events:[Data]) -> [Data]{
+    func runSink(events:[Data]) -> [Data]{
         if (events.isEmpty){return events}
 //        let splunkURL = "http://13.69.135.182:8088/services/collector/event"
         let splunkURL = "http://13.69.135.182:8088/services/collector/raw"
@@ -28,21 +28,32 @@ class SplunkSink:Sink{
         
         request.setValue("Splunk e29076df-e74d-432d-acc7-3e6ad9d80cbf", forHTTPHeaderField: "Authorization")
         
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard let data = data, error == nil else {
-                print(error?.localizedDescription ?? "No data")
-                SplunkSink.unableToUpload()
-                return
-            }
-            let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
-            if let responseJSON = responseJSON as? [String: Any] {
-                print(responseJSON)
+        let config = URLSessionConfiguration.default
+        let session = URLSession(configuration: config)
+        
+        var urlRequest = URLRequest(url: url!)
+        urlRequest.httpMethod = "POST"
+        urlRequest.setValue("Splunk e29076df-e74d-432d-acc7-3e6ad9d80cbf", forHTTPHeaderField: "Authorization")
+        urlRequest.setValue("json", forHTTPHeaderField: "Content-Type")
+        
+        // Send a POST request to the URL, with the data we created earlier
+        session.uploadTask(with: urlRequest, from: data.data(using: .utf8), completionHandler: { responseData, response, error in
+            
+            if(error != nil){
+                print("\(error!.localizedDescription)")
             }
             
-        }
+            guard let responseData = responseData else {
+                print("no response data")
+                return
+            }
+            
+            if let responseString = String(data: responseData, encoding: .utf8) {
+                print("uploaded to: \(responseString)")
+            }
+        }).resume()
+//        upload(request: request)
 
-        task.resume()
-        
         // Implement https://developer.apple.com/documentation/foundation/url_loading_system/downloading_files_in_the_background
 //        let backgroundTask = urlSession.downloadTask(with: request)
 //        backgroundTask.resume()
@@ -51,12 +62,14 @@ class SplunkSink:Sink{
         return events
     }
     
-    private lazy var urlSession: URLSession = {
-        let config = URLSessionConfiguration.background(withIdentifier: "MySession")
-        config.isDiscretionary = true
-        config.sessionSendsLaunchEvents = true
-        return URLSession(configuration: config, delegate: self as! URLSessionDelegate, delegateQueue: nil)
-    }()
+    func upload (request:URLRequest){
+//        let task = URLSession.shared.dataTask(with: request) { indata, _, _ in
+//            print(indata)
+//        }
+//
+//        task.resume()
+        
+    }
     
     static func unableToUpload(){
         print("Unable to upload to Splunk.")

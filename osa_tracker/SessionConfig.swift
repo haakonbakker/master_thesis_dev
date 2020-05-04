@@ -11,7 +11,7 @@ import Foundation
 
 class SessionConfig{
     
-    static let BATCHFREQUENCY:Double = 5
+    static let BATCHFREQUENCY:Double = 120
     
     init() {
         
@@ -22,8 +22,9 @@ class SessionConfig{
         let sensorList = [
                 GyroscopeSensor(sessionIdentifier: SESSION_UUID),
                 MicrophoneSensor(sessionIdentifier: SESSION_UUID),
-                BatterySensor(samplingRate: 5, sessionIdentifier: SESSION_UUID),
-                MetaSensor(sessionIdentifier: SESSION_UUID)
+                BatterySensor(samplingRate: 5.0, sessionIdentifier: SESSION_UUID),
+                MetaSensor(sessionIdentifier: SESSION_UUID),
+                NewSensor(sensorEnum: SensorEnumeration.NewSensor, sessionIdentifier: SESSION_UUID)
             ]
         #else
         let sensorList = [
@@ -31,7 +32,7 @@ class SessionConfig{
                 AccelerometerSensor(sessionIdentifier: SESSION_UUID),
                 BatterySensorWatch(samplingRate: 5, sessionIdentifier: SESSION_UUID),
                 HeartRateSensor(sessionIdentifier: SESSION_UUID),
-                MetaSensor(sessionIdentifier: SESSION_UUID)
+                MetaSensor(sessionIdentifier: SESSION_UUID),
             ]
         #endif
         
@@ -40,7 +41,8 @@ class SessionConfig{
     
     static func runSinks(events:[Data], UUID:String)
     {
-        let _ = CloudKitSink.runSink(events: events, sessionIdentifier: UUID)
-//        let _ = SplunkSink.runSink(events: events)
+        let hrMinMaxEvents = MinMaxHRSink.runSink(events: events)
+        let _ = CloudKitSink.runSink(events: hrMinMaxEvents, sessionIdentifier: UUID)
+//        let _ = SplunkSink().runSink(events: events)
     }
 }

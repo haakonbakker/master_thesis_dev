@@ -16,5 +16,6 @@ enum SensorEnumeration:String{
     case BatterySensorWatch = "BatterySensorWatch"
     case Accelerometer = "Accelerometer"
     case MetaSensor = "MetaSensor"
+    case NewSensor = "NewSensor"
     case Sensor = "Sensor"
 }

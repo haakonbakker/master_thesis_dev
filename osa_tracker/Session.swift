@@ -83,7 +83,7 @@ class Session:Identifiable{
         return batterySensor.getLastEvent()
         
     }
-    
+        
     func getLatestHREvent() -> HeartRateEvent?{
         if(self.sensorDict[.HeartRateSensor] != nil){
             let heartRateSensor = self.sensorDict[.HeartRateSensor]![0] as! HeartRateSensor

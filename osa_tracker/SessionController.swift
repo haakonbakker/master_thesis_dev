@@ -17,6 +17,7 @@ class SessionController: ObservableObject{
     
     @Published var currentSession:Session!
     var eventTimer:Timer?
+    var sampleTimer:Timer?
     var sessionSplitter:SessionSplitter = SessionSplitter()
 
     /**
@@ -26,10 +27,24 @@ class SessionController: ObservableObject{
     */
     func startSession(wakeUpTime:Date) -> Session{
         let SESSION_UUID = UUID()
+        CloudKitSink.createSession(sessionIdentifier: SESSION_UUID.description)
         let sensorList = SessionConfig.getSensorList(SESSION_UUID: SESSION_UUID)
         
         currentSession = Session(wakeUpTime: wakeUpTime, sensorList: sensorList, sessionIdentifier: SESSION_UUID)
+        
+        let evCount = self.currentSession.getNumberOfEvents()
+        
+        
         currentSession.startSession()
+        
+        #if os(watchOS)
+        let bt = self.currentSession.getLatestBatteryWatchEvent() as BatteryEvent
+        let btD = Double(bt.getPercent())
+        
+        CloudKitSink.uploadAggregated(sessionIdentifier: self.currentSession.sessionIdentifier.description, eventCount: Int64(evCount), batteryLevel: btD)
+        #else
+        #endif
+        
         setupBatchTimer(interval: SessionConfig.BATCHFREQUENCY)
         return currentSession
     }
@@ -39,14 +54,36 @@ class SessionController: ObservableObject{
         self.eventTimer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) {_ in
             self.handleBatch()
         }
+        
+        self.sampleTimer = Timer.scheduledTimer(withTimeInterval: (60*5), repeats: true) {_ in
+            let evCount = self.currentSession.getNumberOfEvents()
+            #if os(watchOS)
+            let bt = self.currentSession.getLatestBatteryWatchEvent() as BatteryEvent
+            let btD = Double(bt.getPercent())
+            
+            CloudKitSink.uploadAggregated(sessionIdentifier: self.currentSession.sessionIdentifier.description, eventCount: Int64(evCount), batteryLevel: btD)
+            #else
+            #endif
+        }
     }
     /**
         Will call the session object and end the current session. If currentsession has already ended, it will do nothing.
      */
     func endSession(){
+        let evCount = self.currentSession.getNumberOfEvents()
+        #if os(watchOS)
+        let bt = self.currentSession.getLatestBatteryWatchEvent() as BatteryEvent
+        let btD = Double(bt.getPercent())
+        
+        CloudKitSink.uploadAggregated(sessionIdentifier: self.currentSession.sessionIdentifier.description, eventCount: Int64(evCount), batteryLevel: btD)
+        #else
+        #endif
+        
         if self.eventTimer != nil {
-          self.eventTimer?.invalidate()
-          self.eventTimer = nil
+            self.eventTimer?.invalidate()
+            self.eventTimer = nil
+            self.sampleTimer?.invalidate()
+            self.sampleTimer = nil
         }
         
         if(self.currentSession?.hasEnded == false){

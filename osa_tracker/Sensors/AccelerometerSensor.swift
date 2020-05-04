@@ -84,12 +84,12 @@ class AccelerometerSensor:Sensor, SensorInterface{
     func startAccelerometers() {
        // Make sure the accelerometer hardware is available.
        if self.motion.isAccelerometerAvailable {
-          self.motion.accelerometerUpdateInterval = 1.0 / 60.0  // 60 Hz
+          self.motion.accelerometerUpdateInterval = 1.0 / 30.0  // 60 Hz
 //        self.motion.startAccelerometerUpdates(to: OperationQueue(), withHandler: {_,_ in self.collectEvent()})
           self.motion.startAccelerometerUpdates()
 
           // Configure a timer to fetch the data.
-          self.timer = Timer(fire: Date(), interval: (1.0/60.0),
+          self.timer = Timer(fire: Date(), interval: (1.0/30.0),
                 repeats: true, block: { (timer) in
              // Get the accelerometer data.
                     self.collectEvent()

@@ -24,7 +24,7 @@ class CloudKitSink:Sink{
         
         if let fileURL = fileUrl{
             
-            let sessionRecord = CKRecord(recordType: "Bucket")
+            let sessionRecord = CKRecord(recordType: "Buckets")
 
             sessionRecord["data"] = CKAsset(fileURL: fileURL)
             sessionRecord["eventCount"] = events.count
@@ -48,6 +48,43 @@ class CloudKitSink:Sink{
     static func runSink(events:[Data]) -> [Data]{
         // Convert all data objects to strings and append.
         fatalError("Need to call the runSink function with sessionIdentifier as a parameter.")
+    }
+    
+    static func uploadAggregated(sessionIdentifier:String, eventCount:Int64, batteryLevel:Double){
+        let sessionRecord = CKRecord(recordType: "SamplingData")
+
+        sessionRecord["aggregatedEventCount"] = eventCount
+        sessionRecord["batteryLevel"] = batteryLevel
+        sessionRecord["sessionIdentifier"] = sessionIdentifier
+
+        CKContainer.default().publicCloudDatabase.save(sessionRecord) { [] record, error in
+            DispatchQueue.main.async {
+                if let error = error {
+                    print("Upload Error: \(error.localizedDescription)")
+                    print("Upload Error: \(self)")
+                } else {
+                    print("SamplingData: Done!")
+                    print(record ?? "NA")
+                }
+            }
+        }
+    }
+    
+    static func createSession(sessionIdentifier:String){
+        let sessionRecord = CKRecord(recordType: "Session")
+        sessionRecord["sessionIdentifier"] = sessionIdentifier
+
+        CKContainer.default().publicCloudDatabase.save(sessionRecord) { [] record, error in
+            DispatchQueue.main.async {
+                if let error = error {
+                    print("Upload Error: \(error.localizedDescription)")
+                    print("Upload Error: \(self)")
+                } else {
+                    print("Created Session in CloudKit!")
+                    print(record ?? "NA")
+                }
+            }
+        }
     }
     
     static func getArrayAsJsonString(array:[Data]) -> String {
